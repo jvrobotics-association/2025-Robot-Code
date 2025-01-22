@@ -66,8 +66,8 @@ public class ArmSubsystem extends SubsystemBase {
         .absoluteEncoder
         .setSparkMaxDataPortConfig()
         .positionConversionFactor(ArmConstants.postionConversionFactor)
-        .inverted(true);
-    // .zeroOffset(ArmConstants.zeroOffset);
+        .inverted(true)
+        .zeroOffset(0.57);
     m_leftMotorConfig
         .closedLoop
         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
@@ -113,15 +113,14 @@ public class ArmSubsystem extends SubsystemBase {
     super.periodic();
 
     if (targetPosition != null) {
-      m_ClosedLoopController.setReference(
-          targetPosition - ArmConstants.zeroOffset, ControlType.kPosition);
+      m_ClosedLoopController.setReference(targetPosition, ControlType.kPosition);
 
       // double feedForward = m_feedForward.calculate(targetPosition, 0.5, 0.5);
       // m_pidController.setReference(targetPosition, ControlType.kPosition, 0,
       // feedForward, ArbFFUnits.kVoltage);
     }
 
-    SmartDashboard.putNumber("Degrees", getDegrees() - ArmConstants.zeroOffset);
+    SmartDashboard.putNumber("Degrees", getDegrees());
     SmartDashboard.putNumber(
         "Target Position", (targetPosition == null ? 0 : getTargetPositionInDegrees()));
   }

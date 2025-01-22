@@ -143,7 +143,7 @@ public class RobotContainer {
 
     // Run the intake until a note is loaded and ensure it is loaded ("Intake In")
     m_driverController
-        .leftTrigger()
+        .rightTrigger()
         .onTrue(
             new SequentialCommandGroup(
                 new RunSmartIntake(m_intakeSubsystem),
@@ -251,7 +251,7 @@ public class RobotContainer {
                       } else if (m_armSubsystem.getTargetPositionInDegreesNullSafe()
                           == SetpointConstants.closeSpeakerArmAngle) {
                         m_shooterSubsystem.shoot(SetpointConstants.closeSpeakerShooterSpeed);
-                      } else m_shooterSubsystem.shoot(0.5);
+                      } else m_shooterSubsystem.shoot(0.75);
                     },
                     m_shooterSubsystem),
 
