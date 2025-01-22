@@ -66,8 +66,8 @@ public class ArmSubsystem extends SubsystemBase {
         .absoluteEncoder
         .setSparkMaxDataPortConfig()
         .positionConversionFactor(ArmConstants.postionConversionFactor)
-        .inverted(true)
-        .zeroOffset(ArmConstants.zeroOffset);
+        .inverted(true);
+    // .zeroOffset(ArmConstants.zeroOffset);
     m_leftMotorConfig
         .closedLoop
         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
