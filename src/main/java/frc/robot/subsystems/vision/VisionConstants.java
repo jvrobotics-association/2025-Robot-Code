@@ -13,10 +13,14 @@
 
 package frc.robot.subsystems.vision;
 
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Inches;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.units.measure.Angle;
 
 public class VisionConstants {
   // AprilTag layout
@@ -24,15 +28,19 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
   // Camera names, must match names configured on coprocessor
-  public static String camera0Name = "camera_0";
-  public static String camera1Name = "camera_1";
+  public static String camera0Name = "OV9281_TEST_CAM";
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
   public static Transform3d robotToCamera0 =
-      new Transform3d(0.2, 0.0, 0.2, new Rotation3d(0.0, -0.4, 0.0));
-  public static Transform3d robotToCamera1 =
-      new Transform3d(-0.2, 0.0, 0.2, new Rotation3d(0.0, -0.4, Math.PI));
+      new Transform3d(
+          Inches.of(-10.33),
+          Inches.of(0.00),
+          Inches.of(17.00),
+          new Rotation3d(
+              Angle.ofBaseUnits(180, Degree),
+              Angle.ofBaseUnits(0, Degree),
+              Angle.ofBaseUnits(0, Degree)));
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;
@@ -48,7 +56,6 @@ public class VisionConstants {
   public static double[] cameraStdDevFactors =
       new double[] {
         1.0, // Camera 0
-        1.0 // Camera 1
       };
 
   // Multipliers to apply for MegaTag 2 observations
