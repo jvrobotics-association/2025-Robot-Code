@@ -20,27 +20,22 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.units.measure.Angle;
 
 public class VisionConstants {
   // AprilTag layout
   public static AprilTagFieldLayout aprilTagLayout =
-      AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+      AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
 
   // Camera names, must match names configured on coprocessor
   public static String camera0Name = "OV9281_TEST_CAM";
 
   // Robot to camera transforms
-  // (Not used by Limelight, configure in web UI instead)
   public static Transform3d robotToCamera0 =
       new Transform3d(
           Inches.of(-10.33),
           Inches.of(0.00),
           Inches.of(17.00),
-          new Rotation3d(
-              Angle.ofBaseUnits(180, Degree),
-              Angle.ofBaseUnits(0, Degree),
-              Angle.ofBaseUnits(0, Degree)));
+          new Rotation3d(Degree.of(0), Degree.of(0), Degree.of(180)));
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;
