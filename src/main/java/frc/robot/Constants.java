@@ -34,4 +34,17 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static class ElevatorConstants {
+    public static final int ELEVATOR_MOTOR = 21;
+    // public static final int ELEVATOR_ENCODER = 1;
+    // public static final int PH_ID = 9;
+    // public static final int FORWARD_CHANNEL = 14;
+    // public static final int REVERSE_CHANNEL = 15;
+  }
+
+  public static class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final int kOperatorPanelPort = 1;
+  }
 }

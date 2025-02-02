@@ -23,8 +23,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
@@ -33,6 +35,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
@@ -49,9 +52,12 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
+  private final Elevator elevator;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandJoystick m_operatorPanel =
+      new CommandJoystick(OperatorConstants.kOperatorPanelPort);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -72,6 +78,8 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
+
+        elevator = new Elevator();
         break;
 
       case SIM:
@@ -88,6 +96,8 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
+
+        elevator = new Elevator();
         break;
 
       default:
@@ -101,6 +111,8 @@ public class RobotContainer {
                 new ModuleIO() {});
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+
+        elevator = new Elevator();
         break;
     }
 
@@ -165,6 +177,22 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
+    // Manually raise the elevator
+    m_operatorPanel
+        .button(12)
+        .whileTrue(Commands.runEnd(() -> Elevator.manRaise(), () -> Elevator.stopElevator()));
+
+    // Manually lower the elevator
+    m_operatorPanel
+        .button(11)
+        .whileTrue(Commands.runEnd(() -> Elevator.manLower(), () -> Elevator.stopElevator()));
+
+    // Zero the elevator
+    m_operatorPanel.button(2).onTrue(Commands.runOnce(() -> Elevator.zero()));
+
+    // Set elevator to max height
+    m_operatorPanel.button(1).onTrue(Commands.runOnce(() -> Elevator.maxHeight()));
   }
 
   /**
