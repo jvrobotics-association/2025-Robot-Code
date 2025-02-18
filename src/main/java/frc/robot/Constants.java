@@ -38,9 +38,7 @@ public final class Constants {
     REPLAY
   }
 
-  public static class OperatorConstants {
-
-  }
+  public static class OperatorConstants {}
 
   public static class CoralManipulatorConstants {
     public static final int LEFT_MOTOR = 1;
@@ -65,16 +63,18 @@ public final class Constants {
     public static final int DISTANCE_SENSOR = 9;
 
     // Set the absolute limits for the elevator motion
-    public static final Angle MIN_HEIGHT = Radian.of(10);
-    public static final Angle MAX_HEIGHT = Radian.of(676);
+    public static final double MIN_HEIGHT = 0.09;
+    public static final double MAX_HEIGHT = 4.28;
 
-    // Configure the setpoints for the various positions the elevator should move to for coral game pieces
+    // Configure the setpoints for the various positions the elevator should move to for coral game
+    // pieces
     public static final Angle L1_CORAL_POSITION = Radian.of(10);
     public static final Angle L2_CORAL_POSITION = Radian.of(200);
     public static final Angle L3_CORAL_POSITION = Radian.of(450);
     public static final Angle L4_CORAL_POSITION = Radian.of(670);
 
-    // Configure the setpoints for the various positions the elevator should move to for algae game pieces
+    // Configure the setpoints for the various positions the elevator should move to for algae game
+    // pieces
     public static final Angle L2_ALGAE_POSITION = Radian.of(220);
     public static final Angle L3_ALGAE_POSITION = Radian.of(470);
   }
