@@ -176,24 +176,70 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    // Move the elevator to the maximum height position
+    // Move the elevator to the L4 position
+    operatorConsole
+        .button(6)
+        .onTrue(
+            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L4_CORAL_POSITION)));
+
+    // Move the elevator to the L3 coral position
+    operatorConsole
+        .button(3)
+        .onTrue(
+            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L3_CORAL_POSITION)));
+
+    // Move the elevator to the L3 algae position
+    operatorConsole
+        .button(4)
+        .onTrue(
+            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L3_ALGAE_POSITION)));
+
+    // Move the elevator to the L2 coral position
+    operatorConsole
+        .button(5)
+        .onTrue(
+            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L2_CORAL_POSITION)));
+
+    // Move the elevator to the L2 algae position
     operatorConsole
         .button(1)
-        .onTrue(Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.MAX_HEIGHT)));
+        .onTrue(
+            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L2_ALGAE_POSITION)));
+
+    // Move the elevator to the L1 algae position
+    operatorConsole
+        .button(10)
+        .onTrue(
+            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L1_CORAL_POSITION)));
+
+    // Move the elevator to the algae processor scoring position
+    operatorConsole
+        .button(9)
+        .onTrue(
+            Commands.runOnce(
+                () -> elevator.moveToPosition(ElevatorConstants.ALGAE_SCORE_POSITION)));
 
     // Manually raise the elevator without any PID control
     operatorConsole
         .button(12)
         .whileTrue(
             Commands.runEnd(
-                () -> elevator.manuallyRaise(), () -> elevator.stopElevator(), elevator));
+                () -> elevator.manuallyRaise(),
+                () -> {
+                  elevator.holdCurrentPosition();
+                },
+                elevator));
 
     // Manually lower the elevator without any PID control
     operatorConsole
         .button(11)
         .whileTrue(
             Commands.runEnd(
-                () -> elevator.manuallyLower(), () -> elevator.stopElevator(), elevator));
+                () -> elevator.manuallyLower(),
+                () -> {
+                  elevator.holdCurrentPosition();
+                },
+                elevator));
   }
 
   /**

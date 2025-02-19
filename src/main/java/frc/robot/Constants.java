@@ -13,9 +13,6 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.Radian;
-
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -63,20 +60,22 @@ public final class Constants {
     public static final int DISTANCE_SENSOR = 9;
 
     // Set the absolute limits for the elevator motion
-    public static final double MIN_HEIGHT = 0.09;
-    public static final double MAX_HEIGHT = 4.28;
+    public static final double MIN_HEIGHT = 0.05;
+    public static final double MAX_HEIGHT = 4.33;
+    public static final double MANUAL_SPEED = 0.35;
 
     // Configure the setpoints for the various positions the elevator should move to for coral game
     // pieces
-    public static final Angle L1_CORAL_POSITION = Radian.of(10);
-    public static final Angle L2_CORAL_POSITION = Radian.of(200);
-    public static final Angle L3_CORAL_POSITION = Radian.of(450);
-    public static final Angle L4_CORAL_POSITION = Radian.of(670);
+    public static final double L1_CORAL_POSITION = MIN_HEIGHT;
+    public static final double L2_CORAL_POSITION = 0.42;
+    public static final double L3_CORAL_POSITION = 1.88;
+    public static final double L4_CORAL_POSITION = 4.32;
 
     // Configure the setpoints for the various positions the elevator should move to for algae game
     // pieces
-    public static final Angle L2_ALGAE_POSITION = Radian.of(220);
-    public static final Angle L3_ALGAE_POSITION = Radian.of(470);
+    public static final double L2_ALGAE_POSITION = 1.33;
+    public static final double L3_ALGAE_POSITION = 2.74;
+    public static final double ALGAE_SCORE_POSITION = 0.3;
   }
 
   public static class ClimberConstants {

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -38,6 +39,8 @@ public class Elevator extends SubsystemBase {
           .withIgnoreHardwareLimits(false)
           .withLimitForwardMotion(true)
           .withLimitReverseMotion(true);
+
+  final DutyCycleOut m_manualRequest = new DutyCycleOut(0);
 
   // Keep a neutral out so we can disable the motor
   private final NeutralOut m_brake = new NeutralOut();
@@ -109,12 +112,26 @@ public class Elevator extends SubsystemBase {
      */
     motorConfig
         .Slot0
-        .withKG(0)
+        .withKP(1000)
+        .withKI(0)
+        .withKD(40)
+        .withKS(10)
+        .withKV(0)
         .withKA(0)
-        .withKS(0.1)
+        .withKG(5.99)
+        .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseVelocitySign)
+        .withGravityType(GravityTypeValue.Elevator_Static);
+
+    // Configure Gain slot 1 used for manual control of the elevator
+    motorConfig
+        .Slot1
         .withKP(0)
         .withKI(0)
         .withKD(0)
+        .withKS(0)
+        .withKV(0)
+        .withKA(0)
+        .withKG(12.5)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseVelocitySign)
         .withGravityType(GravityTypeValue.Elevator_Static);
 
@@ -144,12 +161,10 @@ public class Elevator extends SubsystemBase {
     motorConfig
         .HardwareLimitSwitch
         .withForwardLimitEnable(false)
-        .withReverseLimitEnable(true)
+        .withReverseLimitEnable(false)
         .withReverseLimitRemoteCANrange(distanceSensor)
         .withReverseLimitType(ReverseLimitTypeValue.NormallyOpen)
-        .withReverseLimitRemoteSensorID(ElevatorConstants.DISTANCE_SENSOR)
-        .withReverseLimitAutosetPositionEnable(true)
-        .withReverseLimitAutosetPositionValue(0);
+        .withReverseLimitRemoteSensorID(ElevatorConstants.DISTANCE_SENSOR);
 
     // Configure the motor to use brake mode to help hold position when disabled
     motorConfig.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
@@ -158,21 +173,21 @@ public class Elevator extends SubsystemBase {
     motorConfig
         .TorqueCurrent
         .withPeakForwardTorqueCurrent(Amps.of(40)) // Maximum amps when lifting the elevator
-        .withPeakReverseTorqueCurrent(Amp.of(20)); // Maxiumum amps when lowering the elevator
+        .withPeakReverseTorqueCurrent(Amp.of(40)); // Maxiumum amps when lowering the elevator
 
     // Absolute limit of the amps the motor can draw to help prevent brownout
     motorConfig.CurrentLimits.withStatorCurrentLimit(Amps.of(50));
 
     // Configure target cruise velosity (rotations per second)
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 25;
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
 
     // Configure max acceleration (rotations per second)
     // If this is set to the cruise velocity, it will take 1 second to get to that velocity. Adjust
     // accordingly.
-    motorConfig.MotionMagic.MotionMagicAcceleration = 50;
+    motorConfig.MotionMagic.MotionMagicAcceleration = 10;
 
     // Configure the maximum motion jerk (the extreme bursts) (rotations per second)
-    motorConfig.MotionMagic.MotionMagicJerk = 250;
+    motorConfig.MotionMagic.MotionMagicJerk = 25;
 
     // Retry config apply up to 5 times, report if failure
     StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
@@ -195,6 +210,11 @@ public class Elevator extends SubsystemBase {
     return motor.getPosition(true).getValue().magnitude();
   }
 
+  @AutoLogOutput(key = "Elevator/PID Position")
+  public double getPidPosition() {
+    return m_request.getPositionMeasure().magnitude();
+  }
+
   @AutoLogOutput(key = "Elevator/Acceleration")
   public AngularAcceleration getAcceleration() {
     return motor.getAcceleration(true).getValue();
@@ -211,18 +231,22 @@ public class Elevator extends SubsystemBase {
   }
 
   public void moveToPosition(double position) {
-    motor.setControl(m_request.withPosition(position));
+    motor.setControl(m_request.withPosition(position).withSlot(0));
   }
 
   public void manuallyRaise() {
-    motor.set(1);
+    motor.setControl(m_manualRequest.withOutput(ElevatorConstants.MANUAL_SPEED));
   }
 
   public void manuallyLower() {
-    motor.set(-1);
+    motor.setControl(m_manualRequest.withOutput(-ElevatorConstants.MANUAL_SPEED));
+  }
+
+  public void holdCurrentPosition() {
+    motor.setControl(m_request.withPosition(getPosition()).withSlot(1));
   }
 
   public void stopElevator() {
-    motor.setControl(m_brake);
+    motor.setControl(m_manualRequest.withOutput(0));
   }
 }
