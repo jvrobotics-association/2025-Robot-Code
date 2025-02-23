@@ -2,27 +2,20 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Amp;
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Hertz;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
-import com.ctre.phoenix6.signals.UpdateModeValue;
 import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -30,26 +23,16 @@ import org.littletonrobotics.junction.AutoLogOutput;
 public class Elevator extends SubsystemBase {
   private static final TalonFX motor = new TalonFX(ElevatorConstants.MOTOR, "rio");
   private static final CANcoder encoder = new CANcoder(ElevatorConstants.ENCODER, "rio");
-  private static final CANrange distanceSensor =
-      new CANrange(ElevatorConstants.DISTANCE_SENSOR, "rio");
 
   // Create the motor control request type and ensure it is set to respect configured limits
-  final MotionMagicTorqueCurrentFOC m_request =
-      new MotionMagicTorqueCurrentFOC(0)
-          .withIgnoreHardwareLimits(false)
-          .withLimitForwardMotion(true)
-          .withLimitReverseMotion(true);
+  final MotionMagicTorqueCurrentFOC m_request = new MotionMagicTorqueCurrentFOC(0);
 
   final DutyCycleOut m_manualRequest = new DutyCycleOut(0);
-
-  // Keep a neutral out so we can disable the motor
-  private final NeutralOut m_brake = new NeutralOut();
 
   public Elevator() {
     // Create the base configs that will be applied to the motor, encoder, and distance sensor
     TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     CANcoderConfiguration encoderConfig = new CANcoderConfiguration();
-    CANrangeConfiguration distanceSensorConfig = new CANrangeConfiguration();
 
     // Configure the encoder
     encoderConfig.MagnetSensor.withSensorDirection(SensorDirectionValue.Clockwise_Positive);
@@ -62,43 +45,6 @@ public class Elevator extends SubsystemBase {
     }
     if (!encoderStatus.isOK()) {
       System.out.println("Could not apply encoder config, error code: " + encoderStatus.toString());
-    }
-
-    // Configure the distance sensor range and update frequency
-    distanceSensorConfig
-        .ToFParams
-        .withUpdateMode(UpdateModeValue.ShortRangeUserFreq)
-        .withUpdateFrequency(Hertz.of(50));
-
-    // Configure the distance center FOV
-    distanceSensorConfig
-        .FovParams
-        .withFOVRangeY(6.75)
-        .withFOVRangeX(6.5)
-        .withFOVCenterX(3.5)
-        .withFOVCenterY(3.5);
-
-    /*
-     * Configure the distance sensor proximity config.
-     *
-     * - Threshold is the the distance at which the object will be considered detected.
-     * - Hysteresis is the distance above/below the threshold to consider as detected. This is used
-     *   to prevent bouncing between states when not desired.
-     */
-    distanceSensorConfig
-        .ProximityParams
-        .withProximityThreshold(0.016)
-        .withProximityHysteresis(0.005);
-
-    // Apply the distance sensor config, retry config apply up to 5 times, report if failure
-    StatusCode distanceSensorStatus = StatusCode.StatusCodeNotInitialized;
-    for (int i = 0; i < 5; ++i) {
-      distanceSensorStatus = distanceSensor.getConfigurator().apply(distanceSensorConfig);
-      if (distanceSensorStatus.isOK()) break;
-    }
-    if (!distanceSensorStatus.isOK()) {
-      System.out.println(
-          "Could not apply distance sensor config, error code: " + distanceSensorStatus.toString());
     }
 
     /*
@@ -153,19 +99,6 @@ public class Elevator extends SubsystemBase {
         .withSensorToMechanismRatio(1)
         .withRotorToSensorRatio(25);
 
-    // Configure the motor to use the CANRange to prevent driving the elevator down too far and to
-    // zero the position
-    // of the elevator every time the elevator returns to the bottom. The limit switch is acticated
-    // when the CANRange detects
-    // something within its proximity configuration above.
-    motorConfig
-        .HardwareLimitSwitch
-        .withForwardLimitEnable(false)
-        .withReverseLimitEnable(false)
-        .withReverseLimitRemoteCANrange(distanceSensor)
-        .withReverseLimitType(ReverseLimitTypeValue.NormallyOpen)
-        .withReverseLimitRemoteSensorID(ElevatorConstants.DISTANCE_SENSOR);
-
     // Configure the motor to use brake mode to help hold position when disabled
     motorConfig.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
@@ -218,16 +151,6 @@ public class Elevator extends SubsystemBase {
   @AutoLogOutput(key = "Elevator/Acceleration")
   public AngularAcceleration getAcceleration() {
     return motor.getAcceleration(true).getValue();
-  }
-
-  @AutoLogOutput(key = "Elevator/Distance")
-  public Distance getDistance() {
-    return distanceSensor.getDistance(true).getValue();
-  }
-
-  @AutoLogOutput(key = "Elevator/LowerLimit")
-  public boolean reachedLowerLimit() {
-    return distanceSensor.getIsDetected(true).getValue();
   }
 
   public void moveToPosition(double position) {
