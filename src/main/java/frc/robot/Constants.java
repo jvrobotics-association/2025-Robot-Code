@@ -24,6 +24,9 @@ public final class Constants {
   public static final Mode simMode = Mode.SIM;
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
+  public static final int PDH = 1;
+  public static final int CANIDLE = 20;
+
   public static enum Mode {
     /** Running on a real robot. */
     REAL,
@@ -38,15 +41,15 @@ public final class Constants {
   public static class OperatorConstants {}
 
   public static class CoralManipulatorConstants {
-    public static final int LEFT_MOTOR = 1;
-    public static final int RIGHT_MOTOR = 2;
-    public static final int CORAL_SENSOR = 3;
+    public static final int LEFT_MOTOR = 2;
+    public static final int RIGHT_MOTOR = 3;
+    public static final int CORAL_SENSOR = 4;
   }
 
   public static class AlgaeManiplulatorConstants {
-    public static final int ROTATION_MOTOR = 4;
-    public static final int ROTATION_ENCODER = 5;
-    public static final int GRABBER_MOTOR = 6;
+    public static final int ROTATION_MOTOR = 5;
+    public static final int ROTATION_ENCODER = 6;
+    public static final int GRABBER_MOTOR = 7;
 
     // Configure the setpoints for the various positions the algae arm should move to
     public static final double START_POSITION = 0;
@@ -55,12 +58,12 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int MOTOR = 7;
-    public static final int ENCODER = 8;
-    public static final int DISTANCE_SENSOR = 9;
+    public static final int MOTOR = 8;
+    public static final int ENCODER = 9;
+    public static final int DISTANCE_SENSOR = 10;
 
     // Set the absolute limits for the elevator motion
-    public static final double MIN_HEIGHT = 0.05;
+    public static final double MIN_HEIGHT = 0.03;
     public static final double MAX_HEIGHT = 4.33;
     public static final double MANUAL_SPEED = 0.35;
 
@@ -69,7 +72,7 @@ public final class Constants {
     public static final double L1_CORAL_POSITION = MIN_HEIGHT;
     public static final double L2_CORAL_POSITION = 0.42;
     public static final double L3_CORAL_POSITION = 1.88;
-    public static final double L4_CORAL_POSITION = 4.32;
+    public static final double L4_CORAL_POSITION = 4.095;
 
     // Configure the setpoints for the various positions the elevator should move to for algae game
     // pieces
@@ -79,6 +82,6 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int CLIMBER_MOTOR = 10;
+    public static final int CLIMBER_MOTOR = 11;
   }
 }

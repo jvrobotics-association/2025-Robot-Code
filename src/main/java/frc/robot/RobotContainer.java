@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -53,6 +54,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Elevator elevator;
+  private final CoralManipulator coralManipulator;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -79,6 +81,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
 
         elevator = new Elevator();
+        coralManipulator = new CoralManipulator();
         break;
 
       case SIM:
@@ -97,6 +100,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
 
         elevator = new Elevator();
+        coralManipulator = new CoralManipulator();
         break;
 
       default:
@@ -111,6 +115,7 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         elevator = new Elevator();
+        coralManipulator = new CoralManipulator();
         break;
     }
 
@@ -240,6 +245,15 @@ public class RobotContainer {
                   elevator.holdCurrentPosition();
                 },
                 elevator));
+
+    // Manually lower the elevator without any PID control
+    operatorConsole
+        .button(2)
+        .whileTrue(
+            Commands.runEnd(
+                () -> coralManipulator.setVelocity(1),
+                () -> coralManipulator.stopMotors(),
+                coralManipulator));
   }
 
   /**
