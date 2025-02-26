@@ -19,6 +19,7 @@ import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CoralManipulator;
@@ -66,6 +68,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     switch (Constants.currentMode) {
+
+        // Initalize the
       case REAL:
         // Real robot, instantiate hardware IO implementations
         drive =
@@ -75,13 +79,11 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
-
         vision =
             new Vision(
                 drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
-
-        elevator = new Elevator();
-        coralManipulator = new CoralManipulator();
+        // Configure port forwarding for USB connections to the RoboRIO for PhotonVision
+        PortForwarder.add(5800, "photonvision.local", 5800);
         break;
 
       case SIM:
@@ -98,9 +100,6 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
-
-        elevator = new Elevator();
-        coralManipulator = new CoralManipulator();
         break;
 
       default:
@@ -112,12 +111,13 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
-        elevator = new Elevator();
-        coralManipulator = new CoralManipulator();
         break;
     }
+
+    // Set up all other subsystems
+    elevator = new Elevator();
+    coralManipulator = new CoralManipulator();
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -157,15 +157,42 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Lock to 0° when A button is held
+    // Driver Right Bumper: Approach Nearest Right-Side Reef Branch
+    controller
+        .rightBumper()
+        .whileTrue(
+            DriveCommands.joystickApproach(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
+
+    // Driver Left Bumper: Approach Nearest Left-Side Reef Branch
+    controller
+        .leftBumper()
+        .whileTrue(
+            DriveCommands.joystickApproach(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
+
+    // Driver B button: Approach Nearest Reef Face (for removing algae)
     controller
         .a()
         .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
+            DriveCommands.joystickApproach(
                 drive,
                 () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> new Rotation2d()));
+                () -> FieldConstants.getNearestReefFace(drive.getPose())));
+
+    // Lock to 0° when A button is held
+    // controller
+    //     .b()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngle(
+    //             drive,
+    //             () -> -controller.getLeftY(),
+    //             () -> -controller.getLeftX(),
+    //             () -> new Rotation2d()));
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
