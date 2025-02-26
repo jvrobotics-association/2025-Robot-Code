@@ -4,7 +4,9 @@ import static edu.wpi.first.units.Units.Hertz;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANrange;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.UpdateModeValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -20,10 +22,10 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class CoralManipulator extends SubsystemBase {
   private final CANrange coralSensor = new CANrange(CoralManipulatorConstants.CORAL_SENSOR, "rio");
-  private final SparkMax leftMotor =
-      new SparkMax(CoralManipulatorConstants.LEFT_MOTOR, MotorType.kBrushless);
-  private final SparkMax rightMotor =
-      new SparkMax(CoralManipulatorConstants.RIGHT_MOTOR, MotorType.kBrushless);
+  private final TalonFX leftMotor =
+      new TalonFX(CoralManipulatorConstants.LEFT_MOTOR, "rio");
+  private final TalonFX rightMotor =
+      new TalonFX(CoralManipulatorConstants.RIGHT_MOTOR, "rio");
 
   // private final SparkClosedLoopController leftVelocityController;
   // private final SparkClosedLoopController rightVelocityController;
@@ -31,14 +33,14 @@ public class CoralManipulator extends SubsystemBase {
   private final RelativeEncoder rightMotorEncoder;
 
   private final CANrangeConfiguration coralSensorConfig;
-  private final SparkMaxConfig leftMotorConfig;
-  private final SparkMaxConfig rightMotorConfig;
+  private final TalonFXConfiguration leftMotorConfig;
+  private final TalonFXConfiguration rightMotorConfig;
 
   public CoralManipulator() {
     // Create the configs used to configure the devices in this mechanism
     coralSensorConfig = new CANrangeConfiguration();
-    leftMotorConfig = new SparkMaxConfig();
-    rightMotorConfig = new SparkMaxConfig();
+    leftMotorConfig = new TalonFXConfiguration();
+    rightMotorConfig = new TalonFXConfiguration();
 
     // Configure the distance sensor range and update frequency
     coralSensorConfig
