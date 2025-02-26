@@ -24,6 +24,9 @@ public final class Constants {
   public static final Mode simMode = Mode.SIM;
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
+  // Use LoggedTunableNumbers
+  public static final boolean tuningMode = true;
+
   public static final int PDH = 1;
   public static final int CANIDLE = 20;
 
