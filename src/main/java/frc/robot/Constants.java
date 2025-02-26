@@ -70,8 +70,8 @@ public final class Constants {
     // Configure the setpoints for the various positions the elevator should move to for coral game
     // pieces
     public static final double L1_CORAL_POSITION = MIN_HEIGHT;
-    public static final double L2_CORAL_POSITION = 0.42;
-    public static final double L3_CORAL_POSITION = 1.88;
+    public static final double L2_CORAL_POSITION = 0.368;
+    public static final double L3_CORAL_POSITION = 1.815;
     public static final double L4_CORAL_POSITION = 4.095;
 
     // Configure the setpoints for the various positions the elevator should move to for algae game

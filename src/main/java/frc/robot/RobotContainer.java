@@ -249,11 +249,7 @@ public class RobotContainer {
     // Manually lower the elevator without any PID control
     operatorConsole
         .button(2)
-        .whileTrue(
-            Commands.runEnd(
-                () -> coralManipulator.setVelocity(1),
-                () -> coralManipulator.stopMotors(),
-                coralManipulator));
+        .whileTrue(Commands.run(() -> coralManipulator.setVelocity(0.95), coralManipulator));
   }
 
   /**

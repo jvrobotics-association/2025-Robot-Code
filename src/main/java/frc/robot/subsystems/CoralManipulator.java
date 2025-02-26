@@ -129,7 +129,7 @@ public class CoralManipulator extends SubsystemBase {
   @Override
   public void periodic() {
     if (getCoralSensorDetected()) {
-      setVelocity(0.2);
+      setVelocity(0.15);
     } else stopMotors();
   }
 
