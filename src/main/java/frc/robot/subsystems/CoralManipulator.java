@@ -1,20 +1,22 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Amp;
 import static edu.wpi.first.units.Units.Hertz;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.UpdateModeValue;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CoralManipulatorConstants;
@@ -22,19 +24,14 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class CoralManipulator extends SubsystemBase {
   private final CANrange coralSensor = new CANrange(CoralManipulatorConstants.CORAL_SENSOR, "rio");
-  private final TalonFX leftMotor =
-      new TalonFX(CoralManipulatorConstants.LEFT_MOTOR, "rio");
-  private final TalonFX rightMotor =
-      new TalonFX(CoralManipulatorConstants.RIGHT_MOTOR, "rio");
-
-  // private final SparkClosedLoopController leftVelocityController;
-  // private final SparkClosedLoopController rightVelocityController;
-  private final RelativeEncoder leftMotorEncoder;
-  private final RelativeEncoder rightMotorEncoder;
+  private final TalonFX leftMotor = new TalonFX(CoralManipulatorConstants.LEFT_MOTOR, "rio");
+  private final TalonFX rightMotor = new TalonFX(CoralManipulatorConstants.RIGHT_MOTOR, "rio");
 
   private final CANrangeConfiguration coralSensorConfig;
   private final TalonFXConfiguration leftMotorConfig;
   private final TalonFXConfiguration rightMotorConfig;
+
+  private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
 
   public CoralManipulator() {
     // Create the configs used to configure the devices in this mechanism
@@ -76,63 +73,69 @@ public class CoralManipulator extends SubsystemBase {
           "Could not apply coral sensor config, error code: " + coralSensorStatus.toString());
     }
 
-    /*
-     * Initialize the SPARK MAX and get its encoder and closed loop controller
-     * objects for later use.
-     */
-    // leftVelocityController = leftMotor.getClosedLoopController();
-    // rightVelocityController = rightMotor.getClosedLoopController();
-    leftMotorEncoder = leftMotor.getEncoder();
-    rightMotorEncoder = rightMotor.getEncoder();
+    leftMotorConfig.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
+    leftMotorConfig
+        .MotorOutput
+        .withNeutralMode(NeutralModeValue.Brake)
+        .withInverted(InvertedValue.CounterClockwise_Positive);
+    leftMotorConfig
+        .CurrentLimits
+        .withStatorCurrentLimitEnable(true)
+        .withStatorCurrentLimit(Amp.of(20));
+    leftMotorConfig
+        .HardwareLimitSwitch
+        .withForwardLimitEnable(false)
+        .withForwardLimitRemoteCANrange(coralSensor)
+        .withForwardLimitRemoteSensorID(CoralManipulatorConstants.CORAL_SENSOR)
+        .withForwardLimitType(ForwardLimitTypeValue.NormallyOpen);
 
-    leftMotorConfig.voltageCompensation(12).smartCurrentLimit(20).idleMode(IdleMode.kBrake);
+    // Apply the left motor config, retry config apply up to 5 times, report if failure
+    StatusCode leftMotorStatus = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      leftMotorStatus = leftMotor.getConfigurator().apply(leftMotorConfig);
+      if (leftMotorStatus.isOK()) break;
+    }
+    if (!leftMotorStatus.isOK()) {
+      System.out.println(
+          "Could not apply left coral motor config, error code: " + leftMotorStatus.toString());
+    }
 
+    rightMotorConfig.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
     rightMotorConfig
-        .voltageCompensation(12)
-        .smartCurrentLimit(20)
-        .idleMode(IdleMode.kBrake)
-        .follow(CoralManipulatorConstants.LEFT_MOTOR, true);
+        .MotorOutput
+        .withNeutralMode(NeutralModeValue.Brake)
+        .withInverted(InvertedValue.Clockwise_Positive);
+    rightMotorConfig
+        .CurrentLimits
+        .withStatorCurrentLimitEnable(true)
+        .withStatorCurrentLimit(Amp.of(20));
+    rightMotorConfig
+        .HardwareLimitSwitch
+        .withForwardLimitEnable(false)
+        .withForwardLimitRemoteCANrange(coralSensor)
+        .withForwardLimitRemoteSensorID(CoralManipulatorConstants.CORAL_SENSOR)
+        .withForwardLimitType(ForwardLimitTypeValue.NormallyOpen);
 
-    /*
-     * Configure the closed loop controller. We want to make sure we set the
-     * feedback sensor as the primary encoder.
-     */
-    // motorConfig
-    //     .closedLoop
-    //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    //     .p(0.0001)
-    //     .d(0)
-    //     .velocityFF(1.0 / 917)
-    //     .outputRange(-1, 1);
+    // Apply the right motor config, retry config apply up to 5 times, report if failure
+    StatusCode rightMotorStatus = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      rightMotorStatus = rightMotor.getConfigurator().apply(rightMotorConfig);
+      if (rightMotorStatus.isOK()) break;
+    }
+    if (!rightMotorStatus.isOK()) {
+      System.out.println(
+          "Could not apply right coral motor config, error code: " + rightMotorStatus.toString());
+    }
 
-    // motorConfig
-    //     .closedLoop
-    //     .maxMotion
-    //     .maxVelocity(3000)
-    //     .maxAcceleration(6000)
-    //     .allowedClosedLoopError(1);
-
-    /*
-     * Apply the configuration to the SPARK MAX.
-     *
-     * kResetSafeParameters is used to get the SPARK MAX to a known state. This
-     * is useful in case the SPARK MAX is replaced.
-     *
-     * kPersistParameters is used to ensure the configuration is not lost when
-     * the SPARK MAX loses power. This is useful for power cycles that may occur
-     * mid-operation.
-     */
-    leftMotor.configure(
-        leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    rightMotor.configure(
-        rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // Set the right motor to follow the left motor
+    rightMotor.setControl(new StrictFollower(CoralManipulatorConstants.LEFT_MOTOR));
   }
 
   @Override
   public void periodic() {
-    if (getCoralSensorDetected()) {
-      setVelocity(0.15);
-    } else stopMotors();
+    if (leftMotor.getForwardLimit(true).getValue() == ForwardLimitValue.ClosedToGround) {
+      leftMotor.setControl(dutyCycle.withOutput(0.2));
+    } else leftMotor.stopMotor();
   }
 
   @AutoLogOutput(key = "Coral Manipulator/Distance")
@@ -146,19 +149,17 @@ public class CoralManipulator extends SubsystemBase {
   }
 
   @AutoLogOutput(key = "Coral Manipulator/Right Velocity")
-  public double getRightVelocity() {
-    return rightMotorEncoder.getVelocity();
+  public AngularVelocity getRightVelocity() {
+    return rightMotor.getVelocity(true).getValue();
   }
 
   @AutoLogOutput(key = "Coral Manipulator/Left Velocity")
-  public double getLeftVelocity() {
-    return leftMotorEncoder.getVelocity();
+  public AngularVelocity getLeftVelocity() {
+    return leftMotor.getVelocity(true).getValue();
   }
 
   public void setVelocity(double velocity) {
     leftMotor.set(velocity);
-    // leftVelocityController.setReference(velocity, ControlType.kMAXMotionVelocityControl);
-    // rightVelocityController.setReference(-velocity, ControlType.kMAXMotionVelocityControl);
   }
 
   public void stopMotors() {

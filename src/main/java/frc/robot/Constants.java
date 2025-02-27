@@ -48,8 +48,11 @@ public final class Constants {
 
   public static class AlgaeManiplulatorConstants {
     public static final int ROTATION_MOTOR = 5;
-    public static final int ROTATION_ENCODER = 6;
-    public static final int GRABBER_MOTOR = 7;
+    public static final int GRABBER_MOTOR = 6;
+
+    public static final double ENCODER_OFFSET = 0.7570492;
+    public static final double MIN_POSITION = 0.001;
+    public static final double MAX_POSITION = 0.514;
 
     // Configure the setpoints for the various positions the algae arm should move to
     public static final double START_POSITION = 0;
@@ -58,9 +61,8 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int MOTOR = 8;
-    public static final int ENCODER = 9;
-    public static final int DISTANCE_SENSOR = 10;
+    public static final int MOTOR = 7;
+    public static final int ENCODER = 8;
 
     // Set the absolute limits for the elevator motion
     public static final double MIN_HEIGHT = 0.03;
@@ -82,6 +84,6 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int CLIMBER_MOTOR = 11;
+    public static final int CLIMBER_MOTOR = 9;
   }
 }
