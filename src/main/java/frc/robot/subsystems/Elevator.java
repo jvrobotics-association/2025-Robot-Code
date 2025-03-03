@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Amp;
 import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix6.StatusCode;
@@ -106,7 +105,7 @@ public class Elevator extends SubsystemBase {
     motorConfig
         .TorqueCurrent
         .withPeakForwardTorqueCurrent(Amps.of(40)) // Maximum amps when lifting the elevator
-        .withPeakReverseTorqueCurrent(Amp.of(40)); // Maxiumum amps when lowering the elevator
+        .withPeakReverseTorqueCurrent(Amps.of(40)); // Maxiumum amps when lowering the elevator
 
     // Absolute limit of the amps the motor can draw to help prevent brownout
     motorConfig.CurrentLimits.withStatorCurrentLimit(Amps.of(50));

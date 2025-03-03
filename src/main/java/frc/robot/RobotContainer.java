@@ -27,10 +27,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drive;
@@ -57,6 +59,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Elevator elevator;
   private final CoralManipulator coralManipulator;
+  private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -118,6 +121,7 @@ public class RobotContainer {
     // Set up all other subsystems
     elevator = new Elevator();
     coralManipulator = new CoralManipulator();
+    climber = new Climber();
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -207,6 +211,30 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
+    // Manually extend the climber
+    controller
+        .rightTrigger()
+        .whileTrue(
+            Commands.runEnd(
+                () -> climber.manuallyExtend(), () -> climber.holdCurrentPosition(), climber));
+
+    // Manually retract the climber
+    controller
+        .leftTrigger()
+        .whileTrue(
+            Commands.runEnd(
+                () -> climber.manuallyRetract(), () -> climber.holdCurrentPosition(), climber));
+
+    // // Bring the climber to the extended position
+    // controller
+    //     .povUp()
+    //     .onTrue(Commands.runOnce(() -> climber.moveToPosition(ClimberConstants.EXTENDED)));
+
+    // // Bring the climber to the retracted position
+    // controller
+    //     .povDown()
+    //     .onTrue(Commands.runOnce(() -> climber.moveToPosition(ClimberConstants.RETRACTED)));
 
     // Move the elevator to the L4 position
     operatorConsole

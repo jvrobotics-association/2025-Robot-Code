@@ -85,5 +85,9 @@ public final class Constants {
 
   public static class ClimberConstants {
     public static final int CLIMBER_MOTOR = 9;
+
+    public static final double CLIMBER_MANUAL_SPEED = 0.25;
+    // public static final double EXTENDED = 2;
+    // public static final double RETRACTED = 1;
   }
 }
