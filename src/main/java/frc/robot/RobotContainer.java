@@ -25,8 +25,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ElevatorConstants.ReefLevel;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.GamePieceCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralManipulator;
@@ -235,14 +237,12 @@ public class RobotContainer {
     // Move the elevator to the L4 position
     operatorConsole
         .button(6)
-        .onTrue(
-            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L4_CORAL_POSITION)));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L4));
 
     // Move the elevator to the L3 coral position
     operatorConsole
         .button(3)
-        .onTrue(
-            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L3_CORAL_POSITION)));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L3));
 
     // Move the elevator to the L3 algae position
     operatorConsole
@@ -253,8 +253,7 @@ public class RobotContainer {
     // Move the elevator to the L2 coral position
     operatorConsole
         .button(5)
-        .onTrue(
-            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L2_CORAL_POSITION)));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L2));
 
     // Move the elevator to the L2 algae position
     operatorConsole
@@ -265,8 +264,7 @@ public class RobotContainer {
     // Move the elevator to the L1 algae position
     operatorConsole
         .button(10)
-        .onTrue(
-            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L1_CORAL_POSITION)));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L1));
 
     // Move the elevator to the algae processor scoring position
     operatorConsole
@@ -300,7 +298,7 @@ public class RobotContainer {
     // Manually lower the elevator without any PID control
     operatorConsole
         .button(2)
-        .whileTrue(Commands.run(() -> coralManipulator.setVelocity(0.95), coralManipulator));
+        .whileTrue(Commands.run(() -> coralManipulator.setSpeed(0.3), coralManipulator));
   }
 
   /**

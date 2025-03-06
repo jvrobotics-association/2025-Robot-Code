@@ -49,6 +49,9 @@ public final class Constants {
     public static final int LEFT_MOTOR = 2;
     public static final int RIGHT_MOTOR = 3;
     public static final int CORAL_SENSOR = 4;
+
+    public static final double INTAKE_SPEED = 0.1;
+    public static final double OUTPUT_SPEED = 0.4;
   }
 
   public static class AlgaeManiplulatorConstants {
@@ -76,10 +79,18 @@ public final class Constants {
 
     // Configure the setpoints for the various positions the elevator should move to for coral game
     // pieces
-    public static final double L1_CORAL_POSITION = MIN_HEIGHT;
-    public static final double L2_CORAL_POSITION = 0.368;
-    public static final double L3_CORAL_POSITION = 1.815;
-    public static final double L4_CORAL_POSITION = 4.095;
+    public enum ReefLevel {
+      L1(ElevatorConstants.MIN_HEIGHT),
+      L2(0.368),
+      L3(1.815),
+      L4(4.095);
+
+      ReefLevel(double height) {
+        this.height = height;
+      }
+
+      public final double height;
+    }
 
     // Configure the setpoints for the various positions the elevator should move to for algae game
     // pieces

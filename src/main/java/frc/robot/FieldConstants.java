@@ -5,10 +5,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Contains various field dimensions and useful reference points. All units are in meters and poses
@@ -85,29 +82,6 @@ public class FieldConstants {
             Rotation2d.fromRadians(-rightCenterFace.getRotation().getRadians()));
   }
 
-  /** Height and angle information about the different coral reef levels */
-  public enum ReefLevel {
-    L1(Units.inchesToMeters(25.0), 0),
-    L2(Units.inchesToMeters(31.875 - Math.cos(Math.toRadians(35.0)) * 0.625), -35),
-    L3(Units.inchesToMeters(47.625 - Math.cos(Math.toRadians(35.0)) * 0.625), -35),
-    L4(Units.inchesToMeters(72), -90);
-
-    ReefLevel(double height, double pitch) {
-      this.height = height;
-      this.pitch = pitch; // Degrees
-    }
-
-    public static ReefLevel fromLevel(int level) {
-      return Arrays.stream(values())
-          .filter(height -> height.ordinal() == level)
-          .findFirst()
-          .orElse(L4);
-    }
-
-    public final double height;
-    public final double pitch;
-  }
-
   /** A simple enumerator for defining the two sides of a reef */
   public enum ReefSide {
     LEFT,
@@ -130,7 +104,7 @@ public class FieldConstants {
     public static final Pose2d[] centerFaces = new Pose2d[12];
 
     // Starting at the right branch facing the driver station in clockwise
-    public static final List<Map<ReefLevel, Pose3d>> branchPositions = new ArrayList<>();
+    public static final List<Pose2d> branchPositions = new ArrayList<>();
 
     static {
       // Initialize faces
@@ -149,47 +123,34 @@ public class FieldConstants {
 
       // Initialize branch positions
       for (int face = 0; face < 6; face++) {
-        Map<ReefLevel, Pose3d> fillRight = new HashMap<>();
-        Map<ReefLevel, Pose3d> fillLeft = new HashMap<>();
-        for (var level : ReefLevel.values()) {
-          Pose2d poseDirection = new Pose2d(center, Rotation2d.fromDegrees(180 - (60 * face)));
-          double adjustX = Units.inchesToMeters(30.738);
-          double adjustY = Units.inchesToMeters(6.469);
+        Pose2d poseDirection = new Pose2d(center, Rotation2d.fromDegrees(180 - (60 * face)));
+        double adjustX = Units.inchesToMeters(30.738);
+        double adjustY = Units.inchesToMeters(6.469);
 
-          var rightBranchPose =
-              new Pose3d(
-                  new Translation3d(
-                      poseDirection
-                          .transformBy(new Transform2d(adjustX, adjustY, new Rotation2d()))
-                          .getX(),
-                      poseDirection
-                          .transformBy(new Transform2d(adjustX, adjustY, new Rotation2d()))
-                          .getY(),
-                      level.height),
-                  new Rotation3d(
-                      0,
-                      Units.degreesToRadians(level.pitch),
-                      poseDirection.getRotation().getRadians()));
-          var leftBranchPose =
-              new Pose3d(
-                  new Translation3d(
-                      poseDirection
-                          .transformBy(new Transform2d(adjustX, -adjustY, new Rotation2d()))
-                          .getX(),
-                      poseDirection
-                          .transformBy(new Transform2d(adjustX, -adjustY, new Rotation2d()))
-                          .getY(),
-                      level.height),
-                  new Rotation3d(
-                      0,
-                      Units.degreesToRadians(level.pitch),
-                      poseDirection.getRotation().getRadians()));
+        var rightBranchPose =
+            new Pose2d(
+                new Translation2d(
+                    poseDirection
+                        .transformBy(new Transform2d(adjustX, adjustY, new Rotation2d()))
+                        .getX(),
+                    poseDirection
+                        .transformBy(new Transform2d(adjustX, adjustY, new Rotation2d()))
+                        .getY()),
+                new Rotation2d(poseDirection.getRotation().getRadians()));
 
-          fillRight.put(level, rightBranchPose);
-          fillLeft.put(level, leftBranchPose);
-        }
-        branchPositions.add(fillRight);
-        branchPositions.add(fillLeft);
+        var leftBranchPose =
+            new Pose2d(
+                new Translation2d(
+                    poseDirection
+                        .transformBy(new Transform2d(adjustX, -adjustY, new Rotation2d()))
+                        .getX(),
+                    poseDirection
+                        .transformBy(new Transform2d(adjustX, -adjustY, new Rotation2d()))
+                        .getY()),
+                new Rotation2d(poseDirection.getRotation().getRadians()));
+
+        branchPositions.add(rightBranchPose);
+        branchPositions.add(leftBranchPose);
       }
     }
   }
@@ -214,12 +175,9 @@ public class FieldConstants {
    * @return The position of the nearest requested branch of the reef
    */
   public static Pose2d getNearestReefBranch(Pose2d currentPose, ReefSide side) {
-    return FieldConstants.Reef.branchPositions
-        .get(
-            List.of(FieldConstants.Reef.centerFaces).indexOf(getNearestReefFace(currentPose)) * 2
-                + (side == ReefSide.LEFT ? 1 : 0))
-        .get(FieldConstants.ReefLevel.L1)
-        .toPose2d();
+    return FieldConstants.Reef.branchPositions.get(
+        List.of(FieldConstants.Reef.centerFaces).indexOf(getNearestReefFace(currentPose)) * 2
+            + (side == ReefSide.LEFT ? 1 : 0));
   }
 
   /**
