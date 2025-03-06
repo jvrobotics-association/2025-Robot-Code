@@ -2,9 +2,9 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Amps;
 
+import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,9 +14,6 @@ import org.littletonrobotics.junction.AutoLogOutput;
 public class Climber extends SubsystemBase {
   private static final TalonFX climberMotor = new TalonFX(ClimberConstants.CLIMBER_MOTOR, "rio");
   // private static final CANcoder climberEncoder = new CANcoder
-
-  // Create the motor control request type and ensure it is set to respect configured limits
-  final MotionMagicTorqueCurrentFOC m_request = new MotionMagicTorqueCurrentFOC(0);
 
   final DutyCycleOut m_manualRequest = new DutyCycleOut(0);
 
@@ -31,6 +28,17 @@ public class Climber extends SubsystemBase {
         .TorqueCurrent
         .withPeakForwardTorqueCurrent(Amps.of(40)) // Maximum amps when lifting the elevator
         .withPeakReverseTorqueCurrent(Amps.of(40)); // Maxiumum amps when lowering the elevator
+
+    // Retry config apply up to 5 times, report if failure
+    StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      motorStatus = climberMotor.getConfigurator().apply(motorConfig);
+      if (motorStatus.isOK()) break;
+    }
+    if (!motorStatus.isOK()) {
+      System.out.println(
+          "Could not apply climber motor config, error code: " + motorStatus.toString());
+    }
   }
 
   @AutoLogOutput(key = "Climber/Position")
@@ -48,13 +56,5 @@ public class Climber extends SubsystemBase {
 
   public void stopClimber() {
     climberMotor.stopMotor();
-  }
-
-  public void holdCurrentPosition() {
-    climberMotor.setControl(m_request.withPosition(getPosition()).withSlot(3));
-  }
-
-  public void moveToPosition(double position) {
-    climberMotor.setControl(m_request.withPosition(position).withSlot(2));
   }
 }

@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
@@ -216,25 +215,13 @@ public class RobotContainer {
     controller
         .rightTrigger()
         .whileTrue(
-            Commands.runEnd(
-                () -> climber.manuallyExtend(), () -> climber.holdCurrentPosition(), climber));
+            Commands.runEnd(() -> climber.manuallyExtend(), () -> climber.stopClimber(), climber));
 
     // Manually retract the climber
     controller
         .leftTrigger()
         .whileTrue(
-            Commands.runEnd(
-                () -> climber.manuallyRetract(), () -> climber.holdCurrentPosition(), climber));
-
-    // // Bring the climber to the extended position
-    // controller
-    //     .povUp()
-    //     .onTrue(Commands.runOnce(() -> climber.moveToPosition(ClimberConstants.EXTENDED)));
-
-    // // Bring the climber to the retracted position
-    // controller
-    //     .povDown()
-    //     .onTrue(Commands.runOnce(() -> climber.moveToPosition(ClimberConstants.RETRACTED)));
+            Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(), climber));
 
     // Move the elevator to the L4 position
     operatorConsole

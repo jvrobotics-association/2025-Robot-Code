@@ -128,7 +128,8 @@ public class Elevator extends SubsystemBase {
       if (motorStatus.isOK()) break;
     }
     if (!motorStatus.isOK()) {
-      System.out.println("Could not apply motor config, error code: " + motorStatus.toString());
+      System.out.println(
+          "Could not apply elevator motor config, error code: " + motorStatus.toString());
     }
 
     // Reset the position that the elevator currently is at to 0.

@@ -134,7 +134,7 @@ public class CoralManipulator extends SubsystemBase {
   @Override
   public void periodic() {
     if (leftMotor.getForwardLimit(true).getValue() == ForwardLimitValue.ClosedToGround) {
-      leftMotor.setControl(dutyCycle.withOutput(0.2));
+      leftMotor.setControl(dutyCycle.withOutput(0.1));
     } else leftMotor.stopMotor();
   }
 
