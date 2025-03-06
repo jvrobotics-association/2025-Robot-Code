@@ -30,6 +30,7 @@ import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GamePieceCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
@@ -58,6 +59,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Elevator elevator;
   private final CoralManipulator coralManipulator;
+  private final AlgaeManipulator algaeManipulator;
   private final Climber climber;
 
   // Controller
@@ -131,6 +133,7 @@ public class RobotContainer {
     // Set up all other subsystems
     elevator = new Elevator();
     coralManipulator = new CoralManipulator();
+    algaeManipulator = new AlgaeManipulator();
     climber = new Climber();
 
     // Set up auto routines
