@@ -13,9 +13,6 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.vision.VisionConstants.camera0Name;
-import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,6 +38,7 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
@@ -83,7 +81,11 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackRight));
         vision =
             new Vision(
-                drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVision(
+                    VisionConstants.leftCameraName, VisionConstants.robotToLeftCamera),
+                new VisionIOPhotonVision(
+                    VisionConstants.rightCameraName, VisionConstants.robotToRightCamera));
         // Configure port forwarding for USB connections to the RoboRIO for PhotonVision
         PortForwarder.add(5800, "photonvision.local", 5800);
         break;
@@ -101,7 +103,14 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
+                new VisionIOPhotonVisionSim(
+                    VisionConstants.leftCameraName,
+                    VisionConstants.robotToLeftCamera,
+                    drive::getPose),
+                new VisionIOPhotonVisionSim(
+                    VisionConstants.rightCameraName,
+                    VisionConstants.robotToRightCamera,
+                    drive::getPose));
         break;
 
       default:

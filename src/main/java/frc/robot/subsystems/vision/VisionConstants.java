@@ -27,15 +27,23 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
   // Camera names, must match names configured on coprocessor
-  public static String camera0Name = "OV9281_TEST_CAM";
+  public static String leftCameraName = "OV9281_LEFT";
+  public static String rightCameraName = "OV9281_RIGHT";
 
   // Robot to camera transforms
-  public static Transform3d robotToCamera0 =
+  public static Transform3d robotToLeftCamera =
       new Transform3d(
-          Inches.of(-10.33),
-          Inches.of(0.00),
-          Inches.of(17.00),
-          new Rotation3d(Degree.of(0), Degree.of(0), Degree.of(180)));
+          Inches.of(4.3695),
+          Inches.of(10.6042),
+          Inches.of(8.7012),
+          new Rotation3d(Degree.of(0), Degree.of(-15), Degree.of(-20)));
+
+  public static Transform3d robotToRightCamera =
+      new Transform3d(
+          Inches.of(4.3695),
+          Inches.of(-10.6042),
+          Inches.of(8.7012),
+          new Rotation3d(Degree.of(0), Degree.of(-15), Degree.of(20)));
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;

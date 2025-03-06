@@ -73,7 +73,7 @@ public class Drive extends SubsystemBase {
   private final Field2d fieldPosition = new Field2d();
 
   // PathPlanner config constants
-  private static final double ROBOT_MASS_KG = 74.088;
+  private static final double ROBOT_MASS_KG = Kilograms.convertFrom(120, Pound);
   private static final double ROBOT_MOI = 6.883;
   private static final double WHEEL_COF = 1.2;
   private static final RobotConfig PP_CONFIG =
