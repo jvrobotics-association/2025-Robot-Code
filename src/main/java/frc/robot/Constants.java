@@ -40,6 +40,11 @@ public final class Constants {
 
   public static class OperatorConstants {}
 
+  public static class DriveConstants {
+    // Absolute maximum speed is 4.292
+    public static final double MAX_SPEED = 3;
+  }
+
   public static class CoralManipulatorConstants {
     public static final int LEFT_MOTOR = 2;
     public static final int RIGHT_MOTOR = 3;
