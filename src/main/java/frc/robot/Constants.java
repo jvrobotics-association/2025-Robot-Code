@@ -61,11 +61,12 @@ public final class Constants {
     public static final double ENCODER_OFFSET = 0.7570492;
     public static final double MIN_POSITION = 0.001;
     public static final double MAX_POSITION = 0.514;
+    public static final double GRABBER_INTAKE_SPEED = 0.5;
 
     // Configure the setpoints for the various positions the algae arm should move to
     public static final double START_POSITION = 0;
     public static final double GROUND_PICKUP = 0;
-    public static final double CORAL_STATION_GRAB = 0;
+    public static final double CORAL_STATION_GRAB = 0.3;
   }
 
   public static class ElevatorConstants {
@@ -79,13 +80,15 @@ public final class Constants {
 
     // Configure the setpoints for the various positions the elevator should move to for coral game
     // pieces
-    public enum ReefLevel {
+    public enum ElevatorHeight {
       L1(ElevatorConstants.MIN_HEIGHT),
       L2(0.368),
       L3(1.815),
-      L4(4.095);
+      L4(4.095),
+      L2_ALAGE(1.33),
+      L3_ALGAE(2.74);
 
-      ReefLevel(double height) {
+      ElevatorHeight(double height) {
         this.height = height;
       }
 
@@ -94,8 +97,6 @@ public final class Constants {
 
     // Configure the setpoints for the various positions the elevator should move to for algae game
     // pieces
-    public static final double L2_ALGAE_POSITION = 1.33;
-    public static final double L3_ALGAE_POSITION = 2.74;
     public static final double ALGAE_SCORE_POSITION = 0.3;
   }
 

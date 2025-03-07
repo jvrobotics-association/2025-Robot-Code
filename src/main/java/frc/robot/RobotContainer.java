@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.ElevatorConstants.ReefLevel;
+import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GamePieceCommands;
@@ -240,34 +240,32 @@ public class RobotContainer {
     // Move the elevator to the L4 position
     operatorConsole
         .button(6)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L4));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
 
     // Move the elevator to the L3 coral position
     operatorConsole
         .button(3)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L3));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L3));
 
     // Move the elevator to the L3 algae position
     operatorConsole
         .button(4)
-        .onTrue(
-            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L3_ALGAE_POSITION)));
+        .onTrue(Commands.runOnce(() -> elevator.moveToPosition(ElevatorHeight.L3_ALGAE.height)));
 
     // Move the elevator to the L2 coral position
     operatorConsole
         .button(5)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L2));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L2));
 
     // Move the elevator to the L2 algae position
     operatorConsole
         .button(1)
-        .onTrue(
-            Commands.runOnce(() -> elevator.moveToPosition(ElevatorConstants.L2_ALGAE_POSITION)));
+        .onTrue(Commands.runOnce(() -> elevator.moveToPosition(ElevatorHeight.L2_ALAGE.height)));
 
     // Move the elevator to the L1 algae position
     operatorConsole
         .button(10)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ReefLevel.L1));
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L1));
 
     // Move the elevator to the algae processor scoring position
     operatorConsole
