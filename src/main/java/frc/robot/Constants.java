@@ -66,7 +66,7 @@ public final class Constants {
     // Configure the setpoints for the various positions the algae arm should move to
     public static final double START_POSITION = 0;
     public static final double GROUND_PICKUP = 0;
-    public static final double CORAL_STATION_GRAB = 0.3;
+    public static final double REEF_GRAB = 0.3;
   }
 
   public static class ElevatorConstants {
@@ -85,7 +85,7 @@ public final class Constants {
       L2(0.368),
       L3(1.815),
       L4(4.190),
-      L2_ALAGE(1.33),
+      L2_ALGAE(1.33),
       L3_ALGAE(2.74);
 
       ElevatorHeight(double height) {

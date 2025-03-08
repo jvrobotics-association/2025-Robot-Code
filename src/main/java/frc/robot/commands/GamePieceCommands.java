@@ -32,7 +32,7 @@ public class GamePieceCommands {
             Commands.runOnce(
                 () ->
                     algaeManipulator.setRotationPosition(
-                        AlgaeManiplulatorConstants.CORAL_STATION_GRAB),
+                        AlgaeManiplulatorConstants.REEF_GRAB),
                 algaeManipulator)),
         Commands.waitSeconds(0.1),
         Commands.deadline(

@@ -251,7 +251,7 @@ public class RobotContainer {
     // Move the elevator to the L3 algae position
     operatorConsole
         .button(4)
-        .onTrue(Commands.runOnce(() -> elevator.moveToPosition(ElevatorHeight.L3_ALGAE.height)));
+        .onTrue(GamePieceCommands.collectAlgae(elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
 
     // Move the elevator to the L2 coral position
     operatorConsole
@@ -261,7 +261,7 @@ public class RobotContainer {
     // Move the elevator to the L2 algae position
     operatorConsole
         .button(1)
-        .onTrue(Commands.runOnce(() -> elevator.moveToPosition(ElevatorHeight.L2_ALAGE.height)));
+        .onTrue(GamePieceCommands.collectAlgae(elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
 
     // Move the elevator to the L1 algae position
     operatorConsole
