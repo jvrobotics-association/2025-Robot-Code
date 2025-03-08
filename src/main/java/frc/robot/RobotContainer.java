@@ -238,6 +238,16 @@ public class RobotContainer {
     //         Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(),
     // climber));
 
+    // Place coral on L1 (right)
+    controller
+        .povRight()
+        .onTrue(GamePieceCommands.placeCoralRightCommand(elevator, coralManipulator));
+
+    // Place coral on L1 (left)
+    controller
+        .povLeft()
+        .onTrue(GamePieceCommands.placeCoralLeftCommand(elevator, coralManipulator));
+
     // Move the elevator to the L4 position
     operatorConsole
         .button(6)

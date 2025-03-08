@@ -24,6 +24,26 @@ public class GamePieceCommands {
         Commands.runOnce(() -> elevator.moveToPosition(ElevatorHeight.L1.height), elevator));
   }
 
+  public static Command placeCoralLeftCommand(
+    Elevator elevator, CoralManipulator coralManipulator) {
+      return Commands.deadline(
+        Commands.waitSeconds(0.3),
+        Commands.runEnd(
+          () -> coralManipulator.outputLeft(),
+          () -> coralManipulator.stopMotors(),
+          coralManipulator));
+    }
+
+    public static Command placeCoralRightCommand(
+    Elevator elevator, CoralManipulator coralManipulator) {
+      return Commands.deadline(
+        Commands.waitSeconds(0.3),
+        Commands.runEnd(
+          () -> coralManipulator.outputRight(),
+          () -> coralManipulator.stopMotors(),
+          coralManipulator));
+    }
+
   public static Command collectAlgae(
       Elevator elevator, AlgaeManipulator algaeManipulator, ElevatorHeight elevatorHeight) {
     return Commands.sequence(

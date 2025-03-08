@@ -52,6 +52,9 @@ public final class Constants {
 
     public static final double INTAKE_SPEED = 0.085;
     public static final double OUTPUT_SPEED = 0.7;
+    public static final double L1_SLOW = 0.2;
+    public static final double L1_FAST = 0.5;
+
   }
 
   public static class AlgaeManiplulatorConstants {
