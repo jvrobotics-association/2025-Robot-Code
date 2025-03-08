@@ -126,14 +126,12 @@ public class CoralManipulator extends SubsystemBase {
       System.out.println(
           "Could not apply right coral motor config, error code: " + rightMotorStatus.toString());
     }
-
-    // Set the right motor to follow the left motor
-    rightMotor.setControl(new StrictFollower(CoralManipulatorConstants.LEFT_MOTOR));
   }
 
   @Override
   public void periodic() {
     if (leftMotor.getForwardLimit(true).getValue() == ForwardLimitValue.ClosedToGround) {
+      rightMotor.setControl(new StrictFollower(CoralManipulatorConstants.LEFT_MOTOR));
       leftMotor.setControl(dutyCycle.withOutput(CoralManipulatorConstants.INTAKE_SPEED));
     } else leftMotor.stopMotor();
   }
@@ -159,6 +157,7 @@ public class CoralManipulator extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
+    rightMotor.setControl(new StrictFollower(CoralManipulatorConstants.LEFT_MOTOR));
     leftMotor.set(speed);
   }
 

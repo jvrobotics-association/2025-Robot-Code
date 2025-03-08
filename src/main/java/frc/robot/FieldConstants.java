@@ -122,19 +122,18 @@ public class FieldConstants {
       centerFaces[11] = aprilTagLayout.getTagPose(8).get().toPose2d();
 
       // Initialize branch positions
-      for (int face = 0; face < 6; face++) {
+      for (int face = 0; face < 12; face++) {
         Pose2d poseDirection = new Pose2d(center, Rotation2d.fromDegrees(180 - (60 * face)));
         double adjustX = Units.inchesToMeters(30.738);
-        double adjustY = Units.inchesToMeters(6.469);
 
         var rightBranchPose =
             new Pose2d(
                 new Translation2d(
                     poseDirection
-                        .transformBy(new Transform2d(adjustX, adjustY, new Rotation2d()))
+                        .transformBy(new Transform2d(adjustX, 5.5, new Rotation2d()))
                         .getX(),
                     poseDirection
-                        .transformBy(new Transform2d(adjustX, adjustY, new Rotation2d()))
+                        .transformBy(new Transform2d(adjustX, 5.5, new Rotation2d()))
                         .getY()),
                 new Rotation2d(poseDirection.getRotation().getRadians()));
 
@@ -142,10 +141,10 @@ public class FieldConstants {
             new Pose2d(
                 new Translation2d(
                     poseDirection
-                        .transformBy(new Transform2d(adjustX, -adjustY, new Rotation2d()))
+                        .transformBy(new Transform2d(adjustX, -6.75, new Rotation2d()))
                         .getX(),
                     poseDirection
-                        .transformBy(new Transform2d(adjustX, -adjustY, new Rotation2d()))
+                        .transformBy(new Transform2d(adjustX, -6.75, new Rotation2d()))
                         .getY()),
                 new Rotation2d(poseDirection.getRotation().getRadians()));
 

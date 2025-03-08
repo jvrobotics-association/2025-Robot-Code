@@ -15,7 +15,6 @@ public class GamePieceCommands {
       Elevator elevator, CoralManipulator coralManipulator, ElevatorHeight elevatorHeight) {
     return Commands.sequence(
         new MoveElevator(elevator, elevatorHeight),
-        Commands.waitSeconds(0.1),
         Commands.deadline(
             Commands.waitSeconds(0.8),
             Commands.runEnd(

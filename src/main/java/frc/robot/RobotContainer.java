@@ -31,7 +31,6 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GamePieceCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeManipulator;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drive;
@@ -60,7 +59,7 @@ public class RobotContainer {
   private final Elevator elevator;
   private final CoralManipulator coralManipulator;
   private final AlgaeManipulator algaeManipulator;
-  private final Climber climber;
+  // private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -134,7 +133,7 @@ public class RobotContainer {
     elevator = new Elevator();
     coralManipulator = new CoralManipulator();
     algaeManipulator = new AlgaeManipulator();
-    climber = new Climber();
+    // climber = new Climber();
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -192,7 +191,7 @@ public class RobotContainer {
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
 
-    // Driver B button: Approach Nearest Reef Face (for removing algae)
+    // Driver A button: Approach Nearest Reef Face (for removing algae)
     controller
         .a()
         .whileTrue(
@@ -226,16 +225,18 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Manually extend the climber
-    controller
-        .rightTrigger()
-        .whileTrue(
-            Commands.runEnd(() -> climber.manuallyExtend(), () -> climber.stopClimber(), climber));
+    // controller
+    //     .rightTrigger()
+    //     .whileTrue(
+    //         Commands.runEnd(() -> climber.manuallyExtend(), () -> climber.stopClimber(),
+    // climber));
 
     // Manually retract the climber
-    controller
-        .leftTrigger()
-        .whileTrue(
-            Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(), climber));
+    // controller
+    //     .leftTrigger()
+    //     .whileTrue(
+    //         Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(),
+    // climber));
 
     // Move the elevator to the L4 position
     operatorConsole
@@ -265,7 +266,10 @@ public class RobotContainer {
     // Move the elevator to the L1 algae position
     operatorConsole
         .button(10)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L1));
+        .onTrue(
+            Commands.sequence(
+                GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L1),
+                Commands.runOnce(() -> elevator.stopElevator(), elevator)));
 
     // Move the elevator to the algae processor scoring position
     operatorConsole
