@@ -269,7 +269,7 @@ public class RobotContainer {
         .button(4)
         .onTrue(
             GamePieceCommands.collectAlgae(
-                drive, elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
+                drive, elevator, coralManipulator, algaeManipulator, ElevatorHeight.L3_ALGAE));
 
     // Move the elevator to the L2 coral position
     operatorConsole
@@ -281,7 +281,7 @@ public class RobotContainer {
         .button(1)
         .onTrue(
             GamePieceCommands.collectAlgae(
-                drive, elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
+                drive, elevator, coralManipulator, algaeManipulator, ElevatorHeight.L2_ALGAE));
 
     // Move the elevator to the algae processor scoring position
     operatorConsole

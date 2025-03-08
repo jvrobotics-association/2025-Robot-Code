@@ -15,14 +15,14 @@ public class GamePieceCommands {
   public static Command placeCoralCommand(
       Elevator elevator, CoralManipulator coralManipulator, ElevatorHeight elevatorHeight) {
     return Commands.sequence(
-        new MoveElevator(elevator, elevatorHeight),
+        new MoveElevator(elevator, coralManipulator, elevatorHeight),
         Commands.deadline(
             Commands.waitSeconds(0.8),
             Commands.runEnd(
                 () -> coralManipulator.setSpeed(CoralManipulatorConstants.OUTPUT_SPEED),
                 () -> coralManipulator.stopMotors(),
                 coralManipulator)),
-        new MoveElevator(elevator, ElevatorHeight.L1),
+        new MoveElevator(elevator, coralManipulator, ElevatorHeight.L1),
         Commands.runOnce(() -> elevator.stopElevator(), elevator));
   }
 
@@ -49,10 +49,11 @@ public class GamePieceCommands {
   public static Command collectAlgae(
       Drive drive,
       Elevator elevator,
+      CoralManipulator coralManipulator,
       AlgaeManipulator algaeManipulator,
       ElevatorHeight elevatorHeight) {
     return Commands.sequence(
-        new MoveElevator(elevator, elevatorHeight),
+        new MoveElevator(elevator, coralManipulator, elevatorHeight),
         Commands.runOnce(
             () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.REEF_GRAB),
             algaeManipulator),
@@ -65,7 +66,7 @@ public class GamePieceCommands {
             Commands.waitSeconds(0.5),
             DriveCommands.joystickDrive(drive, () -> true, () -> -0.1, () -> 0, () -> 0)),
         Commands.parallel(
-            new MoveElevator(elevator, ElevatorHeight.L1),
+            new MoveElevator(elevator, coralManipulator, ElevatorHeight.L1),
             Commands.runOnce(
                 () ->
                     algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
