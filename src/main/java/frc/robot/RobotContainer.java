@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -67,6 +68,8 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+
+  private boolean isRelativeDrive = false;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -169,9 +172,12 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
+            () -> isRelativeDrive,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
+
+    controller.back().toggleOnTrue(new InstantCommand(() -> isRelativeDrive = !isRelativeDrive));
 
     // Driver Right Bumper: Approach Nearest Right-Side Reef Branch
     controller
@@ -211,7 +217,7 @@ public class RobotContainer {
     //             () -> new Rotation2d()));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    controller.b().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when Y button is pressed
     controller
@@ -261,7 +267,9 @@ public class RobotContainer {
     // Move the elevator to the L3 algae position
     operatorConsole
         .button(4)
-        .onTrue(GamePieceCommands.collectAlgae(elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
+        .onTrue(
+            GamePieceCommands.collectAlgae(
+                drive, elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
 
     // Move the elevator to the L2 coral position
     operatorConsole
@@ -271,15 +279,9 @@ public class RobotContainer {
     // Move the elevator to the L2 algae position
     operatorConsole
         .button(1)
-        .onTrue(GamePieceCommands.collectAlgae(elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
-
-    // Move the elevator to the L1 algae position
-    operatorConsole
-        .button(10)
         .onTrue(
-            Commands.sequence(
-                GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L1),
-                Commands.runOnce(() -> elevator.stopElevator(), elevator)));
+            GamePieceCommands.collectAlgae(
+                drive, elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
 
     // Move the elevator to the algae processor scoring position
     operatorConsole

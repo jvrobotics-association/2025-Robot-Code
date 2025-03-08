@@ -37,16 +37,21 @@ public class AlgaeManipulator extends SubsystemBase {
         .absoluteEncoder
         .setSparkMaxDataPortConfig()
         .inverted(true)
-        .zeroOffset(AlgaeManiplulatorConstants.ENCODER_OFFSET);
+        .zeroOffset(AlgaeManiplulatorConstants.ENCODER_OFFSET)
+        .positionConversionFactor(25);
     rotationMotorConfig
         .closedLoop
         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-        .outputRange(-0.5, 0.5)
-        .p(0.04)
+        .outputRange(-0.08, 0.4)
+        .p(0.119)
         .i(0)
-        .d(0.001)
+        .d(0.012)
         .iZone(0)
         .velocityFF(0);
+    rotationMotorConfig
+        .limitSwitch
+        .forwardLimitSwitchEnabled(false)
+        .reverseLimitSwitchEnabled(false);
     rotationMotorConfig
         .softLimit
         .reverseSoftLimit(AlgaeManiplulatorConstants.MIN_POSITION)
@@ -67,6 +72,8 @@ public class AlgaeManipulator extends SubsystemBase {
 
     // Get the closed loop controller that is used to control the position of the arm
     rotationController = rotationMotor.getClosedLoopController();
+
+    setRotationPosition(AlgaeManiplulatorConstants.START_POSITION);
   }
 
   @AutoLogOutput(key = "Algae Manipulator/Position")

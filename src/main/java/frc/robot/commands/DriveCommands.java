@@ -33,14 +33,15 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
-  private static final double ANGLE_KP = 1;
-  private static final double ANGLE_KD = 0.001;
+  private static final double ANGLE_KP = 3;
+  private static final double ANGLE_KD = 0.005;
   private static final double ANGLE_MAX_VELOCITY = 4.0;
   private static final double ANGLE_MAX_ACCELERATION = 2;
   private static final double FF_START_DELAY = 2.0; // Secs
@@ -69,6 +70,7 @@ public class DriveCommands {
    */
   public static Command joystickDrive(
       Drive drive,
+      BooleanSupplier relativeDriveSupplier,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
       DoubleSupplier omegaSupplier) {
@@ -84,7 +86,6 @@ public class DriveCommands {
           // Square rotation value for more precise control
           omega = Math.copySign(omega * omega, omega);
 
-          // Convert to field relative speeds & send command
           ChassisSpeeds speeds =
               new ChassisSpeeds(
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
@@ -93,12 +94,17 @@ public class DriveCommands {
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()
                   && DriverStation.getAlliance().get() == Alliance.Red;
-          drive.runVelocity(
-              ChassisSpeeds.fromFieldRelativeSpeeds(
-                  speeds,
-                  isFlipped
-                      ? drive.getRotation().plus(new Rotation2d(Math.PI))
-                      : drive.getRotation()));
+          // Convert to field relative speeds & send command
+          if (relativeDriveSupplier.getAsBoolean()) {
+            drive.runVelocity(speeds);
+          } else {
+            drive.runVelocity(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                    speeds,
+                    isFlipped
+                        ? drive.getRotation().plus(new Rotation2d(Math.PI))
+                        : drive.getRotation()));
+          }
         },
         drive);
   }
@@ -174,7 +180,7 @@ public class DriveCommands {
             ANGLE_KD,
             new TrapezoidProfile.Constraints(ANGLE_MAX_VELOCITY, ANGLE_MAX_ACCELERATION));
     angleController.enableContinuousInput(-Math.PI, Math.PI);
-    angleController.setTolerance(10);
+    angleController.setTolerance(3);
 
     ProfiledPIDController alignController =
         new ProfiledPIDController(0.9, 0, 0.01, new TrapezoidProfile.Constraints(2, 1));

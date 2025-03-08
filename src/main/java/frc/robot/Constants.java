@@ -54,20 +54,19 @@ public final class Constants {
     public static final double OUTPUT_SPEED = 0.7;
     public static final double L1_SLOW = 0.2;
     public static final double L1_FAST = 0.5;
-
   }
 
   public static class AlgaeManiplulatorConstants {
     public static final int ROTATION_MOTOR = 5;
     public static final int GRABBER_MOTOR = 6;
 
-    public static final double ENCODER_OFFSET = 0.7570492;
+    public static final double ENCODER_OFFSET = 0.76;
     public static final double MIN_POSITION = 0.001;
-    public static final double MAX_POSITION = 0.514;
+    public static final double MAX_POSITION = 12.9;
     public static final double GRABBER_INTAKE_SPEED = 0.5;
 
     // Configure the setpoints for the various positions the algae arm should move to
-    public static final double START_POSITION = 0;
+    public static final double START_POSITION = MIN_POSITION;
     public static final double GROUND_PICKUP = 0;
     public static final double REEF_GRAB = 0.3;
   }

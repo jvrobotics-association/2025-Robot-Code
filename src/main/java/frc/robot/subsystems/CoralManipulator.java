@@ -170,6 +170,7 @@ public class CoralManipulator extends SubsystemBase {
     leftMotor.set(CoralManipulatorConstants.L1_SLOW);
     rightMotor.set(CoralManipulatorConstants.L1_FAST);
   }
+
   public void outputRight() {
     leftMotor.set(CoralManipulatorConstants.L1_FAST);
     rightMotor.set(CoralManipulatorConstants.L1_SLOW);
