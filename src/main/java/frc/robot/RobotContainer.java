@@ -58,7 +58,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Elevator elevator;
-  private final CoralManipulator coralManipulator;
+  private static CoralManipulator coralManipulator;
   private final AlgaeManipulator algaeManipulator;
   // private final Climber climber;
 
@@ -177,6 +177,12 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
+    // algaeManipulator.setDefaultCommand(
+    //     Commands.runOnce(
+    //         () ->
+    // algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
+    //         algaeManipulator));
+
     controller.back().toggleOnTrue(new InstantCommand(() -> isRelativeDrive = !isRelativeDrive));
 
     // Driver Right Bumper: Approach Nearest Right-Side Reef Branch
@@ -269,7 +275,7 @@ public class RobotContainer {
         .button(4)
         .onTrue(
             GamePieceCommands.collectAlgae(
-                drive, elevator, coralManipulator, algaeManipulator, ElevatorHeight.L3_ALGAE));
+                drive, elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
 
     // Move the elevator to the L2 coral position
     operatorConsole
@@ -281,7 +287,7 @@ public class RobotContainer {
         .button(1)
         .onTrue(
             GamePieceCommands.collectAlgae(
-                drive, elevator, coralManipulator, algaeManipulator, ElevatorHeight.L2_ALGAE));
+                drive, elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
 
     // Move the elevator to the algae processor scoring position
     operatorConsole
@@ -316,6 +322,10 @@ public class RobotContainer {
     operatorConsole
         .button(2)
         .whileTrue(Commands.run(() -> coralManipulator.setSpeed(0.3), coralManipulator));
+  }
+
+  public static boolean isCoralDetected() {
+    return coralManipulator.getCoralSensorDetected();
   }
 
   /**

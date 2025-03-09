@@ -61,14 +61,14 @@ public final class Constants {
     public static final int GRABBER_MOTOR = 6;
 
     public static final double ENCODER_OFFSET = 0.76;
-    public static final double MIN_POSITION = 0.001;
+    public static final double MIN_POSITION = 0.12;
     public static final double MAX_POSITION = 12.9;
-    public static final double GRABBER_INTAKE_SPEED = 0.5;
+    public static final double GRABBER_INTAKE_SPEED = 0.44;
 
     // Configure the setpoints for the various positions the algae arm should move to
-    public static final double START_POSITION = MIN_POSITION;
+    public static final double START_POSITION = 0.19;
     public static final double GROUND_PICKUP = 0;
-    public static final double REEF_GRAB = 0.3;
+    public static final double REEF_GRAB = 4;
   }
 
   public static class ElevatorConstants {
@@ -87,8 +87,8 @@ public final class Constants {
       L2(0.368),
       L3(1.815),
       L4(4.190),
-      L2_ALGAE(1.33),
-      L3_ALGAE(2.74);
+      L2_ALGAE(1.3),
+      L3_ALGAE(2.73);
 
       ElevatorHeight(double height) {
         this.height = height;

@@ -15,14 +15,14 @@ public class GamePieceCommands {
   public static Command placeCoralCommand(
       Elevator elevator, CoralManipulator coralManipulator, ElevatorHeight elevatorHeight) {
     return Commands.sequence(
-        new MoveElevator(elevator, coralManipulator, elevatorHeight),
+        new MoveElevator(elevator, elevatorHeight),
         Commands.deadline(
             Commands.waitSeconds(0.8),
             Commands.runEnd(
                 () -> coralManipulator.setSpeed(CoralManipulatorConstants.OUTPUT_SPEED),
                 () -> coralManipulator.stopMotors(),
                 coralManipulator)),
-        new MoveElevator(elevator, coralManipulator, ElevatorHeight.L1),
+        new MoveElevator(elevator, ElevatorHeight.L1),
         Commands.runOnce(() -> elevator.stopElevator(), elevator));
   }
 
@@ -49,27 +49,21 @@ public class GamePieceCommands {
   public static Command collectAlgae(
       Drive drive,
       Elevator elevator,
-      CoralManipulator coralManipulator,
       AlgaeManipulator algaeManipulator,
       ElevatorHeight elevatorHeight) {
     return Commands.sequence(
-        new MoveElevator(elevator, coralManipulator, elevatorHeight),
-        Commands.runOnce(
-            () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.REEF_GRAB),
-            algaeManipulator),
-        Commands.waitSeconds(0.2),
+        new MoveElevator(elevator, elevatorHeight),
+        new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.REEF_GRAB),
+        Commands.waitSeconds(0.15),
         Commands.deadline(
             new IntakeAlgae(algaeManipulator),
-            Commands.runEnd(
-                () -> elevator.manuallyRaise(), () -> elevator.holdCurrentPosition(), elevator)),
+            new MoveElevator(elevator, elevatorHeight.height + 0.15)),
+        new MoveElevator(elevator, elevatorHeight.height + 0.4),
         Commands.deadline(
-            Commands.waitSeconds(0.5),
-            DriveCommands.joystickDrive(drive, () -> true, () -> -0.1, () -> 0, () -> 0)),
-        Commands.parallel(
-            new MoveElevator(elevator, coralManipulator, ElevatorHeight.L1),
-            Commands.runOnce(
-                () ->
-                    algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
-                algaeManipulator)));
+            Commands.waitSeconds(0.4),
+            DriveCommands.joystickDrive(drive, () -> true, () -> -0.8, () -> 0, () -> 0)),
+        Commands.runOnce(() -> drive.stop(), drive),
+        new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.START_POSITION),
+        new MoveElevator(elevator, ElevatorHeight.L1));
   }
 }

@@ -6,6 +6,7 @@ import frc.robot.subsystems.AlgaeManipulator;
 
 public class IntakeAlgae extends Command {
   public final AlgaeManipulator m_algaeManipulator;
+  private boolean hasReachedSpeed = false;
 
   public IntakeAlgae(AlgaeManipulator algaeManipulator) {
     m_algaeManipulator = algaeManipulator;
@@ -18,8 +19,20 @@ public class IntakeAlgae extends Command {
   }
 
   @Override
+  public void execute() {
+    if (Math.abs(m_algaeManipulator.getGrabberVelocity()) >= 500) {
+      hasReachedSpeed = true;
+    }
+  }
+
+  @Override
   public boolean isFinished() {
-    return (Math.abs(m_algaeManipulator.getGrabberVelocity()) < 5
-        || m_algaeManipulator.getGrabberCurrent() > 8);
+    return hasReachedSpeed && (Math.abs(m_algaeManipulator.getGrabberVelocity()) < 200);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    // m_algaeManipulator.stopGrabber();
+    hasReachedSpeed = false;
   }
 }

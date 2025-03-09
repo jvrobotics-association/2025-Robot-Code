@@ -30,9 +30,10 @@ public class AlgaeManipulator extends SubsystemBase {
     // Configure the rotation motor
     rotationMotorConfig
         .idleMode(IdleMode.kBrake)
-        .openLoopRampRate(25)
+        .closedLoopRampRate(0)
+        .openLoopRampRate(0)
         .voltageCompensation(12)
-        .smartCurrentLimit(20);
+        .smartCurrentLimit(30, 30);
     rotationMotorConfig
         .absoluteEncoder
         .setSparkMaxDataPortConfig()
@@ -43,11 +44,11 @@ public class AlgaeManipulator extends SubsystemBase {
         .closedLoop
         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
         .outputRange(-0.08, 0.4)
-        .p(0.119)
+        .p(0.12)
         .i(0)
-        .d(0.012)
+        .d(1)
         .iZone(0)
-        .velocityFF(0);
+        .velocityFF(0.004);
     rotationMotorConfig
         .limitSwitch
         .forwardLimitSwitchEnabled(false)
@@ -66,7 +67,7 @@ public class AlgaeManipulator extends SubsystemBase {
         .idleMode(IdleMode.kBrake)
         .openLoopRampRate(25)
         .voltageCompensation(12)
-        .smartCurrentLimit(5, 10, 10);
+        .smartCurrentLimit(1, 5, 200);
     grabberMotor.configure(
         grabberMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -92,7 +93,7 @@ public class AlgaeManipulator extends SubsystemBase {
   }
 
   public void setRotationPosition(double position) {
-    rotationController.setReference(position, ControlType.kMAXMotionPositionControl);
+    rotationController.setReference(position, ControlType.kPosition);
   }
 
   public void setGrabberSpeed(double speed) {
