@@ -218,7 +218,9 @@ public class RobotContainer {
             DriveCommands.joystickApproach(
                 drive,
                 () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestProcessorFace(drive.getPose())));
+                () ->
+                    FieldConstants.getNearestProcessorFace(
+                        drive.getPose().rotateBy(Rotation2d.k180deg))));
 
     // Driver B: Align to the nearest source while held
     controller
@@ -227,7 +229,9 @@ public class RobotContainer {
             DriveCommands.joystickApproach(
                 drive,
                 () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestCoralStation(drive.getPose())));
+                () ->
+                    FieldConstants.getNearestCoralStation(
+                        drive.getPose().rotateBy(Rotation2d.k180deg))));
 
     // Driver A: Align to the nearest reef face in the center for collecting algae
     controller
