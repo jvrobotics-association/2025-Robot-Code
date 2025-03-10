@@ -32,12 +32,15 @@ public class FieldConstants {
 
   /** Processor location and size constants */
   public static class Processor {
-    // The center of the april tag on the processor
-    public static final Pose2d centerFace =
-        new Pose2d(aprilTagLayout.getTagPose(16).get().getX(), 0, Rotation2d.fromDegrees(90));
+    public static final List<Pose2d> centerFaces = new ArrayList<>();
 
     // The width of the processor in inches
     public static final double processorWidth = Units.inchesToMeters(46.25);
+
+    static {
+      centerFaces.add(aprilTagLayout.getTagPose(3).get().toPose2d());
+      centerFaces.add(aprilTagLayout.getTagPose(16).get().toPose2d());
+    }
   }
 
   /** Barge location and size constants */
@@ -67,19 +70,14 @@ public class FieldConstants {
     // The width of the station in inches
     public static final double stationWidth = Units.inchesToMeters(79.750);
 
-    // The location of the center of the right coral station
-    public static final Pose2d rightCenterFace =
-        new Pose2d(
-            Units.inchesToMeters(33.526),
-            Units.inchesToMeters(25.824),
-            Rotation2d.fromDegrees(144.011 - 90));
+    public static final List<Pose2d> centerFaces = new ArrayList<>();
 
-    // The location of the center of the left coral station
-    public static final Pose2d leftCenterFace =
-        new Pose2d(
-            rightCenterFace.getX(),
-            fieldWidth - rightCenterFace.getY(),
-            Rotation2d.fromRadians(-rightCenterFace.getRotation().getRadians()));
+    static {
+      centerFaces.add(aprilTagLayout.getTagPose(1).get().toPose2d());
+      centerFaces.add(aprilTagLayout.getTagPose(2).get().toPose2d());
+      centerFaces.add(aprilTagLayout.getTagPose(12).get().toPose2d());
+      centerFaces.add(aprilTagLayout.getTagPose(13).get().toPose2d());
+    }
   }
 
   /** A simple enumerator for defining the two sides of a reef */
@@ -184,27 +182,22 @@ public class FieldConstants {
   }
 
   /**
-   * Get the position of the nearest coral station. This automatically will hanle returning the
-   * correct coral station depending on which side of the field the robot is on.
+   * Get the position of the nearest coral station.
    *
    * @param currentPose The robots current location
    * @return The position of the nearest coral station to the robot
    */
   public static Pose2d getNearestCoralStation(Pose2d currentPose) {
-    if (currentPose.getTranslation().getX() > FieldConstants.fieldLength / 2) {
-      if (currentPose.getTranslation().getY() > FieldConstants.fieldWidth / 2) {
-        return FieldConstants.CoralStation.rightCenterFace.rotateAround(
-            FieldConstants.fieldCenter, Rotation2d.k180deg);
-      } else {
-        return FieldConstants.CoralStation.leftCenterFace.rotateAround(
-            FieldConstants.fieldCenter, Rotation2d.k180deg);
-      }
-    } else {
-      if (currentPose.getTranslation().getY() > FieldConstants.fieldWidth / 2) {
-        return FieldConstants.CoralStation.leftCenterFace;
-      } else {
-        return FieldConstants.CoralStation.rightCenterFace;
-      }
-    }
+    return currentPose.nearest(FieldConstants.CoralStation.centerFaces);
+  }
+
+  /**
+   * Get the position of the nearest processor
+   *
+   * @param currentPose The robots current location
+   * @return The position of the nearest processor to the robot
+   */
+  public static Pose2d getNearestProcessorFace(Pose2d currentPose) {
+    return currentPose.nearest(FieldConstants.Processor.centerFaces);
   }
 }

@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
@@ -177,33 +176,60 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // algaeManipulator.setDefaultCommand(
-    //     Commands.runOnce(
-    //         () ->
-    // algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
-    //         algaeManipulator));
-
-    controller.back().toggleOnTrue(new InstantCommand(() -> isRelativeDrive = !isRelativeDrive));
-
-    // Driver Right Bumper: Approach Nearest Right-Side Reef Branch
+    // Driver Left Trigger: Align the robot to the nearest left reef pole
     controller
-        .rightBumper()
-        .whileTrue(
-            DriveCommands.joystickApproach(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
-
-    // Driver Left Bumper: Approach Nearest Left-Side Reef Branch
-    controller
-        .leftBumper()
+        .leftTrigger(0.25)
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
 
-    // Driver A button: Approach Nearest Reef Face (for removing algae)
+    // Driver Right Trigger: Align the robot to the nearest right reef pole
+    controller
+        .rightTrigger(0.25)
+        .whileTrue(
+            DriveCommands.joystickApproach(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
+
+    // Driver POV Up: Reset robot field orientation to 0º
+    controller
+        .povUp()
+        .onTrue(
+            Commands.runOnce(
+                    () ->
+                        drive.setPose(
+                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                    drive)
+                .ignoringDisable(true));
+
+    // Driver Back Button: Toggle the robot between field relative and robot centric drive modes
+    controller.back().toggleOnTrue(new InstantCommand(() -> isRelativeDrive = !isRelativeDrive));
+
+    // Driver Menu Button: Reset Algae Manipulator to the start position and stop the grabber motor
+    controller.button(8).onTrue(GamePieceCommands.resetAlgaeManipulator(algaeManipulator));
+
+    // Driver Y: Align to the processor while held
+    controller
+        .y()
+        .whileTrue(
+            DriveCommands.joystickApproach(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> FieldConstants.getNearestProcessorFace(drive.getPose())));
+
+    // Driver B: Align to the nearest source while held
+    controller
+        .b()
+        .whileTrue(
+            DriveCommands.joystickApproach(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> FieldConstants.getNearestCoralStation(drive.getPose())));
+
+    // Driver A: Align to the nearest reef face in the center for collecting algae
     controller
         .a()
         .whileTrue(
@@ -211,6 +237,9 @@ public class RobotContainer {
                 drive,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefFace(drive.getPose())));
+
+    // Driver X: Switch to an X pattern to lock the robot in place
+    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Lock to 0° when A button is held
     // controller
@@ -222,79 +251,47 @@ public class RobotContainer {
     //             () -> -controller.getLeftX(),
     //             () -> new Rotation2d()));
 
-    // Switch to X pattern when X button is pressed
-    controller.b().onTrue(Commands.runOnce(drive::stopWithX, drive));
-
-    // Reset gyro to 0° when Y button is pressed
-    controller
-        .y()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
-
-    // Manually extend the climber
-    // controller
-    //     .rightTrigger()
-    //     .whileTrue(
-    //         Commands.runEnd(() -> climber.manuallyExtend(), () -> climber.stopClimber(),
-    // climber));
-
-    // Manually retract the climber
-    // controller
-    //     .leftTrigger()
-    //     .whileTrue(
-    //         Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(),
-    // climber));
+    // Score algae in the processor
+    operatorConsole.button(8).onTrue(GamePieceCommands.scoreAlgae(elevator, algaeManipulator));
 
     // Place coral on L1 (right)
-    controller
-        .povRight()
+    operatorConsole
+        .button(4)
         .onTrue(GamePieceCommands.placeCoralRightCommand(elevator, coralManipulator));
 
     // Place coral on L1 (left)
-    controller
-        .povLeft()
-        .onTrue(GamePieceCommands.placeCoralLeftCommand(elevator, coralManipulator));
-
-    // Move the elevator to the L4 position
-    operatorConsole
-        .button(6)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
-
-    // Move the elevator to the L3 coral position
-    operatorConsole
-        .button(3)
-        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L3));
-
-    // Move the elevator to the L3 algae position
-    operatorConsole
-        .button(4)
-        .onTrue(
-            GamePieceCommands.collectAlgae(
-                drive, elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
-
-    // Move the elevator to the L2 coral position
     operatorConsole
         .button(5)
+        .onTrue(GamePieceCommands.placeCoralLeftCommand(elevator, coralManipulator));
+
+    // Place coral on L2
+    operatorConsole
+        .button(3)
         .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L2));
 
-    // Move the elevator to the L2 algae position
+    // Collect algae from L2
     operatorConsole
-        .button(1)
+        .button(6)
         .onTrue(
             GamePieceCommands.collectAlgae(
                 drive, elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
 
-    // Move the elevator to the algae processor scoring position
+    // Place coral on L3
     operatorConsole
-        .button(9)
+        .button(1)
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L3));
+
+    // Collect algae on L3
+    operatorConsole
+        .button(7)
         .onTrue(
-            Commands.runOnce(
-                () -> elevator.moveToPosition(ElevatorConstants.ALGAE_SCORE_POSITION)));
+            GamePieceCommands.collectAlgae(
+                drive, elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
+
+    // Place coral on L4
+    operatorConsole
+        .button(2)
+        .onTrue(GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
 
     // Manually raise the elevator without any PID control
     operatorConsole
@@ -309,7 +306,7 @@ public class RobotContainer {
 
     // Manually lower the elevator without any PID control
     operatorConsole
-        .button(11)
+        .button(13)
         .whileTrue(
             Commands.runEnd(
                 () -> elevator.manuallyLower(),
@@ -318,10 +315,23 @@ public class RobotContainer {
                 },
                 elevator));
 
-    // Manually lower the elevator without any PID control
+    // Manually score the coral
     operatorConsole
-        .button(2)
+        .button(10)
         .whileTrue(Commands.run(() -> coralManipulator.setSpeed(0.3), coralManipulator));
+
+    // Extend the climber
+    // operatorConsole.button(14).onTrue(new ExtendClimber(climber));
+
+    // Retract the climber
+    // operatorConsole.button(15).whileTrue(new RetractClimber(climber));
+
+    // Manually retract the climber
+    // controller
+    //     .leftTrigger()
+    //     .whileTrue(
+    //         Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(),
+    // climber));
   }
 
   public static boolean isCoralDetected() {

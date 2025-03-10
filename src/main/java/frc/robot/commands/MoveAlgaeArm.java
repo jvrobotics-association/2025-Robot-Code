@@ -20,6 +20,6 @@ public class MoveAlgaeArm extends Command {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(m_position - m_AlgaeManipulator.getPosition()) <= 0.15;
+    return Math.abs(m_position - m_AlgaeManipulator.getPosition()) <= 0.2;
   }
 }

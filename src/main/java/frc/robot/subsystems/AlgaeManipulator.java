@@ -65,7 +65,6 @@ public class AlgaeManipulator extends SubsystemBase {
     // Configure the grabber motor
     grabberMotorConfig
         .idleMode(IdleMode.kBrake)
-        .openLoopRampRate(25)
         .voltageCompensation(12)
         .smartCurrentLimit(1, 5, 200);
     grabberMotor.configure(

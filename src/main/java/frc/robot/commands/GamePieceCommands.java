@@ -54,16 +54,35 @@ public class GamePieceCommands {
     return Commands.sequence(
         new MoveElevator(elevator, elevatorHeight),
         new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.REEF_GRAB),
-        Commands.waitSeconds(0.15),
+        Commands.waitSeconds(0.08),
         Commands.deadline(
             new IntakeAlgae(algaeManipulator),
             new MoveElevator(elevator, elevatorHeight.height + 0.15)),
         new MoveElevator(elevator, elevatorHeight.height + 0.4),
         Commands.deadline(
             Commands.waitSeconds(0.4),
-            DriveCommands.joystickDrive(drive, () -> true, () -> -0.8, () -> 0, () -> 0)),
+            DriveCommands.joystickDrive(drive, () -> true, () -> -0.65, () -> 0, () -> 0)),
         Commands.runOnce(() -> drive.stop(), drive),
         new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.START_POSITION),
         new MoveElevator(elevator, ElevatorHeight.L1));
+  }
+
+  public static Command scoreAlgae(Elevator elevator, AlgaeManipulator algaeManipulator) {
+    return Commands.sequence(
+        new MoveElevator(elevator, ElevatorHeight.ALGAE_SCORE),
+        Commands.deadline(
+            Commands.waitSeconds(0.5),
+            Commands.runEnd(
+                () ->
+                    algaeManipulator.setGrabberSpeed(
+                        AlgaeManiplulatorConstants.GRABBER_SCORE_SPEED),
+                () -> algaeManipulator.stopGrabber(),
+                algaeManipulator)));
+  }
+
+  public static Command resetAlgaeManipulator(AlgaeManipulator algaeManipulator) {
+    return Commands.sequence(
+        new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.START_POSITION),
+        Commands.runOnce(() -> algaeManipulator.stopGrabber(), algaeManipulator));
   }
 }

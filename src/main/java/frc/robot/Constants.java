@@ -64,6 +64,7 @@ public final class Constants {
     public static final double MIN_POSITION = 0.12;
     public static final double MAX_POSITION = 12.9;
     public static final double GRABBER_INTAKE_SPEED = 0.44;
+    public static final double GRABBER_SCORE_SPEED = -1;
 
     // Configure the setpoints for the various positions the algae arm should move to
     public static final double START_POSITION = 0.19;
@@ -88,7 +89,8 @@ public final class Constants {
       L3(1.815),
       L4(4.190),
       L2_ALGAE(1.3),
-      L3_ALGAE(2.73);
+      L3_ALGAE(2.73),
+      ALGAE_SCORE(0.192);
 
       ElevatorHeight(double height) {
         this.height = height;
@@ -103,8 +105,19 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int CLIMBER_MOTOR = 9;
+    public static final int CHUTE_SERVO = 0;
+    public static final int RATCHET_SERVO = 1;
+    public static final int ROTATION_MOTOR = 9;
+    public static final int WINCH_MOTOR = 10;
 
-    public static final double CLIMBER_MANUAL_SPEED = 0.25;
+    public static final double ROTATION_MIN = 0.3;
+    public static final double ROTATION_MAX = 1.44;
+
+    public static final double RETRACT_SPEED = 0.5;
+
+    public static final double CHUTE_SERVO_OPEN = 0;
+    public static final double CHUTE_SERVO_CLOSED = 0;
+    public static final double RATCHET_SERVO_OPEN = 0;
+    public static final double RATCHET_SERVO_CLOSED = 0;
   }
 }
