@@ -189,7 +189,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
+                () -> elevator.getPosition() = true,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
 
@@ -199,7 +199,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
+                () -> elevator.getPosition() = true,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
 
@@ -252,7 +252,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
+                () -> elevator.getPosition() = true,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefFace(drive.getPose())));
 
