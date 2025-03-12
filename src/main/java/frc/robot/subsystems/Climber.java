@@ -126,6 +126,8 @@ public class Climber extends SubsystemBase {
     }
 
     rotationMotor.setPosition(0);
+    chuteServo.setPosition(0);
+    ratchetServo.setPosition(0);
   }
 
   @AutoLogOutput(key = "Climber/Position")
@@ -166,7 +168,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void extendWinch() {
-    winchMotor.setControl(m_manualRequest.withOutput(-0.35));
+    winchMotor.setControl(m_manualRequest.withOutput(-0.3));
   }
 
   public void retractClimber(double speed) {

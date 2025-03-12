@@ -25,6 +25,11 @@ public class RetractClimber extends Command {
   }
 
   @Override
+  public boolean isFinished() {
+    return m_climber.getClimberPidPosition() <= ClimberConstants.ROTATION_MIN;
+  }
+
+  @Override
   public void end(boolean interrupted) {
     m_climber.stopWinchMotor();
     m_climber.engageRatchet();

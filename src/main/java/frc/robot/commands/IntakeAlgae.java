@@ -2,37 +2,36 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlgaeManiplulatorConstants;
-import frc.robot.subsystems.AlgaeManipulator;
+import frc.robot.subsystems.AlgaeGrabber;
 
 public class IntakeAlgae extends Command {
-  public final AlgaeManipulator m_algaeManipulator;
+  public final AlgaeGrabber m_AlgaeGrabber;
   private boolean hasReachedSpeed = false;
 
-  public IntakeAlgae(AlgaeManipulator algaeManipulator) {
-    m_algaeManipulator = algaeManipulator;
-    addRequirements(m_algaeManipulator);
+  public IntakeAlgae(AlgaeGrabber algaeGrabber) {
+    m_AlgaeGrabber = algaeGrabber;
+    addRequirements(m_AlgaeGrabber);
   }
 
   @Override
   public void initialize() {
-    m_algaeManipulator.setGrabberSpeed(AlgaeManiplulatorConstants.GRABBER_INTAKE_SPEED);
+    m_AlgaeGrabber.setGrabberSpeed(AlgaeManiplulatorConstants.GRABBER_INTAKE_SPEED);
   }
 
   @Override
   public void execute() {
-    if (Math.abs(m_algaeManipulator.getGrabberVelocity()) >= 500) {
+    if (Math.abs(m_AlgaeGrabber.getGrabberVelocity()) >= 500) {
       hasReachedSpeed = true;
     }
   }
 
   @Override
   public boolean isFinished() {
-    return hasReachedSpeed && (Math.abs(m_algaeManipulator.getGrabberVelocity()) < 200);
+    return hasReachedSpeed && (Math.abs(m_AlgaeGrabber.getGrabberVelocity()) < 200);
   }
 
   @Override
   public void end(boolean interrupted) {
-    // m_algaeManipulator.stopGrabber();
     hasReachedSpeed = false;
   }
 }

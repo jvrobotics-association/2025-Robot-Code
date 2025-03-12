@@ -28,9 +28,13 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.GamePieceCommands;
+import frc.robot.commands.RetractClimber;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.AlgaeManipulator;
+import frc.robot.subsystems.AlgaeArm;
+import frc.robot.subsystems.AlgaeGrabber;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drive;
@@ -58,8 +62,9 @@ public class RobotContainer {
   private final Vision vision;
   private final Elevator elevator;
   private static CoralManipulator coralManipulator;
-  private final AlgaeManipulator algaeManipulator;
-  // private final Climber climber;
+  private final AlgaeArm algaeManipulator;
+  private final AlgaeGrabber algaeGrabber;
+  private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -134,8 +139,9 @@ public class RobotContainer {
     // Set up all other subsystems
     elevator = new Elevator();
     coralManipulator = new CoralManipulator();
-    algaeManipulator = new AlgaeManipulator();
-    // climber = new Climber();
+    algaeManipulator = new AlgaeArm();
+    algaeGrabber = new AlgaeGrabber();
+    climber = new Climber();
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -212,7 +218,9 @@ public class RobotContainer {
     controller.back().toggleOnTrue(new InstantCommand(() -> isRelativeDrive = !isRelativeDrive));
 
     // Driver Menu Button: Reset Algae Manipulator to the start position and stop the grabber motor
-    controller.button(8).onTrue(GamePieceCommands.resetAlgaeManipulator(algaeManipulator));
+    controller
+        .button(8)
+        .onTrue(GamePieceCommands.resetAlgaeManipulator(algaeManipulator, algaeGrabber));
 
     // Driver Y: Align to the processor while held
     controller
@@ -262,7 +270,9 @@ public class RobotContainer {
     //             () -> new Rotation2d()));
 
     // Score algae in the processor
-    operatorConsole.button(8).onTrue(GamePieceCommands.scoreAlgae(elevator, algaeManipulator));
+    operatorConsole
+        .button(8)
+        .onTrue(GamePieceCommands.scoreAlgae(elevator, algaeManipulator, algaeGrabber));
 
     // Place coral on L1 (right)
     operatorConsole
@@ -284,7 +294,7 @@ public class RobotContainer {
         .button(6)
         .onTrue(
             GamePieceCommands.collectAlgae(
-                drive, elevator, algaeManipulator, ElevatorHeight.L2_ALGAE));
+                drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L2_ALGAE));
 
     // Place coral on L3
     operatorConsole
@@ -296,7 +306,7 @@ public class RobotContainer {
         .button(7)
         .onTrue(
             GamePieceCommands.collectAlgae(
-                drive, elevator, algaeManipulator, ElevatorHeight.L3_ALGAE));
+                drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L3_ALGAE));
 
     // Place coral on L4
     operatorConsole
@@ -331,17 +341,10 @@ public class RobotContainer {
         .whileTrue(Commands.run(() -> coralManipulator.setSpeed(0.3), coralManipulator));
 
     // Extend the climber
-    // operatorConsole.button(14).onTrue(new ExtendClimber(climber));
+    operatorConsole.button(14).onTrue(new ExtendClimber(climber));
 
     // Retract the climber
-    // operatorConsole.button(15).whileTrue(new RetractClimber(climber));
-
-    // Manually retract the climber
-    // controller
-    //     .leftTrigger()
-    //     .whileTrue(
-    //         Commands.runEnd(() -> climber.manuallyRetract(), () -> climber.stopClimber(),
-    // climber));
+    operatorConsole.button(15).whileTrue(new RetractClimber(climber));
   }
 
   public static boolean isCoralDetected() {

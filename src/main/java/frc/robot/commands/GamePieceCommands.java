@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.AlgaeManiplulatorConstants;
 import frc.robot.Constants.CoralManipulatorConstants;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
-import frc.robot.subsystems.AlgaeManipulator;
+import frc.robot.subsystems.AlgaeArm;
+import frc.robot.subsystems.AlgaeGrabber;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drive;
@@ -49,41 +50,51 @@ public class GamePieceCommands {
   public static Command collectAlgae(
       Drive drive,
       Elevator elevator,
-      AlgaeManipulator algaeManipulator,
+      AlgaeArm algaeManipulator,
+      AlgaeGrabber algaeGrabber,
       ElevatorHeight elevatorHeight) {
     return Commands.sequence(
         new MoveElevator(elevator, elevatorHeight),
-        new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.REEF_GRAB),
-        Commands.waitSeconds(0.08),
         Commands.deadline(
-            new IntakeAlgae(algaeManipulator),
-            new MoveElevator(elevator, elevatorHeight.height + 0.15)),
-        new MoveElevator(elevator, elevatorHeight.height + 0.4),
+            new IntakeAlgae(algaeGrabber),
+            Commands.runOnce(
+                () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.REEF_GRAB),
+                algaeManipulator)),
+        new MoveElevator(elevator, elevatorHeight.height + 0.25),
         Commands.deadline(
-            Commands.waitSeconds(0.4),
+            Commands.waitSeconds(0.3),
             DriveCommands.joystickDrive(
                 drive, () -> true, () -> false, () -> -0.65, () -> 0, () -> 0)),
-        Commands.runOnce(() -> drive.stop(), drive),
-        new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.START_POSITION),
+        Commands.deadline(Commands.waitSeconds(0.02), Commands.runOnce(() -> drive.stop(), drive)),
+        Commands.deadline(
+            Commands.waitSeconds(0.02),
+            Commands.runOnce(
+                () ->
+                    algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
+                algaeManipulator)),
         new MoveElevator(elevator, ElevatorHeight.L1));
   }
 
-  public static Command scoreAlgae(Elevator elevator, AlgaeManipulator algaeManipulator) {
+  public static Command scoreAlgae(
+      Elevator elevator, AlgaeArm algaeManipulator, AlgaeGrabber algaeGrabber) {
     return Commands.sequence(
         new MoveElevator(elevator, ElevatorHeight.ALGAE_SCORE),
         Commands.deadline(
             Commands.waitSeconds(0.5),
             Commands.runEnd(
-                () ->
-                    algaeManipulator.setGrabberSpeed(
-                        AlgaeManiplulatorConstants.GRABBER_SCORE_SPEED),
-                () -> algaeManipulator.stopGrabber(),
-                algaeManipulator)));
+                () -> algaeGrabber.setGrabberSpeed(AlgaeManiplulatorConstants.GRABBER_SCORE_SPEED),
+                () -> algaeGrabber.stopGrabber(),
+                algaeManipulator)),
+        new MoveElevator(elevator, ElevatorHeight.L1));
   }
 
-  public static Command resetAlgaeManipulator(AlgaeManipulator algaeManipulator) {
-    return Commands.sequence(
-        new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.START_POSITION),
-        Commands.runOnce(() -> algaeManipulator.stopGrabber(), algaeManipulator));
+  public static Command resetAlgaeManipulator(
+      AlgaeArm algaeManipulator, AlgaeGrabber algaeGrabber) {
+    return Commands.deadline(
+        Commands.waitSeconds(0.02),
+        Commands.runOnce(
+            () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
+            algaeManipulator),
+        Commands.runOnce(() -> algaeGrabber.stopGrabber(), algaeGrabber));
   }
 }
