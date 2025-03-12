@@ -172,6 +172,7 @@ public class RobotContainer {
         DriveCommands.joystickDrive(
             drive,
             () -> isRelativeDrive,
+            () -> elevator.getPosition() >= ElevatorHeight.L2.height,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
@@ -182,6 +183,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
 
@@ -191,6 +193,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
 
@@ -217,6 +220,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
                 () -> -controller.getLeftY(),
                 () ->
                     FieldConstants.getNearestProcessorFace(
@@ -228,6 +232,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
                 () -> -controller.getLeftY(),
                 () ->
                     FieldConstants.getNearestCoralStation(
@@ -239,6 +244,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefFace(drive.getPose())));
 

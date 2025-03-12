@@ -61,7 +61,8 @@ public class GamePieceCommands {
         new MoveElevator(elevator, elevatorHeight.height + 0.4),
         Commands.deadline(
             Commands.waitSeconds(0.4),
-            DriveCommands.joystickDrive(drive, () -> true, () -> -0.65, () -> 0, () -> 0)),
+            DriveCommands.joystickDrive(
+                drive, () -> true, () -> false, () -> -0.65, () -> 0, () -> 0)),
         Commands.runOnce(() -> drive.stop(), drive),
         new MoveAlgaeArm(algaeManipulator, AlgaeManiplulatorConstants.START_POSITION),
         new MoveElevator(elevator, ElevatorHeight.L1));

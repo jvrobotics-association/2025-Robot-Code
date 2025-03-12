@@ -51,13 +51,18 @@ public class DriveCommands {
 
   private DriveCommands() {}
 
-  private static Translation2d getLinearVelocityFromJoysticks(double x, double y) {
+  private static Translation2d getLinearVelocityFromJoysticks(
+      double x, double y, boolean elevatorIsUp) {
     // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DEADBAND);
     Rotation2d linearDirection = new Rotation2d(Math.atan2(y, x));
 
     // Square magnitude for more precise control
     linearMagnitude = linearMagnitude * linearMagnitude;
+
+    if (elevatorIsUp) {
+      linearMagnitude = linearMagnitude / 4;
+    }
 
     // Return new linear velocity
     return new Pose2d(new Translation2d(), linearDirection)
@@ -71,6 +76,7 @@ public class DriveCommands {
   public static Command joystickDrive(
       Drive drive,
       BooleanSupplier relativeDriveSupplier,
+      BooleanSupplier elevatorIsUp,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
       DoubleSupplier omegaSupplier) {
@@ -78,7 +84,8 @@ public class DriveCommands {
         () -> {
           // Get linear velocity
           Translation2d linearVelocity =
-              getLinearVelocityFromJoysticks(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+              getLinearVelocityFromJoysticks(
+                  xSupplier.getAsDouble(), ySupplier.getAsDouble(), elevatorIsUp.getAsBoolean());
 
           // Apply rotation deadband
           double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
@@ -116,6 +123,7 @@ public class DriveCommands {
    */
   public static Command joystickDriveAtAngle(
       Drive drive,
+      BooleanSupplier elevatorIsUp,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
       Supplier<Rotation2d> rotationSupplier) {
@@ -134,7 +142,10 @@ public class DriveCommands {
             () -> {
               // Get linear velocity
               Translation2d linearVelocity =
-                  getLinearVelocityFromJoysticks(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+                  getLinearVelocityFromJoysticks(
+                      xSupplier.getAsDouble(),
+                      ySupplier.getAsDouble(),
+                      elevatorIsUp.getAsBoolean());
 
               // Calculate angular speed
               double omega =
@@ -170,7 +181,10 @@ public class DriveCommands {
    * rotation facing away from the target
    */
   public static Command joystickApproach(
-      Drive drive, DoubleSupplier ySupplier, Supplier<Pose2d> approachSupplier) {
+      Drive drive,
+      BooleanSupplier elevatorIsUp,
+      DoubleSupplier ySupplier,
+      Supplier<Pose2d> approachSupplier) {
 
     // Create PID controller
     ProfiledPIDController angleController =
@@ -214,7 +228,8 @@ public class DriveCommands {
 
               // Calculate total linear velocity
               Translation2d linearVelocity =
-                  getLinearVelocityFromJoysticks(0, ySupplier.getAsDouble())
+                  getLinearVelocityFromJoysticks(
+                          0, ySupplier.getAsDouble(), elevatorIsUp.getAsBoolean())
                       .rotateBy(approachSupplier.get().getRotation())
                       .rotateBy(Rotation2d.kCCW_90deg)
                       .plus(offsetVector);
