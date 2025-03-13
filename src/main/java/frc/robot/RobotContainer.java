@@ -233,9 +233,7 @@ public class RobotContainer {
                 drive,
                 () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
-                () ->
-                    FieldConstants.getNearestProcessorFace(
-                        drive.getPose().rotateBy(Rotation2d.k180deg))));
+                () -> FieldConstants.getNearestProcessorFace(drive.getPose())));
 
     // Driver B: Align to the nearest source while held
     controller
@@ -245,9 +243,7 @@ public class RobotContainer {
                 drive,
                 () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
-                () ->
-                    FieldConstants.getNearestCoralStation(
-                        drive.getPose().rotateBy(Rotation2d.k180deg))));
+                () -> FieldConstants.getNearestCoralStation(drive.getPose())));
 
     // Driver A: Align to the nearest reef face in the center for collecting algae
     controller
