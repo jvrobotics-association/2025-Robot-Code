@@ -28,13 +28,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
 import frc.robot.FieldConstants.ReefSide;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.GamePieceCommands;
-import frc.robot.commands.RetractClimber;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeGrabber;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drive;
@@ -67,7 +64,7 @@ public class RobotContainer {
   private static CoralManipulator coralManipulator;
   private final AlgaeArm algaeManipulator;
   private final AlgaeGrabber algaeGrabber;
-  private final Climber climber;
+  // private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -144,10 +141,12 @@ public class RobotContainer {
     coralManipulator = new CoralManipulator();
     algaeManipulator = new AlgaeArm();
     algaeGrabber = new AlgaeGrabber();
-    climber = new Climber();
+    // climber = new Climber();
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
+    autoChooser.addOption("Leave Auto Zone", DriveCommands.leaveAutoZome(drive));
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -340,10 +339,10 @@ public class RobotContainer {
         .whileTrue(Commands.run(() -> coralManipulator.setSpeed(0.3), coralManipulator));
 
     // Extend the climber
-    operatorConsole.button(14).onTrue(new ExtendClimber(climber));
+    // operatorConsole.button(14).onTrue(new ExtendClimber(climber));
 
     // Retract the climber
-    operatorConsole.button(15).whileTrue(new RetractClimber(climber));
+    // operatorConsole.button(15).whileTrue(new RetractClimber(climber));
   }
 
   public static boolean isCoralDetected() {
