@@ -63,8 +63,7 @@ public class GamePieceCommands {
         new MoveElevator(elevator, elevatorHeight.height + 0.25),
         Commands.deadline(
             Commands.waitSeconds(0.3),
-            DriveCommands.joystickDrive(
-                drive, () -> true, () -> false, () -> -0.65, () -> 0, () -> 0)),
+            DriveCommands.joystickDrive(drive, () -> true, () -> 1, () -> -0.65, () -> 0, () -> 0)),
         Commands.deadline(Commands.waitSeconds(0.02), Commands.runOnce(() -> drive.stop(), drive)),
         Commands.deadline(
             Commands.waitSeconds(0.02),

@@ -59,7 +59,10 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+
+  @SuppressWarnings("unused")
   private final Vision vision;
+
   private final Elevator elevator;
   private static CoralManipulator coralManipulator;
   private final AlgaeArm algaeManipulator;
@@ -178,7 +181,7 @@ public class RobotContainer {
         DriveCommands.joystickDrive(
             drive,
             () -> isRelativeDrive,
-            () -> elevator.getPosition() >= ElevatorHeight.L2.height,
+            () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 1,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
@@ -189,7 +192,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() = true,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
 
@@ -199,7 +202,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() = true,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
 
@@ -228,7 +231,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
                 () ->
                     FieldConstants.getNearestProcessorFace(
@@ -240,7 +243,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
                 () ->
                     FieldConstants.getNearestCoralStation(
@@ -252,7 +255,7 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickApproach(
                 drive,
-                () -> elevator.getPosition() = true,
+                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
                 () -> -controller.getLeftY(),
                 () -> FieldConstants.getNearestReefFace(drive.getPose())));
 
