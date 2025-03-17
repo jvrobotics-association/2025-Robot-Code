@@ -42,7 +42,7 @@ public final class Constants {
 
   public static class DriveConstants {
     // Absolute maximum speed is 4.292
-    public static final double MAX_SPEED = 3;
+    public static final double MAX_SPEED = 4;
   }
 
   public static class CoralManipulatorConstants {
@@ -79,7 +79,8 @@ public final class Constants {
     // Set the absolute limits for the elevator motion
     public static final double MIN_HEIGHT = 0.03;
     public static final double MAX_HEIGHT = 4.33;
-    public static final double MANUAL_SPEED = 0.35;
+    public static final double MANUAL_SPEED = 0.50;
+    public static final double AUTO_SPEED = 10;
 
     // Configure the setpoints for the various positions the elevator should move to for coral game
     // pieces

@@ -111,7 +111,7 @@ public class Elevator extends SubsystemBase {
     motorConfig.CurrentLimits.withStatorCurrentLimit(Amps.of(50));
 
     // Configure target cruise velosity (rotations per second)
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = ElevatorConstants.AUTO_SPEED;
 
     // Configure max acceleration (rotations per second)
     // If this is set to the cruise velocity, it will take 1 second to get to that velocity. Adjust
