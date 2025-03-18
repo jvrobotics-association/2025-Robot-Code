@@ -21,7 +21,7 @@ public class RetractClimber extends Command {
 
   @Override
   public void execute() {
-    m_climber.retractClimber(ClimberConstants.RETRACT_SPEED);
+    m_climber.retractClimber();
   }
 
   @Override

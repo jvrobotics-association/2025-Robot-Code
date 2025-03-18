@@ -116,10 +116,10 @@ public class Elevator extends SubsystemBase {
     // Configure max acceleration (rotations per second)
     // If this is set to the cruise velocity, it will take 1 second to get to that velocity. Adjust
     // accordingly.
-    motorConfig.MotionMagic.MotionMagicAcceleration = 10;
+    motorConfig.MotionMagic.MotionMagicAcceleration = 400;
 
     // Configure the maximum motion jerk (the extreme bursts) (rotations per second)
-    motorConfig.MotionMagic.MotionMagicJerk = 25;
+    motorConfig.MotionMagic.MotionMagicJerk = 1000;
 
     // Retry config apply up to 5 times, report if failure
     StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;

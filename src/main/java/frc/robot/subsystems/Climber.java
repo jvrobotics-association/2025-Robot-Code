@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Amps;
-
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -105,15 +103,6 @@ public class Climber extends SubsystemBase {
         .withNeutralMode(NeutralModeValue.Coast)
         .withInverted(InvertedValue.Clockwise_Positive);
 
-    // Configure the current limits set when moving the climber
-    winchMotorConfig
-        .TorqueCurrent
-        .withPeakForwardTorqueCurrent(Amps.of(10)) // Maximum amps when extending the climber
-        .withPeakReverseTorqueCurrent(Amps.of(40)); // Maxiumum amps when retracting the climber
-
-    // Absolute limit of the amps the motor can draw to help prevent brownout
-    winchMotorConfig.CurrentLimits.withStatorCurrentLimit(Amps.of(80));
-
     // Retry config apply up to 5 times, report if failure
     StatusCode winchMotorStatus = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
@@ -168,12 +157,12 @@ public class Climber extends SubsystemBase {
   }
 
   public void extendWinch() {
-    winchMotor.setControl(m_manualRequest.withOutput(-0.3));
+    winchMotor.setControl(m_manualRequest.withOutput(ClimberConstants.EXTEND_SPEED));
   }
 
-  public void retractClimber(double speed) {
+  public void retractClimber() {
     rotationMotor.stopMotor();
-    winchMotor.setControl(m_manualRequest.withOutput(speed));
+    winchMotor.setControl(m_manualRequest.withOutput(ClimberConstants.RETRACT_SPEED));
   }
 
   public void stopRotationMotor() {

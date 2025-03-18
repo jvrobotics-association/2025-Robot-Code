@@ -80,7 +80,7 @@ public final class Constants {
     public static final double MIN_HEIGHT = 0.03;
     public static final double MAX_HEIGHT = 4.33;
     public static final double MANUAL_SPEED = 0.50;
-    public static final double AUTO_SPEED = 10;
+    public static final double AUTO_SPEED = 50;
 
     // Configure the setpoints for the various positions the elevator should move to for coral game
     // pieces
@@ -115,6 +115,7 @@ public final class Constants {
     public static final double ROTATION_MAX = 1.315;
 
     public static final double RETRACT_SPEED = 0.5;
+    public static final double EXTEND_SPEED = -0.35;
 
     public static final double CHUTE_SERVO_OPEN = 0;
     public static final double CHUTE_SERVO_CLOSED = 0;
