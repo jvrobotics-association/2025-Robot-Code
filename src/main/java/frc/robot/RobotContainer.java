@@ -258,6 +258,9 @@ public class RobotContainer {
 
     // Driver X: Switch to an X pattern to lock the robot in place
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    
+    // Reset chute servo to closed
+    controller.povRight().onTrue(Commands.run(() -> climber.engageChute(), climber));
 
     // Lock to 0° when A button is held
     // controller
@@ -346,8 +349,8 @@ public class RobotContainer {
     // Retract the climber
     operatorConsole.button(15).onTrue(ClimberCommands.retractClimber(climber));
 
-    controller.povLeft().onTrue(Commands.run(() -> climber.engageRatchet(), climber));
-    controller.povRight().onTrue(Commands.run(() -> climber.releaseRatchet(), climber));
+    // DO A FLIP :) WARNING: WILL DO AS MANY BACKFLIPS AS BUTTON PRESSES
+    // controller.povDown().onTrue(DriveCommands.backflip());
   }
 
   public static boolean isCoralDetected() {

@@ -133,6 +133,10 @@ public class Climber extends SubsystemBase {
     chuteServo.setPosition(ClimberConstants.CHUTE_SERVO_OPEN);
   }
 
+  public void engageChute() {
+    chuteServo.setPosition(ClimberConstants.CHUTE_SERVO_CLOSED);
+  }
+
   public void releaseRatchet() {
     ratchetServo.setPosition(ClimberConstants.RATCHET_SERVO_OPEN);
   }
