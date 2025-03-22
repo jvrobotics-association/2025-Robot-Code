@@ -418,22 +418,26 @@ public class DriveCommands {
             DriveCommands.joystickDrive(drive, () -> true, () -> 1, () -> 0.75, () -> 0, () -> 0)),
         Commands.waitSeconds(2.25),
         Commands.runOnce(() -> drive.stop(), drive),
-        DriveCommands.joystickApproach(
-            drive,
-            () -> 1,
-            () -> 0,
-            () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)),
+        Commands.deadline(
+          Commands.waitSeconds(3),
+          DriveCommands.joystickApproach(
+              drive,
+              () -> 1,
+              () -> 0,
+              () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))),
         GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
   }
 
   public static Command placeCoralBackMiddle(
       Drive drive, Elevator elevator, CoralManipulator coralManipulator) {
     return Commands.sequence(
+      Commands.deadline(
+        Commands.waitSeconds(3),
         DriveCommands.joystickApproach(
             drive,
             () -> 1,
             () -> 0,
-            () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)),
+            () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))),
         GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
   }
 
@@ -445,11 +449,13 @@ public class DriveCommands {
             DriveCommands.joystickDrive(drive, () -> true, () -> 1, () -> 0.75, () -> 0, () -> 0)),
         Commands.waitSeconds(2.25),
         Commands.runOnce(() -> drive.stop(), drive),
-        DriveCommands.joystickApproach(
-            drive,
-            () -> 1,
-            () -> 0,
-            () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)),
+        Commands.deadline(
+          Commands.waitSeconds(3),
+          DriveCommands.joystickApproach(
+              drive,
+              () -> 1,
+              () -> 0,
+              () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT))),
         GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
   }
 }
