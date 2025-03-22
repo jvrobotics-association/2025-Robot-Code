@@ -27,7 +27,7 @@ public class GamePieceCommands {
         Commands.runOnce(() -> elevator.stopElevator(), elevator));
   }
 
-  public static Command placeCoralLeftCommand(
+  public static Command placeCoralL1LeftCommand(
       Elevator elevator, CoralManipulator coralManipulator) {
     return Commands.deadline(
         Commands.waitSeconds(0.4),
@@ -37,7 +37,7 @@ public class GamePieceCommands {
             coralManipulator));
   }
 
-  public static Command placeCoralRightCommand(
+  public static Command placeCoralL1RightCommand(
       Elevator elevator, CoralManipulator coralManipulator) {
     return Commands.deadline(
         Commands.waitSeconds(0.4),

@@ -258,7 +258,7 @@ public class RobotContainer {
 
     // Driver X: Switch to an X pattern to lock the robot in place
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-    
+
     // Reset chute servo to closed
     controller.povRight().onTrue(Commands.run(() -> climber.engageChute(), climber));
 
@@ -280,12 +280,12 @@ public class RobotContainer {
     // Place coral on L1 (right)
     operatorConsole
         .button(4)
-        .onTrue(GamePieceCommands.placeCoralRightCommand(elevator, coralManipulator));
+        .onTrue(GamePieceCommands.placeCoralL1RightCommand(elevator, coralManipulator));
 
     // Place coral on L1 (left)
     operatorConsole
         .button(5)
-        .onTrue(GamePieceCommands.placeCoralLeftCommand(elevator, coralManipulator));
+        .onTrue(GamePieceCommands.placeCoralL1LeftCommand(elevator, coralManipulator));
 
     // Place coral on L2
     operatorConsole
