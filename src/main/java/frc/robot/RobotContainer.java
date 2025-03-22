@@ -27,10 +27,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
 import frc.robot.FieldConstants.ReefSide;
+import frc.robot.commands.ClimberCommands;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.GamePieceCommands;
-import frc.robot.commands.RetractClimber;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeGrabber;
@@ -342,10 +341,13 @@ public class RobotContainer {
         .whileTrue(Commands.run(() -> coralManipulator.setSpeed(0.3), coralManipulator));
 
     // Extend the climber
-    operatorConsole.button(14).onTrue(new ExtendClimber(climber));
+    operatorConsole.button(14).onTrue(ClimberCommands.extendClimber(climber));
 
     // Retract the climber
-    operatorConsole.button(15).whileTrue(new RetractClimber(climber));
+    operatorConsole.button(15).onTrue(ClimberCommands.retractClimber(climber));
+
+    controller.povLeft().onTrue(Commands.run(() -> climber.engageRatchet(), climber));
+    controller.povRight().onTrue(Commands.run(() -> climber.releaseRatchet(), climber));
   }
 
   public static boolean isCoralDetected() {

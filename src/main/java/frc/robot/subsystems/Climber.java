@@ -116,7 +116,7 @@ public class Climber extends SubsystemBase {
 
     rotationMotor.setPosition(0);
     chuteServo.setPosition(0);
-    ratchetServo.setPosition(0);
+    ratchetServo.setPosition(ClimberConstants.RATCHET_SERVO_CLOSED);
   }
 
   @AutoLogOutput(key = "Climber/Position")
@@ -127,16 +127,6 @@ public class Climber extends SubsystemBase {
   @AutoLogOutput(key = "Climber/PID Position")
   public double getClimberPidPosition() {
     return rotationRequest.getPositionMeasure().magnitude();
-  }
-
-  @AutoLogOutput(key = "Climber/Chute Servo Position")
-  public double getChuteServoPosition() {
-    return chuteServo.getPosition();
-  }
-
-  @AutoLogOutput(key = "Climber/Ratchet Servo Position")
-  public double getRatchetServoPosition() {
-    return ratchetServo.getPosition();
   }
 
   public void releaseChute() {

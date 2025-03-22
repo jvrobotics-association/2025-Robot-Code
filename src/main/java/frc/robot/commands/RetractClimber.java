@@ -4,18 +4,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.subsystems.Climber;
 
-public class RetractClimber extends Command {
+class RetractClimber extends Command {
   private final Climber m_climber;
 
-  public RetractClimber(Climber climber) {
+  RetractClimber(Climber climber) {
     m_climber = climber;
     addRequirements(m_climber);
   }
 
   @Override
   public void initialize() {
-    m_climber.releaseRatchet();
-    m_climber.releaseChute();
     m_climber.stopRotationMotor();
   }
 
@@ -26,7 +24,7 @@ public class RetractClimber extends Command {
 
   @Override
   public boolean isFinished() {
-    return m_climber.getClimberPidPosition() <= ClimberConstants.ROTATION_MIN;
+    return m_climber.getClimberPosition() <= ClimberConstants.ROTATION_MIN;
   }
 
   @Override

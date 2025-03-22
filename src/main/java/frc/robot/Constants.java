@@ -111,15 +111,15 @@ public final class Constants {
     public static final int ROTATION_MOTOR = 9;
     public static final int WINCH_MOTOR = 10;
 
-    public static final double ROTATION_MIN = 0.3;
+    public static final double ROTATION_MIN = 0.15;
     public static final double ROTATION_MAX = 1.315;
 
     public static final double RETRACT_SPEED = 0.5;
-    public static final double EXTEND_SPEED = -0.35;
+    public static final double EXTEND_SPEED = -0.50;
 
     public static final double CHUTE_SERVO_OPEN = 0;
     public static final double CHUTE_SERVO_CLOSED = 0;
-    public static final double RATCHET_SERVO_OPEN = 0;
+    public static final double RATCHET_SERVO_OPEN = 0.045;
     public static final double RATCHET_SERVO_CLOSED = 0;
   }
 }
