@@ -401,6 +401,30 @@ public class DriveCommands {
     double gyroDelta = 0.0;
   }
 
+
+
+  /**
+   *  My hope is that we can pass GetDistance into the CommandSequence AFTER the bot centers on a tag,
+   *  but BEFORE the elevtor drops the coral
+   **/
+  private static float getDistance(Drive drive, ReefSide side, float speed) {
+    // Calculates the distace from the robot to the apriltag
+    // Takes in Drive drive, called drive.getPost(), takes in approach.
+    // reference lines 209-211, to the currenttranslation.GetDistance(approachTranslation)
+        //Translation2d currentTranslation = drive.getPose().getTranslation();
+        //Translation2d approachTranslation = approachSupplier.get().getTranslation();
+        //double distanceToApproach = currentTranslation.getDistance(approachTranslation);
+    // Drive drive should be current translation, need approach translation
+    // Does "FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))" return distance?
+    Translation2d nearestAprilTag = (FieldConstants.getNearestReefBranch(drive.getPose(), side)).getTranslation();
+    Translation2d botLocation = drive.getPose().getTranslation();
+    var distanceToTag = (float)botLocation.getDistance(nearestAprilTag);
+
+    // If I understand this correctly, this should return seconds. 
+    // Set the robot to drive, wait this return value, then stop. Should be at AprilTag
+    return distanceToTag / speed; //return seconds
+  }
+
   public static Command leaveAutoZome(Drive drive) {
     return Commands.sequence(
         Commands.deadline(
@@ -419,25 +443,25 @@ public class DriveCommands {
         Commands.waitSeconds(2.25),
         Commands.runOnce(() -> drive.stop(), drive),
         Commands.deadline(
-          Commands.waitSeconds(3),
-          DriveCommands.joystickApproach(
-              drive,
-              () -> 1,
-              () -> 0,
-              () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))),
+            Commands.waitSeconds(3),
+            DriveCommands.joystickApproach(
+                drive,
+                () -> 1,
+                () -> 0,
+                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))),
         GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
   }
 
   public static Command placeCoralBackMiddle(
       Drive drive, Elevator elevator, CoralManipulator coralManipulator) {
     return Commands.sequence(
-      Commands.deadline(
-        Commands.waitSeconds(3),
-        DriveCommands.joystickApproach(
-            drive,
-            () -> 1,
-            () -> 0,
-            () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))),
+        Commands.deadline(
+            Commands.waitSeconds(3),
+            DriveCommands.joystickApproach(
+                drive,
+                () -> 1,
+                () -> 0,
+                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT))),
         GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
   }
 
@@ -450,12 +474,16 @@ public class DriveCommands {
         Commands.waitSeconds(2.25),
         Commands.runOnce(() -> drive.stop(), drive),
         Commands.deadline(
-          Commands.waitSeconds(3),
-          DriveCommands.joystickApproach(
-              drive,
-              () -> 1,
-              () -> 0,
-              () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT))),
+            Commands.waitSeconds(getDistance(drive, ReefSide.LEFT, 1)),
+            DriveCommands.joystickApproach(
+                drive,
+                () -> 1,
+                () -> 1,
+                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT))),
+        Commands.deadline(
+          Commands.waitSeconds(0.02),
+          DriveCommands.joystickDrive(drive, () -> true, () -> 1, () -> 0.75, () -> 0, () -> 0)),
+        
         GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
   }
 }
