@@ -33,7 +33,7 @@ public class MoveElevator extends Command {
   @Override
   public boolean isFinished() {
     if (!RobotContainer.isCoralDetected()) {
-      return Math.abs(m_elevator.getPidPosition() - m_elevator.getPosition()) <= 0.01;
+      return Math.abs(m_elevator.getPidPosition() - m_elevator.getPosition()) <= 0.015;
     } else {
       return false;
     }
