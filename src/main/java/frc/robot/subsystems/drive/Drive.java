@@ -69,8 +69,8 @@ public class Drive extends SubsystemBase {
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
 
   // PathPlanner config constants
-  private static final double ROBOT_MASS_KG = Kilograms.convertFrom(120, Pound);
-  private static final double ROBOT_MOI = 6.883;
+  private static final double ROBOT_MASS_KG = Kilograms.convertFrom(125, Pound);
+  private static final double ROBOT_MOI = 6.517;
   private static final double WHEEL_COF = 1.2;
   private static final RobotConfig PP_CONFIG =
       new RobotConfig(
@@ -78,7 +78,8 @@ public class Drive extends SubsystemBase {
           ROBOT_MOI,
           new ModuleConfig(
               TunerConstants.FrontLeft.WheelRadius,
-              TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
+              // TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
+              MetersPerSecond.convertFrom(17.14, FeetPerSecond),
               WHEEL_COF,
               DCMotor.getKrakenX60Foc(1)
                   .withReduction(TunerConstants.FrontLeft.DriveMotorGearRatio),
