@@ -77,7 +77,7 @@ public final class Constants {
     public static final int ENCODER = 8;
 
     // Set the absolute limits for the elevator motion
-    public static final double MIN_HEIGHT = 0.03;
+    public static final double MIN_HEIGHT = 0.045;
     public static final double MAX_HEIGHT = 4.33;
     public static final double MANUAL_SPEED = 0.50;
     public static final double AUTO_SPEED = 50;
@@ -86,11 +86,11 @@ public final class Constants {
     // pieces
     public enum ElevatorHeight {
       L1(ElevatorConstants.MIN_HEIGHT),
-      L2(0.368),
-      L3(1.815),
-      L4(4.190),
-      L2_ALGAE(1.315),
-      L3_ALGAE(2.735),
+      L2(0.468),
+      L3(1.915),
+      L4(4.23),
+      L2_ALGAE(1.415),
+      L3_ALGAE(2.835),
       ALGAE_SCORE(0.192);
 
       ElevatorHeight(double height) {
