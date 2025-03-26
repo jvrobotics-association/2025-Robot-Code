@@ -1,0 +1,167 @@
+Blue Face 1:
+  Center:
+    X: 3.175
+    Y: 4.026
+    rot: -1.4
+  Left:
+    X: 3.175
+    Y: 4.191
+    rot: -1.4
+  Right:
+    X: 3.175
+    Y: 3.861
+    rot: -1.4
+
+Blue Face 2:
+  Center:
+    X: 3.833
+    Y: 5.163
+    rot: -60
+  Left:
+    X: 3.976
+    Y: 5.246
+    rot: -60
+  Right:
+    X: 3.690
+    Y: 5.081
+    rot: -60
+
+Blue Face 3:
+  Center:
+    X: 5.146
+    Y: 5.163
+    rot: -120
+  Left:
+    X: 5.289
+    Y: 5.081
+    rot: -120
+  Right:
+    X: 5.003
+    Y: 5.246
+    rot: -120
+
+Blue Face 4:
+  Center:
+    X: 5.804
+    Y: 4.026
+    rot: 180.0
+  Left:
+    X: 5.804
+    Y: 3.861
+    rot: 180.0
+  Right:
+    X: 5.804
+    Y: 4.191
+    rot: 180.0
+
+Blue Face 5:
+  Center:
+    X: 5.146
+    Y: 2.888
+    rot: 120
+  Left:
+    X: 5.003
+    Y: 2.806
+    rot: 120
+  Right:
+    X: 5.289
+    Y: 2.971
+    rot: 120
+
+Blue Face 6:
+  Center:
+    X: 3.833
+    Y: 2.888
+    rot: 60
+  Left:
+    X: 3.690
+    Y: 2.971
+    rot: 60
+  Right:
+    X: 3.976
+    Y: 2.806
+    rot: 60
+
+Red Face 1:
+  Center:
+    X: 1.437
+    Y: 4.026
+    rot: 180.0
+  Left:
+    X: 1.437
+    Y: 3.861
+    rot: 180.0
+  Right:
+    X: 1.437
+    Y: 4.191
+    rot: 180.0
+
+Red Face 2:
+  Center:
+    X: 1.372
+    Y: 2.888
+    rot: 120
+  Left:
+    X: 1.357
+    Y: 2.806
+    rot: 120
+  Right:
+    X: 1.386
+    Y: 2.971
+    rot: 120
+
+Red Face 3:
+  Center:
+    X: 1.240
+    Y: 2.888
+    rot: 60
+  Left:
+    X: 1.226
+    Y: 2.971
+    rot: 60
+  Right:
+    X: 1.255
+    Y: 2.806
+    rot: 60
+
+Red Face 4:
+  Center:
+    X: 1.174
+    Y: 4.026
+    rot: -1.4
+  Left:
+    X: 1.174
+    Y: 4.191
+    rot: -1.4
+  Right:
+    X: 1.174
+    Y: 3.861
+    rot: -1.4
+
+Red Face 5:
+  Center:
+    X: 1.240
+    Y: 5.163
+    rot: -60
+  Left:
+    X: 1.255
+    Y: 5.246
+    rot: -60
+  Right:
+    X: 1.226
+    Y: 5.081
+    rot: -60
+
+Red Face 6:
+  Center:
+    X: 1.372
+    Y: 5.163
+    rot: -120
+  Left:
+    X: 1.386
+    Y: 5.081
+    rot: -120
+  Right:
+    X: 1.357
+    Y: 5.246
+    rot: -120
