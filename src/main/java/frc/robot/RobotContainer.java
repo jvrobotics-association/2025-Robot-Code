@@ -14,6 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
@@ -143,6 +144,27 @@ public class RobotContainer {
     algaeManipulator = new AlgaeArm();
     algaeGrabber = new AlgaeGrabber();
     climber = new Climber();
+
+    // Add named commands for PathPlanner
+    NamedCommands.registerCommand(
+        "ScoreCoralL2",
+        GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L2));
+    NamedCommands.registerCommand(
+        "ScoreCoralL3",
+        GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L3));
+    NamedCommands.registerCommand(
+        "ScoreCoralL4",
+        GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
+    NamedCommands.registerCommand(
+        "RemoveAlgaeL2",
+        GamePieceCommands.collectAlgae(
+            drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L2_ALGAE));
+    NamedCommands.registerCommand(
+        "RemoveAlgaeL3",
+        GamePieceCommands.collectAlgae(
+            drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L2_ALGAE));
+    NamedCommands.registerCommand(
+        "ScoreAlgae", GamePieceCommands.scoreAlgae(elevator, algaeManipulator, algaeGrabber));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

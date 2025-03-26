@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.064991230867347,
+        "y": 6.6
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.5649912308673475,
+        "y": 5.733974596215562
+      },
+      "isLocked": false,
+      "linkedName": "Start"
+    },
+    {
+      "anchor": {
+        "x": 5.77,
+        "y": 4.159591039540816
+      },
+      "prevControl": {
+        "x": 7.5176016858205035,
+        "y": 4.251178962965967
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "F4 Right"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.5,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.9,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.292,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -177.0
+  },
+  "reversed": false,
+  "folder": "Start to Reef",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

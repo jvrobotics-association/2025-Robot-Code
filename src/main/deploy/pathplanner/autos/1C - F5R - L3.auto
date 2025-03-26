@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "Start - F5R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoralL3"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "1 Coral Auto",
   "choreoAuto": false
 }
