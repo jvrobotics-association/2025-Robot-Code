@@ -26,11 +26,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
-import frc.robot.FieldConstants.ReefAlignLocation;
-import frc.robot.commands.AlignToPositionCommand;
 import frc.robot.commands.ClimberCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GamePieceCommands;
+import frc.robot.commands.autoAlignCommands.AlignCenterReefCommand;
+import frc.robot.commands.autoAlignCommands.AlignLeftBranchCommand;
+import frc.robot.commands.autoAlignCommands.AlignProcessorCommand;
+import frc.robot.commands.autoAlignCommands.AlignRightBranchCommand;
+import frc.robot.commands.autoAlignCommands.AlignSourceCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeGrabber;
@@ -210,20 +213,10 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Driver Left Trigger: Align the robot to the nearest left reef pole
-    controller
-        .leftTrigger(0.25)
-        .whileTrue(
-            new AlignToPositionCommand(
-                drive,
-                FieldConstants.getNearestReefPosition(drive.getPose(), ReefAlignLocation.LEFT)));
+    controller.leftTrigger(0.25).whileTrue(new AlignLeftBranchCommand(drive));
 
     // Driver Right Trigger: Align the robot to the nearest right reef pole
-    controller
-        .rightTrigger(0.25)
-        .whileTrue(
-            new AlignToPositionCommand(
-                drive,
-                FieldConstants.getNearestReefPosition(drive.getPose(), ReefAlignLocation.RIGHT)));
+    controller.rightTrigger(0.25).whileTrue(new AlignRightBranchCommand(drive));
 
     // Driver POV Up: Reset robot field orientation to 0º
     controller
@@ -244,33 +237,14 @@ public class RobotContainer {
         .button(8)
         .onTrue(GamePieceCommands.resetAlgaeManipulator(algaeManipulator, algaeGrabber));
 
-    // Driver Y: Align to the processor while held
-    // controller
-    //     .y()
-    //     .whileTrue(
-    //         DriveCommands.joystickApproach(
-    //             drive,
-    //             () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-    //             () -> -controller.getLeftY(),
-    //             () -> FieldConstants.getNearestProcessorFace(drive.getPose())));
+    // Driver Y: Align to the nearest processor
+    controller.y().whileTrue(new AlignProcessorCommand(drive));
 
     // Driver B: Align to the nearest source while held
-    // controller
-    //     .b()
-    //     .whileTrue(
-    //         DriveCommands.joystickApproach(
-    //             drive,
-    //             () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-    //             () -> -controller.getLeftY(),
-    //             () -> FieldConstants.getNearestCoralStation(drive.getPose())));
+    controller.b().whileTrue(new AlignSourceCommand(drive));
 
     // Driver A: Align to the nearest reef face in the center for collecting algae
-    controller
-        .a()
-        .whileTrue(
-            new AlignToPositionCommand(
-                drive,
-                FieldConstants.getNearestReefPosition(drive.getPose(), ReefAlignLocation.CENTER)));
+    controller.a().whileTrue(new AlignCenterReefCommand(drive));
 
     // Driver X: Switch to an X pattern to lock the robot in place
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
