@@ -96,4 +96,45 @@ public class GamePieceCommands {
             algaeManipulator),
         Commands.runOnce(() -> algaeGrabber.stopGrabber(), algaeGrabber));
   }
+
+  public static Command launchAlgae(
+      Elevator elevator, AlgaeArm algaeManipulator, AlgaeGrabber algaeGrabber) {
+    return Commands.sequence(
+        Commands.parallel(
+            new MoveElevator(elevator, ElevatorHeight.MAX_HEIGHT),
+            Commands.sequence(
+                Commands.waitSeconds(0.75),
+                Commands.parallel(
+                    Commands.runOnce(
+                        () ->
+                            algaeManipulator.setRotationPosition(
+                                AlgaeManiplulatorConstants.HORIZONTAL),
+                        algaeManipulator),
+                    Commands.sequence(
+                        Commands.waitSeconds(0.1),
+                        Commands.deadline(
+                            Commands.waitSeconds(1),
+                            Commands.runEnd(
+                                () ->
+                                    algaeGrabber.setGrabberSpeed(
+                                        AlgaeManiplulatorConstants.GRABBER_SCORE_SPEED),
+                                () -> algaeGrabber.stopGrabber(),
+                                algaeGrabber)))))),
+        Commands.deadline(
+            Commands.waitSeconds(0.02),
+            Commands.runOnce(
+                () ->
+                    algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
+                algaeManipulator),
+            Commands.runOnce(() -> algaeGrabber.stopGrabber(), algaeGrabber)),
+        new MoveElevator(elevator, ElevatorHeight.L1));
+  }
+
+  public static Command kyra(
+      Elevator elevator, AlgaeArm algaeManipulator, AlgaeGrabber algaeGrabber) {
+    return Commands.runEnd(
+        () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.HORIZONTAL),
+        () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
+        algaeManipulator);
+  }
 }

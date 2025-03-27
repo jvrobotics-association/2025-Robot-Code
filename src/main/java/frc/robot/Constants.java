@@ -70,6 +70,7 @@ public final class Constants {
     public static final double START_POSITION = 0.2;
     public static final double GROUND_PICKUP = 0;
     public static final double REEF_GRAB = 4;
+    public static final double HORIZONTAL = 6;
   }
 
   public static class ElevatorConstants {
@@ -91,7 +92,8 @@ public final class Constants {
       L4(4.25),
       L2_ALGAE(1.415),
       L3_ALGAE(2.835),
-      ALGAE_SCORE(0.192);
+      ALGAE_SCORE(0.192),
+      MAX_HEIGHT(4.30);
 
       ElevatorHeight(double height) {
         this.height = height;

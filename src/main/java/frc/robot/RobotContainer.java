@@ -298,15 +298,15 @@ public class RobotContainer {
         .button(8)
         .onTrue(GamePieceCommands.scoreAlgae(elevator, algaeManipulator, algaeGrabber));
 
-    // Place coral on L1 (right)
+    // Kyra Button :)
     operatorConsole
         .button(4)
-        .onTrue(GamePieceCommands.placeCoralL1RightCommand(elevator, coralManipulator));
+        .onTrue(GamePieceCommands.kyra(elevator, algaeManipulator, algaeGrabber));
 
-    // Place coral on L1 (left)
+    // Launch Algae
     operatorConsole
         .button(5)
-        .onTrue(GamePieceCommands.placeCoralL1LeftCommand(elevator, coralManipulator));
+        .onTrue(GamePieceCommands.launchAlgae(elevator, algaeManipulator, algaeGrabber));
 
     // Place coral on L2
     operatorConsole
