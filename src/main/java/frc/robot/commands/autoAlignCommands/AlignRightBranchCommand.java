@@ -19,7 +19,6 @@ public class AlignRightBranchCommand extends Command {
 
   public AlignRightBranchCommand(Drive drive) {
     m_drive = drive;
-    addRequirements(drive);
   }
 
   @Override

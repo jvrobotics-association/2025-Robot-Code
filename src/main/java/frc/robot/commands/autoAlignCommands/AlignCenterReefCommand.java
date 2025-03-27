@@ -19,7 +19,6 @@ public class AlignCenterReefCommand extends Command {
 
   public AlignCenterReefCommand(Drive drive) {
     m_drive = drive;
-    addRequirements(drive);
   }
 
   @Override

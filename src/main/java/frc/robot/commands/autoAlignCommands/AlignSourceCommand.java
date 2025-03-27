@@ -19,7 +19,6 @@ public class AlignSourceCommand extends Command {
 
   public AlignSourceCommand(Drive drive) {
     m_drive = drive;
-    addRequirements(drive);
   }
 
   @Override

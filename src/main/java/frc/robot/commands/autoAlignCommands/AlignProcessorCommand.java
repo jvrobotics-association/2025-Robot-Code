@@ -19,7 +19,6 @@ public class AlignProcessorCommand extends Command {
 
   public AlignProcessorCommand(Drive drive) {
     m_drive = drive;
-    addRequirements(drive);
   }
 
   @Override
