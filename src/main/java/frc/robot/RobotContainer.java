@@ -169,6 +169,11 @@ public class RobotContainer {
             drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L2_ALGAE));
     NamedCommands.registerCommand(
         "ScoreAlgae", GamePieceCommands.scoreAlgae(elevator, algaeManipulator, algaeGrabber));
+    NamedCommands.registerCommand("AlignReefLeft", new AlignLeftBranchCommand(drive));
+    NamedCommands.registerCommand("AlignReefRight", new AlignRightBranchCommand(drive));
+    NamedCommands.registerCommand("AlignReefCenter", new AlignCenterReefCommand(drive));
+    NamedCommands.registerCommand("AlignSource", new AlignSourceCommand(drive));
+    NamedCommands.registerCommand("AlignProcessor", new AlignProcessorCommand(drive));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

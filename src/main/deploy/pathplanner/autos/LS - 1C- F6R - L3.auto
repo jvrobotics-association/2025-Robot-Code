@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start - F4R"
+            "pathName": "LS-F6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlignReefRight"
           }
         },
         {
@@ -20,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "1 Coral Auto",
+  "folder": "1 Coral",
   "choreoAuto": false
 }

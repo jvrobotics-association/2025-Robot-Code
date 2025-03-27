@@ -54,7 +54,13 @@ public class AlignLeftBranchCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return targetPose.getTranslation().getDistance(m_drive.getPose().getTranslation()) <= 0.01
-        && Math.abs(targetPose.getRotation().minus(m_drive.getRotation()).getDegrees()) <= 0.75;
+    boolean isFinished =
+        targetPose.getTranslation().getDistance(m_drive.getPose().getTranslation()) <= 0.01
+            && Math.abs(targetPose.getRotation().minus(m_drive.getRotation()).getDegrees()) <= 0.75;
+
+    if (isFinished) {
+      System.out.println("Left Align Finished");
+    }
+    return isFinished;
   }
 }

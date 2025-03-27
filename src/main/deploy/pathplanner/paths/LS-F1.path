@@ -3,47 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.064991230867347,
-        "y": 6.6
+        "x": 5.995876913265306,
+        "y": 7.04140625
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.5649912308673475,
-        "y": 5.733974596215562
+        "x": 5.002813297193878,
+        "y": 6.983694395727039
       },
       "isLocked": false,
-      "linkedName": "Start"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.97,
-        "y": 5.21
+        "x": 2.4278152901785712,
+        "y": 5.481157525510204
       },
       "prevControl": {
-        "x": 5.7461106248964136,
-        "y": 6.405105559322228
+        "x": 2.7051872016165204,
+        "y": 5.818747891624463
+      },
+      "nextControl": {
+        "x": 2.1423339843749996,
+        "y": 5.133697185905612
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.832952507174745,
+        "y": 4.005203085140305
+      },
+      "prevControl": {
+        "x": 2.2307905173788267,
+        "y": 4.02884745695153
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "F3 Right"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.016309073240589212,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 0.9,
-        "maxAcceleration": 1.5,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -56,10 +58,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -123.00000000000001
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Start to Reef",
+  "folder": "Left Start",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

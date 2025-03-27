@@ -3,12 +3,12 @@
   "robotLength": 0.9779,
   "holonomicMode": true,
   "pathFolders": [
-    "Reef to Source",
-    "Start to Reef"
+    "Left Start",
+    "Middle Start",
+    "Right Start"
   ],
   "autoFolders": [
-    "1 Coral Auto",
-    "2 Coral Auto"
+    "1 Coral"
   ],
   "defaultMaxVel": 4.292,
   "defaultMaxAccel": 3.0,
