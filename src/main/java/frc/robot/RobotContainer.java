@@ -14,7 +14,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
@@ -26,10 +25,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
-import frc.robot.FieldConstants.ReefSide;
+import frc.robot.FieldConstants.ReefAlignLocation;
 import frc.robot.commands.ClimberCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GamePieceCommands;
+import frc.robot.commands.autoAlignCommands.AlignCenterReefCommand;
+import frc.robot.commands.autoAlignCommands.AlignLeftBranchCommand;
+import frc.robot.commands.autoAlignCommands.AlignProcessorCommand;
+import frc.robot.commands.autoAlignCommands.AlignRightBranchCommand;
+import frc.robot.commands.autoAlignCommands.AlignSourceCommand;
+import frc.robot.commands.autos.OneCoralAuto;
+import frc.robot.commands.autos.TwoCoralAuto;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeGrabber;
@@ -123,6 +129,9 @@ public class RobotContainer {
                     VisionConstants.rightCameraName,
                     VisionConstants.robotToRightCamera,
                     drive::getPose));
+
+        // Set simulator position to blue left side start
+        drive.setPose(new Pose2d(7.5, 7.0, Rotation2d.fromDegrees(180)));
         break;
 
       default:
@@ -145,31 +154,77 @@ public class RobotContainer {
     algaeGrabber = new AlgaeGrabber();
     climber = new Climber();
 
-    // Add named commands for PathPlanner
-    NamedCommands.registerCommand(
-        "ScoreCoralL2",
-        GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L2));
-    NamedCommands.registerCommand(
-        "ScoreCoralL3",
-        GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L3));
-    NamedCommands.registerCommand(
-        "ScoreCoralL4",
-        GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
-    NamedCommands.registerCommand(
-        "RemoveAlgaeL2",
-        GamePieceCommands.collectAlgae(
-            drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L2_ALGAE));
-    NamedCommands.registerCommand(
-        "RemoveAlgaeL3",
-        GamePieceCommands.collectAlgae(
-            drive, elevator, algaeManipulator, algaeGrabber, ElevatorHeight.L2_ALGAE));
-    NamedCommands.registerCommand(
-        "ScoreAlgae", GamePieceCommands.scoreAlgae(elevator, algaeManipulator, algaeGrabber));
-
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    autoChooser.addDefaultOption("Absolutely Nothing", Commands.none());
 
     autoChooser.addOption("Leave Auto Zone", DriveCommands.leaveAutoZome(drive));
+
+    // Left side - 1 Coral Autos
+    autoChooser.addOption(
+        "LS-1C-F1L-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.LEFT, ElevatorHeight.L3, "LS-F1"));
+    autoChooser.addOption(
+        "LS-1C-F1R-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.RIGHT, ElevatorHeight.L3, "LS-F1"));
+    autoChooser.addOption(
+        "LS-1C-F2L-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.LEFT, ElevatorHeight.L3, "LS-F2"));
+    autoChooser.addOption(
+        "LS-1C-F2R-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.RIGHT, ElevatorHeight.L3, "LS-F2"));
+    autoChooser.addOption(
+        "LS-1C-F3L-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.LEFT, ElevatorHeight.L3, "LS-F3"));
+    autoChooser.addOption(
+        "LS-1C-F3R-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.RIGHT, ElevatorHeight.L3, "LS-F3"));
+    autoChooser.addOption(
+        "LS-1C-F4L-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.LEFT, ElevatorHeight.L3, "LS-F4"));
+    autoChooser.addOption(
+        "LS-1C-F4R-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.RIGHT, ElevatorHeight.L3, "LS-F4"));
+    autoChooser.addOption(
+        "LS-1C-F5L-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.LEFT, ElevatorHeight.L3, "LS-F5"));
+    autoChooser.addOption(
+        "LS-1C-F5R-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.RIGHT, ElevatorHeight.L3, "LS-F5"));
+    autoChooser.addOption(
+        "LS-1C-F6L-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.LEFT, ElevatorHeight.L3, "LS-F6"));
+    autoChooser.addOption(
+        "LS-1C-F6R-L3",
+        new OneCoralAuto(
+            elevator, coralManipulator, ReefAlignLocation.RIGHT, ElevatorHeight.L3, "LS-F6"));
+
+    // Right Side - 1 Coral Autos
+
+    // Left Side - 2 Coral Autos
+    autoChooser.addOption(
+        "LS-2C-F1-L3",
+        new TwoCoralAuto(
+            elevator,
+            coralManipulator,
+            "LS-F1",
+            "",
+            "",
+            ReefAlignLocation.LEFT,
+            ElevatorHeight.L3,
+            ReefAlignLocation.RIGHT,
+            ElevatorHeight.L3));
 
     // Set up SysId routines
     // autoChooser.addOption(
@@ -209,24 +264,10 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Driver Left Trigger: Align the robot to the nearest left reef pole
-    controller
-        .leftTrigger(0.25)
-        .whileTrue(
-            DriveCommands.joystickApproach(
-                drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-                () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.LEFT)));
+    controller.leftTrigger(0.25).whileTrue(new AlignLeftBranchCommand(drive));
 
     // Driver Right Trigger: Align the robot to the nearest right reef pole
-    controller
-        .rightTrigger(0.25)
-        .whileTrue(
-            DriveCommands.joystickApproach(
-                drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-                () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestReefBranch(drive.getPose(), ReefSide.RIGHT)));
+    controller.rightTrigger(0.25).whileTrue(new AlignRightBranchCommand(drive));
 
     // Driver POV Up: Reset robot field orientation to 0º
     controller
@@ -247,35 +288,14 @@ public class RobotContainer {
         .button(8)
         .onTrue(GamePieceCommands.resetAlgaeManipulator(algaeManipulator, algaeGrabber));
 
-    // Driver Y: Align to the processor while held
-    controller
-        .y()
-        .whileTrue(
-            DriveCommands.joystickApproach(
-                drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-                () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestProcessorFace(drive.getPose())));
+    // Driver Y: Align to the nearest processor
+    controller.y().whileTrue(new AlignProcessorCommand(drive));
 
     // Driver B: Align to the nearest source while held
-    controller
-        .b()
-        .whileTrue(
-            DriveCommands.joystickApproach(
-                drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-                () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestCoralStation(drive.getPose())));
+    controller.b().whileTrue(new AlignSourceCommand(drive));
 
     // Driver A: Align to the nearest reef face in the center for collecting algae
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickApproach(
-                drive,
-                () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 2.5,
-                () -> -controller.getLeftY(),
-                () -> FieldConstants.getNearestReefFace(drive.getPose())));
+    controller.a().whileTrue(new AlignCenterReefCommand(drive));
 
     // Driver X: Switch to an X pattern to lock the robot in place
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));

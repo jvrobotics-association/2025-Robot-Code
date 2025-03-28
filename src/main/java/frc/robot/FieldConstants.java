@@ -1,11 +1,16 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
 import java.util.ArrayList;
 import java.util.List;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * Contains various field dimensions and useful reference points. All units are in meters and poses
@@ -16,273 +21,196 @@ public class FieldConstants {
   public static final AprilTagFieldLayout aprilTagLayout =
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
-  // The length of the field in inches
-  public static final double fieldLength = Units.inchesToMeters(690.876);
+  private static final Angle rotationOffset = Degree.of(-5);
+  private static final double faceOffset = Meters.convertFrom(18.5, Inches);
 
-  // The width of the field in inches
-  public static final double fieldWidth = Units.inchesToMeters(317);
-
-  // The center of the field as a Translation2d
-  public static final Translation2d fieldCenter =
-      new Translation2d(fieldLength / 2, fieldWidth / 2);
-
-  // The distance to the starting line from the driver station measured from the inside of the
-  // starting zone
-  public static final double startingLineX = Units.inchesToMeters(299.438);
-
-  /** Processor location and size constants */
-  public static class Processor {
-    public static final List<Pose2d> centerFaces = new ArrayList<>();
-
-    // The width of the processor in inches
-    public static final double processorWidth = Units.inchesToMeters(46.25);
-
-    static {
-      centerFaces.add(aprilTagLayout.getTagPose(3).get().toPose2d());
-      centerFaces.add(aprilTagLayout.getTagPose(16).get().toPose2d());
-    }
-  }
-
-  /** Barge location and size constants */
-  public static class Barge {
-    // The width of the net in inches
-    public static final double netWidth = Units.inchesToMeters(40.0);
-
-    // The height of the net (measured at the sides) in inches
-    public static final double netHeight = Units.inchesToMeters(88.0);
-
-    // The distance from the driver station to the center of the cages in inches. The Y distance is
-    // always measured off the blue alliance wall.
-    public static final Translation2d farCage =
-        new Translation2d(Units.inchesToMeters(345.428), Units.inchesToMeters(286.779));
-    public static final Translation2d middleCage =
-        new Translation2d(Units.inchesToMeters(345.428), Units.inchesToMeters(242.855));
-    public static final Translation2d closeCage =
-        new Translation2d(Units.inchesToMeters(345.428), Units.inchesToMeters(199.947));
-
-    // Measured from floor to bottom of cage
-    public static final double deepHeight = Units.inchesToMeters(3.125);
-    public static final double shallowHeight = Units.inchesToMeters(30.125);
-  }
-
-  /** Coral Station location and size constants */
-  public static class CoralStation {
-    // The width of the station in inches
-    public static final double stationWidth = Units.inchesToMeters(79.750);
-
-    public static final List<Pose2d> centerFaces = new ArrayList<>();
-
-    static {
-      centerFaces.add(aprilTagLayout.getTagPose(1).get().toPose2d());
-      centerFaces.add(aprilTagLayout.getTagPose(2).get().toPose2d());
-      centerFaces.add(aprilTagLayout.getTagPose(12).get().toPose2d());
-      centerFaces.add(aprilTagLayout.getTagPose(13).get().toPose2d());
-    }
-  }
-
-  /** A simple enumerator for defining the two sides of a reef */
-  public enum ReefSide {
+  public enum ReefAlignLocation {
     LEFT,
-    RIGHT
+    RIGHT,
+    CENTER
   }
 
-  /** Reef location and size constants */
-  public static class Reef {
-    // Length of the face of a reef side in inches
-    public static final double faceLength = Units.inchesToMeters(36.792600);
-
-    // Center of the reef measured from the driver station
-    public static final Translation2d center =
-        new Translation2d(Units.inchesToMeters(176.746), fieldWidth / 2.0);
-
-    // Side of the reef to the inside of the reef zone line
-    public static final double faceToZoneLine = Units.inchesToMeters(12);
-
-    // Starting facing the driver station in clockwise order
-    public static final List<Pose2d> centerFaces = new ArrayList<>();
-
-    public static final Pose2d[] redFaces = new Pose2d[6];
-    public static final Pose2d[] blueFaces = new Pose2d[6];
-
-    // Starting at the right branch facing the driver station in clockwise
-    public static final List<Pose2d> branchPositions = new ArrayList<>();
+  public static class SourceAlign {
+    public static final List<Pose2d> centerPositions = new ArrayList<>();
 
     static {
-      blueFaces[0] = aprilTagLayout.getTagPose(18).get().toPose2d();
-      blueFaces[1] = aprilTagLayout.getTagPose(19).get().toPose2d();
-      blueFaces[2] = aprilTagLayout.getTagPose(20).get().toPose2d();
-      blueFaces[3] = aprilTagLayout.getTagPose(21).get().toPose2d();
-      blueFaces[4] = aprilTagLayout.getTagPose(22).get().toPose2d();
-      blueFaces[5] = aprilTagLayout.getTagPose(17).get().toPose2d();
-
-      redFaces[0] = aprilTagLayout.getTagPose(7).get().toPose2d();
-      redFaces[1] = aprilTagLayout.getTagPose(6).get().toPose2d();
-      redFaces[2] = aprilTagLayout.getTagPose(11).get().toPose2d();
-      redFaces[3] = aprilTagLayout.getTagPose(10).get().toPose2d();
-      redFaces[4] = aprilTagLayout.getTagPose(9).get().toPose2d();
-      redFaces[5] = aprilTagLayout.getTagPose(8).get().toPose2d();
-
-      // Do the red faces
-      for (int face = 0; face < 6; face++) {
-        Pose2d poseDirection =
-            new Pose2d(
-                redFaces[face].getTranslation(),
-                Rotation2d.fromDegrees(redFaces[face].getRotation().getDegrees()));
-        double adjustX = Units.inchesToMeters(5);
-
-        var rightBranchPose =
-            new Pose2d(
-                new Translation2d(
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(5.1), new Rotation2d()))
-                        .getX(),
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(5.1), new Rotation2d()))
-                        .getY()),
-                new Rotation2d(poseDirection.getRotation().getRadians()));
-
-        var leftBranchPose =
-            new Pose2d(
-                new Translation2d(
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(-6.75), new Rotation2d()))
-                        .getX(),
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(-6.75), new Rotation2d()))
-                        .getY()),
-                new Rotation2d(poseDirection.getRotation().getRadians()));
-
-        branchPositions.add(rightBranchPose);
-        branchPositions.add(leftBranchPose);
-        centerFaces.add(redFaces[face]);
-      }
-
-      // Do the blue faces
-      for (int face = 0; face < 6; face++) {
-        Pose2d poseDirection =
-            new Pose2d(
-                blueFaces[face].getTranslation(),
-                Rotation2d.fromDegrees(blueFaces[face].getRotation().getDegrees()));
-        double adjustX = Units.inchesToMeters(5);
-
-        var rightBranchPose =
-            new Pose2d(
-                new Translation2d(
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(5.1), new Rotation2d()))
-                        .getX(),
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(5.1), new Rotation2d()))
-                        .getY()),
-                new Rotation2d(poseDirection.getRotation().getRadians()));
-
-        var leftBranchPose =
-            new Pose2d(
-                new Translation2d(
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(-6.75), new Rotation2d()))
-                        .getX(),
-                    poseDirection
-                        .transformBy(
-                            new Transform2d(adjustX, Units.inchesToMeters(-6.75), new Rotation2d()))
-                        .getY()),
-                new Rotation2d(poseDirection.getRotation().getRadians()));
-
-        branchPositions.add(rightBranchPose);
-        branchPositions.add(leftBranchPose);
-        centerFaces.add(blueFaces[face]);
-      }
-
-      // Initialize blue branch positions
-      // for (int face = 0; face < 6; face++) {
-      //   Pose2d poseDirection = new Pose2d(center, Rotation2d.fromDegrees(180 - (60 * face)));
-      //   double adjustX = Units.inchesToMeters(30.738);
-
-      //   var rightBranchPose =
-      //       new Pose2d(
-      //           new Translation2d(
-      //               poseDirection
-      //                   .transformBy(
-      //                       new Transform2d(adjustX, Units.inchesToMeters(5.1), new
-      // Rotation2d()))
-      //                   .getX(),
-      //               poseDirection
-      //                   .transformBy(
-      //                       new Transform2d(adjustX, Units.inchesToMeters(5.1), new
-      // Rotation2d()))
-      //                   .getY()),
-      //           new Rotation2d(poseDirection.getRotation().getRadians()));
-
-      //   var leftBranchPose =
-      //       new Pose2d(
-      //           new Translation2d(
-      //               poseDirection
-      //                   .transformBy(
-      //                       new Transform2d(adjustX, Units.inchesToMeters(-6.75), new
-      // Rotation2d()))
-      //                   .getX(),
-      //               poseDirection
-      //                   .transformBy(
-      //                       new Transform2d(adjustX, Units.inchesToMeters(-6.75), new
-      // Rotation2d()))
-      //                   .getY()),
-      //           new Rotation2d(poseDirection.getRotation().getRadians()));
-
-      //   branchPositions.add(rightBranchPose);
-      //   branchPositions.add(leftBranchPose);
-      // }
+      centerPositions.add(
+          aprilTagLayout
+              .getTagPose(1)
+              .get()
+              .toPose2d()
+              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+      centerPositions.add(
+          aprilTagLayout
+              .getTagPose(2)
+              .get()
+              .toPose2d()
+              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+      centerPositions.add(
+          aprilTagLayout
+              .getTagPose(12)
+              .get()
+              .toPose2d()
+              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+      centerPositions.add(
+          aprilTagLayout
+              .getTagPose(13)
+              .get()
+              .toPose2d()
+              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
     }
   }
 
-  /**
-   * Get the position of center of the nearest reef face.
-   *
-   * @param currentPose The robots current position on the field
-   * @return The position of the nearest reef face
-   */
+  public static class ProcessorAlign {
+    public static final List<Pose2d> centerPositions = new ArrayList<>();
+
+    static {
+      centerPositions.add(
+          aprilTagLayout
+              .getTagPose(3)
+              .get()
+              .toPose2d()
+              .transformBy(
+                  new Transform2d(
+                      faceOffset, 0, Rotation2d.k180deg.plus(new Rotation2d(rotationOffset)))));
+      centerPositions.add(
+          aprilTagLayout
+              .getTagPose(16)
+              .get()
+              .toPose2d()
+              .transformBy(
+                  new Transform2d(
+                      faceOffset, 0, Rotation2d.k180deg.plus(new Rotation2d(rotationOffset)))));
+    }
+  }
+
+  public static class ReefAlign {
+    public static final List<Pose2d> centerPositions = new ArrayList<>();
+    public static final List<Pose2d> leftBranchPositions = new ArrayList<>();
+    public static final List<Pose2d> rightBranchPositions = new ArrayList<>();
+
+    private static final Pose2d[] blueTags = new Pose2d[6];
+    private static final Pose2d[] redTags = new Pose2d[6];
+
+    private static final double leftBranchOffset = Meters.convertFrom(-6.5, Inches);
+    private static final double rightBranchOffset = Meters.convertFrom(6.5, Inches);
+
+    static {
+      blueTags[0] = aprilTagLayout.getTagPose(18).get().toPose2d();
+      blueTags[1] = aprilTagLayout.getTagPose(19).get().toPose2d();
+      blueTags[2] = aprilTagLayout.getTagPose(20).get().toPose2d();
+      blueTags[3] = aprilTagLayout.getTagPose(21).get().toPose2d();
+      blueTags[4] = aprilTagLayout.getTagPose(22).get().toPose2d();
+      blueTags[5] = aprilTagLayout.getTagPose(17).get().toPose2d();
+
+      for (int face = 0; face < 6; face++) {
+        var centerPos =
+            blueTags[face].transformBy(
+                new Transform2d(
+                    faceOffset, 0, Rotation2d.k180deg.plus(new Rotation2d(rotationOffset))));
+        var leftBranchPos =
+            blueTags[face].transformBy(
+                new Transform2d(
+                    (faceOffset - Meters.convertFrom(0.5, Inches)),
+                    leftBranchOffset,
+                    Rotation2d.k180deg.plus(new Rotation2d(rotationOffset))));
+        var rightBranchPos =
+            blueTags[face].transformBy(
+                new Transform2d(
+                    faceOffset,
+                    rightBranchOffset,
+                    Rotation2d.k180deg.plus(new Rotation2d(rotationOffset))));
+
+        centerPositions.add(centerPos);
+        leftBranchPositions.add(leftBranchPos);
+        rightBranchPositions.add(rightBranchPos);
+
+        // System.out.println("Blue Face " + (face + 1) + ":");
+        // System.out.println("  Center:");
+        // System.out.println("    X: " + centerPos.getMeasureX());
+        // System.out.println("    Y: " + centerPos.getMeasureY());
+        // System.out.println("    0: " + centerPos.getRotation().getDegrees());
+        // System.out.println("  Left:");
+        // System.out.println("    X: " + leftBranchPos.getMeasureX());
+        // System.out.println("    Y: " + leftBranchPos.getMeasureY());
+        // System.out.println("    0: " + leftBranchPos.getRotation().getDegrees());
+        // System.out.println("  Right:");
+        // System.out.println("    X: " + rightBranchPos.getMeasureX());
+        // System.out.println("    Y: " + rightBranchPos.getMeasureY());
+        // System.out.println("    0: " + rightBranchPos.getRotation().getDegrees());
+        // System.out.println("");
+      }
+
+      redTags[0] = aprilTagLayout.getTagPose(7).get().toPose2d();
+      redTags[1] = aprilTagLayout.getTagPose(6).get().toPose2d();
+      redTags[2] = aprilTagLayout.getTagPose(11).get().toPose2d();
+      redTags[3] = aprilTagLayout.getTagPose(10).get().toPose2d();
+      redTags[4] = aprilTagLayout.getTagPose(9).get().toPose2d();
+      redTags[5] = aprilTagLayout.getTagPose(8).get().toPose2d();
+
+      for (int face = 0; face < 6; face++) {
+        var centerPos =
+            redTags[face].transformBy(
+                new Transform2d(
+                    faceOffset, 0, Rotation2d.k180deg.plus(new Rotation2d(rotationOffset))));
+        var leftBranchPos =
+            redTags[face].transformBy(
+                new Transform2d(
+                    (faceOffset - Meters.convertFrom(0.5, Inches)),
+                    leftBranchOffset,
+                    Rotation2d.k180deg.plus(new Rotation2d(rotationOffset))));
+        var rightBranchPos =
+            redTags[face].transformBy(
+                new Transform2d(
+                    faceOffset,
+                    rightBranchOffset,
+                    Rotation2d.k180deg.plus(new Rotation2d(rotationOffset))));
+
+        centerPositions.add(centerPos);
+        leftBranchPositions.add(leftBranchPos);
+        rightBranchPositions.add(rightBranchPos);
+
+        // System.out.println("Red Face " + (face + 1) + ":");
+        // System.out.println("  Center:");
+        // System.out.println("    X: " + centerPos.getMeasureX());
+        // System.out.println("    Y: " + centerPos.getMeasureY());
+        // System.out.println("    0: " + centerPos.getRotation().getDegrees());
+        // System.out.println("  Left:");
+        // System.out.println("    X: " + leftBranchPos.getMeasureX());
+        // System.out.println("    Y: " + leftBranchPos.getMeasureY());
+        // System.out.println("    0: " + leftBranchPos.getRotation().getDegrees());
+        // System.out.println("  Right:");
+        // System.out.println("    X: " + rightBranchPos.getMeasureX());
+        // System.out.println("    Y: " + rightBranchPos.getMeasureY());
+        // System.out.println("    0: " + rightBranchPos.getRotation().getDegrees());
+        // System.out.println("");
+      }
+
+      Logger.recordOutput("Tags/Center Positions", centerPositions.toArray(new Pose2d[12]));
+      Logger.recordOutput(
+          "Tags/Left Branchs Positions", leftBranchPositions.toArray(new Pose2d[12]));
+      Logger.recordOutput(
+          "Tags/Right Branch Positions", rightBranchPositions.toArray(new Pose2d[12]));
+    }
+  }
+
+  public static Pose2d getNearestSource(Pose2d currentPose) {
+    return currentPose.nearest(SourceAlign.centerPositions);
+  }
+
+  public static Pose2d getNearestProcessor(Pose2d currentPose) {
+    return currentPose.nearest(ProcessorAlign.centerPositions);
+  }
+
   public static Pose2d getNearestReefFace(Pose2d currentPose) {
-    return currentPose.nearest(FieldConstants.Reef.centerFaces);
+    return currentPose.nearest(ReefAlign.centerPositions);
   }
 
-  /**
-   * Get the position of the nearest reef branch. This will find the nearest reef face, and then
-   * depending on if you want the left or right branch it will then return the offset position for
-   * that branch of the reef.
-   *
-   * @param currentPose The robots current position on the field
-   * @param side The side of the reef you want to get the position to
-   * @return The position of the nearest requested branch of the reef
-   */
-  public static Pose2d getNearestReefBranch(Pose2d currentPose, ReefSide side) {
-    return FieldConstants.Reef.branchPositions.get(
-        FieldConstants.Reef.centerFaces.indexOf(getNearestReefFace(currentPose)) * 2
-            + (side == ReefSide.LEFT ? 1 : 0));
+  public static Pose2d getNearestLeftBranch(Pose2d currentPose) {
+    return currentPose.nearest(ReefAlign.leftBranchPositions);
   }
 
-  /**
-   * Get the position of the nearest coral station.
-   *
-   * @param currentPose The robots current location
-   * @return The position of the nearest coral station to the robot
-   */
-  public static Pose2d getNearestCoralStation(Pose2d currentPose) {
-    return currentPose.nearest(FieldConstants.CoralStation.centerFaces);
-  }
-
-  /**
-   * Get the position of the nearest processor
-   *
-   * @param currentPose The robots current location
-   * @return The position of the nearest processor to the robot
-   */
-  public static Pose2d getNearestProcessorFace(Pose2d currentPose) {
-    return currentPose.nearest(FieldConstants.Processor.centerFaces);
+  public static Pose2d getNearestRightBranch(Pose2d currentPose) {
+    return currentPose.nearest(ReefAlign.rightBranchPositions);
   }
 }

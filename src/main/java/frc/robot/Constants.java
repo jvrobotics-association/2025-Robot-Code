@@ -13,6 +13,16 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
+
+import com.pathplanner.lib.path.PathConstraints;
+import edu.wpi.first.units.measure.AngularAcceleration;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearAcceleration;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -43,6 +53,15 @@ public final class Constants {
   public static class DriveConstants {
     // Absolute maximum speed is 4.292
     public static final double MAX_SPEED = 4;
+  }
+
+  public static class AutoAlignConstants {
+    public static final PathConstraints PATH_CONSTRAINTS =
+        new PathConstraints(
+            LinearVelocity.ofBaseUnits(0.9, MetersPerSecond),
+            LinearAcceleration.ofBaseUnits(1.5, MetersPerSecondPerSecond),
+            AngularVelocity.ofBaseUnits(540, DegreesPerSecond),
+            AngularAcceleration.ofBaseUnits(720, DegreesPerSecondPerSecond));
   }
 
   public static class CoralManipulatorConstants {
