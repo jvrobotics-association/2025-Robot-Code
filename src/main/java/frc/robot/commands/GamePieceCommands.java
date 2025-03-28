@@ -132,9 +132,13 @@ public class GamePieceCommands {
 
   public static Command kyra(
       Elevator elevator, AlgaeArm algaeManipulator, AlgaeGrabber algaeGrabber) {
-    return Commands.runEnd(
-        () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.HORIZONTAL),
-        () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
-        algaeManipulator);
+    return Commands.sequence(
+        Commands.runOnce(
+            () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.HORIZONTAL),
+            algaeManipulator),
+        Commands.waitSeconds(0.25),
+        Commands.runOnce(
+            () -> algaeManipulator.setRotationPosition(AlgaeManiplulatorConstants.START_POSITION),
+            algaeManipulator));
   }
 }
