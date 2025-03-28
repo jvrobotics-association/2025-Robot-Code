@@ -49,8 +49,7 @@ public class OneCoralAuto extends Command {
         targetPose = FieldConstants.getNearestReefFace(startPathEndPoint);
       }
 
-      Command startToReefCommand =
-          AutoBuilder.pathfindThenFollowPath(startPath, AutoAlignConstants.PATH_CONSTRAINTS);
+      Command startToReefCommand = AutoBuilder.followPath(startPath);
 
       Command alignPathCommand =
           AutoBuilder.pathfindThenFollowPath(

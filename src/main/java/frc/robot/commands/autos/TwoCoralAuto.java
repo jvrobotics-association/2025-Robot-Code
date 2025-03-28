@@ -94,8 +94,7 @@ public class TwoCoralAuto extends Command {
         secondReefTarget = FieldConstants.getNearestReefFace(sourceToReefEndPoint);
       }
 
-      Command startToReefCommand =
-          AutoBuilder.pathfindThenFollowPath(startPath, AutoAlignConstants.PATH_CONSTRAINTS);
+      Command startToReefCommand = AutoBuilder.followPath(startPath);
 
       Command firstAlignCommand =
           AutoBuilder.pathfindThenFollowPath(
@@ -110,8 +109,7 @@ public class TwoCoralAuto extends Command {
               },
               AutoAlignConstants.PATH_CONSTRAINTS);
 
-      Command reefToSourceCommand =
-          AutoBuilder.pathfindThenFollowPath(reefToSourcePath, AutoAlignConstants.PATH_CONSTRAINTS);
+      Command reefToSourceCommand = AutoBuilder.followPath(reefToSourcePath);
 
       Command sourceAlignCommand =
           AutoBuilder.pathfindThenFollowPath(
@@ -126,8 +124,7 @@ public class TwoCoralAuto extends Command {
               },
               AutoAlignConstants.PATH_CONSTRAINTS);
 
-      Command sourceToReefCommand =
-          AutoBuilder.pathfindThenFollowPath(sourceToReefPath, AutoAlignConstants.PATH_CONSTRAINTS);
+      Command sourceToReefCommand = AutoBuilder.followPath(sourceToReefPath);
 
       Command secondAlignCommand =
           AutoBuilder.pathfindThenFollowPath(
