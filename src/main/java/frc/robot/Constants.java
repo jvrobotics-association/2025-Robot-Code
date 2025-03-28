@@ -89,7 +89,7 @@ public final class Constants {
     public static final double START_POSITION = 0.2;
     public static final double GROUND_PICKUP = 0;
     public static final double REEF_GRAB = 4;
-    public static final double HORIZONTAL = 6;
+    public static final double HORIZONTAL = 8;
   }
 
   public static class ElevatorConstants {
