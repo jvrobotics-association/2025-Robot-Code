@@ -18,6 +18,7 @@ import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 
+import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearAcceleration;
@@ -55,14 +56,12 @@ public final class Constants {
   }
 
   public static class AutoAlignConstants {
-    public static final LinearVelocity MAX_LINEAR_VELOCITY =
-        LinearVelocity.ofBaseUnits(0.9, MetersPerSecond);
-    public static final LinearAcceleration MAX_LINEAR_ACCELERATION =
-        LinearAcceleration.ofBaseUnits(1.5, MetersPerSecondPerSecond);
-    public static final AngularVelocity MAX_ANGULAR_VELOCITY =
-        AngularVelocity.ofBaseUnits(540, DegreesPerSecond);
-    public static final AngularAcceleration MAX_ANGULAR_ACCELERATION =
-        AngularAcceleration.ofBaseUnits(720, DegreesPerSecondPerSecond);
+    public static final PathConstraints PATH_CONSTRAINTS =
+        new PathConstraints(
+            LinearVelocity.ofBaseUnits(0.9, MetersPerSecond),
+            LinearAcceleration.ofBaseUnits(1.5, MetersPerSecondPerSecond),
+            AngularVelocity.ofBaseUnits(540, DegreesPerSecond),
+            AngularAcceleration.ofBaseUnits(720, DegreesPerSecondPerSecond));
   }
 
   public static class CoralManipulatorConstants {

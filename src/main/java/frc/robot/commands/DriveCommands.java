@@ -15,7 +15,6 @@ package frc.robot.commands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.math.MathUtil;
@@ -342,11 +341,7 @@ public class DriveCommands {
     return AutoBuilder.followPath(
         new PathPlannerPath(
             PathPlannerPath.waypointsFromPoses(robotPose.get(), targetPose),
-            new PathConstraints(
-                AutoAlignConstants.MAX_LINEAR_VELOCITY,
-                AutoAlignConstants.MAX_LINEAR_ACCELERATION,
-                AutoAlignConstants.MAX_ANGULAR_VELOCITY,
-                AutoAlignConstants.MAX_ANGULAR_ACCELERATION),
+            AutoAlignConstants.PATH_CONSTRAINTS,
             null,
             new GoalEndState(0, targetPose.getRotation())));
   }

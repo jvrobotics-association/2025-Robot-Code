@@ -2,7 +2,6 @@ package frc.robot.commands.autoAlignCommands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,11 +29,7 @@ public class AlignSourceCommand extends Command {
         AutoBuilder.followPath(
             new PathPlannerPath(
                 PathPlannerPath.waypointsFromPoses(m_drive.getPose(), targetPose),
-                new PathConstraints(
-                    AutoAlignConstants.MAX_LINEAR_VELOCITY,
-                    AutoAlignConstants.MAX_LINEAR_ACCELERATION,
-                    AutoAlignConstants.MAX_ANGULAR_VELOCITY,
-                    AutoAlignConstants.MAX_ANGULAR_ACCELERATION),
+                AutoAlignConstants.PATH_CONSTRAINTS,
                 null,
                 new GoalEndState(0, targetPose.getRotation())) {
               {
