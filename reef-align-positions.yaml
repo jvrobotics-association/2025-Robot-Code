@@ -1,167 +1,156 @@
 Blue Face 1:
   Center:
-    X: 3.175
+    X: 3.188
     Y: 4.026
-    rot: -1.4
+    rot: -5.0
   Left:
-    X: 3.175
+    X: 3.200
     Y: 4.191
-    rot: -1.4
+    rot: -5.0
   Right:
-    X: 3.175
+    X: 3.188
     Y: 3.861
-    rot: -1.4
-
+    rot: -5.0
 Blue Face 2:
   Center:
-    X: 3.833
-    Y: 5.163
-    rot: -60
+    X: 3.839
+    Y: 5.152
+    rot: -65
   Left:
-    X: 3.976
-    Y: 5.246
-    rot: -60
+    X: 3.988
+    Y: 5.224
+    rot: -65
   Right:
-    X: 3.690
-    Y: 5.081
-    rot: -60
-
+    X: 3.696
+    Y: 5.070
+    rot: -65
 Blue Face 3:
   Center:
-    X: 5.146
-    Y: 5.163
-    rot: -120
+    X: 5.140
+    Y: 5.152
+    rot: -125
   Left:
-    X: 5.289
-    Y: 5.081
-    rot: -120
+    X: 5.276
+    Y: 5.059
+    rot: -125
   Right:
-    X: 5.003
-    Y: 5.246
-    rot: -120
-
+    X: 4.997
+    Y: 5.235
+    rot: -125
 Blue Face 4:
   Center:
-    X: 5.804
+    X: 5.791
     Y: 4.026
-    rot: 180.0
+    rot: 175.0
   Left:
-    X: 5.804
+    X: 5.778
     Y: 3.861
-    rot: 180.0
+    rot: 175.0
   Right:
-    X: 5.804
+    X: 5.791
     Y: 4.191
-    rot: 180.0
-
+    rot: 175.0
 Blue Face 5:
   Center:
-    X: 5.146
-    Y: 2.888
-    rot: 120
+    X: 5.140
+    Y: 2.899
+    rot: 115
   Left:
-    X: 5.003
-    Y: 2.806
-    rot: 120
+    X: 4.990
+    Y: 2.828
+    rot: 115
   Right:
-    X: 5.289
-    Y: 2.971
-    rot: 120
-
+    X: 5.283
+    Y: 2.982
+    rot: 115
 Blue Face 6:
   Center:
-    X: 3.833
-    Y: 2.888
-    rot: 60
+    X: 3.839
+    Y: 2.899
+    rot: 55
   Left:
-    X: 3.690
-    Y: 2.971
-    rot: 60
+    X: 3.702
+    Y: 2.993
+    rot: 55
   Right:
-    X: 3.976
-    Y: 2.806
-    rot: 60
-
+    X: 3.982
+    Y: 2.817
+    rot: 55
 Red Face 1:
   Center:
-    X: 1.437
+    X: 14.36
     Y: 4.026
-    rot: 180.0
+    rot: 175.0
   Left:
-    X: 1.437
+    X: 14.35
     Y: 3.861
-    rot: 180.0
+    rot: 175.0
   Right:
-    X: 1.437
+    X: 14.36
     Y: 4.191
-    rot: 180.0
-
+    rot: 175.0
 Red Face 2:
   Center:
-    X: 1.372
-    Y: 2.888
-    rot: 120
+    X: 13.71
+    Y: 2.899
+    rot: 115
   Left:
-    X: 1.357
-    Y: 2.806
-    rot: 120
+    X: 13.56
+    Y: 2.828
+    rot: 115
   Right:
-    X: 1.386
-    Y: 2.971
-    rot: 120
-
+    X: 13.85
+    Y: 2.982
+    rot: 115
 Red Face 3:
   Center:
-    X: 1.240
-    Y: 2.888
-    rot: 60
+    X: 12.41
+    Y: 2.899
+    rot: 55
   Left:
-    X: 1.226
-    Y: 2.971
-    rot: 60
+    X: 12.27
+    Y: 2.993
+    rot: 55
   Right:
-    X: 1.255
-    Y: 2.806
-    rot: 60
-
+    X: 12.55
+    Y: 2.817
+    rot: 55
 Red Face 4:
   Center:
-    X: 1.174
+    X: 11.76
     Y: 4.026
-    rot: -1.4
+    rot: -5.0
   Left:
-    X: 1.174
+    X: 11.77
     Y: 4.191
-    rot: -1.4
+    rot: -5.0
   Right:
-    X: 1.174
+    X: 11.76
     Y: 3.861
-    rot: -1.4
-
+    rot: -5.0
 Red Face 5:
   Center:
-    X: 1.240
-    Y: 5.163
-    rot: -60
+    X: 12.41
+    Y: 5.152
+    rot: -65
   Left:
-    X: 1.255
-    Y: 5.246
-    rot: -60
+    X: 12.56
+    Y: 5.224
+    rot: -65
   Right:
-    X: 1.226
-    Y: 5.081
-    rot: -60
-
+    X: 12.27
+    Y: 5.070
+    rot: -65
 Red Face 6:
   Center:
-    X: 1.372
-    Y: 5.163
-    rot: -120
+    X: 13.71
+    Y: 5.152
+    rot: -125
   Left:
-    X: 1.386
-    Y: 5.081
-    rot: -120
+    X: 13.85
+    Y: 5.059
+    rot: -125
   Right:
-    X: 1.357
-    Y: 5.246
-    rot: -120
+    X: 13.57
+    Y: 5.235
+    rot: -125

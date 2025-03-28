@@ -13,6 +13,11 @@
 
 package frc.robot.commands;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -28,7 +33,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.AutoAlignConstants;
+import frc.robot.FieldConstants;
 import frc.robot.subsystems.drive.Drive;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
@@ -36,6 +44,7 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import org.json.simple.parser.ParseException;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -316,5 +325,29 @@ public class DriveCommands {
             DriveCommands.joystickDrive(drive, () -> true, () -> 1, () -> 0.75, () -> 0, () -> 0)),
         Commands.waitSeconds(2.25),
         Commands.runOnce(() -> drive.stop(), drive));
+  }
+
+  public static Command followPath(String pathName) {
+    try {
+      return AutoBuilder.followPath(PathPlannerPath.fromPathFile("LS-F1"));
+    } catch (FileVersionException | IOException | ParseException e) {
+      e.printStackTrace();
+      return Commands.none();
+    }
+  }
+
+  public static Command alignLeftBranchAuto(Supplier<Pose2d> robotPose) {
+    Pose2d targetPose = FieldConstants.getNearestLeftBranch(robotPose.get());
+
+    return AutoBuilder.followPath(
+        new PathPlannerPath(
+            PathPlannerPath.waypointsFromPoses(robotPose.get(), targetPose),
+            new PathConstraints(
+                AutoAlignConstants.MAX_LINEAR_VELOCITY,
+                AutoAlignConstants.MAX_LINEAR_ACCELERATION,
+                AutoAlignConstants.MAX_ANGULAR_VELOCITY,
+                AutoAlignConstants.MAX_ANGULAR_ACCELERATION),
+            null,
+            new GoalEndState(0, targetPose.getRotation())));
   }
 }

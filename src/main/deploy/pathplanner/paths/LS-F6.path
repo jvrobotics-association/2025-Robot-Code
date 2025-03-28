@@ -62,7 +62,18 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.5,
+        "y": 4.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.7505370294599016,
+      "maxWaypointRelativePos": 2.5859694660392796,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.292,
@@ -80,7 +91,7 @@
   "folder": "Left Start",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -115.48457330149367
   },
   "useDefaultConstraints": true
 }
