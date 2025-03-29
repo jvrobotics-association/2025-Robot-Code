@@ -25,30 +25,14 @@ public class TwoCoralAuto extends Command {
   private final ReefAlignLocation secondScoreLocation;
   private final ElevatorHeight secondScoreHeight;
 
-  /**
-   * Build the command for running a two coral auto
-   *
-   * @param elevator The elevator subsystem
-   * @param coralManipulator The coral manipulator subsystem
-   * @param startPathName The name of the path that will bring the robot from the starting position
-   *     to the face of the reef for the first scoring location
-   * @param reefToSourcePathName The name of the path that will bring the robot from the face of the
-   *     first scoring location to the source
-   * @param sourceToReefPathName The name of the path that will bring the robot from the source to
-   *     the face of the reef for the second scoring location
-   * @param firstScoreLocation The alignment position on the reef for the first scoring location
-   * @param firstScoreHeight The height at wich to place the coral for the first scoring location
-   * @param secondScoreLocation The alignment position on the reef for the secnd scoring location
-   * @param secondScoreHeight The height at wich to place the coral for the second scoring location
-   */
   public TwoCoralAuto(
       Elevator elevator,
       CoralManipulator coralManipulator,
       String startPathName,
-      String reefToSourcePathName,
-      String sourceToReefPathName,
       ReefAlignLocation firstScoreLocation,
       ElevatorHeight firstScoreHeight,
+      String reefToSourcePathName,
+      String sourceToReefPathName,
       ReefAlignLocation secondScoreLocation,
       ElevatorHeight secondScoreHeight) {
     this.elevator = elevator;

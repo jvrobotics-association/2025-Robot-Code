@@ -3,9 +3,13 @@
   "robotLength": 0.9779,
   "holonomicMode": true,
   "pathFolders": [
+    "From Left Source",
+    "From Right Source",
     "Left Start",
     "Middle Start",
-    "Right Start"
+    "Right Start",
+    "To Left Source",
+    "To Right Source"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.292,

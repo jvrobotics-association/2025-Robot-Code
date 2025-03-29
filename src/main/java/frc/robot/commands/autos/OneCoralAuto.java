@@ -24,9 +24,9 @@ public class OneCoralAuto extends Command {
   public OneCoralAuto(
       Elevator elevator,
       CoralManipulator coralManipulator,
+      String startPathName,
       ReefAlignLocation alignLocation,
-      ElevatorHeight scoreHeight,
-      String startPathName) {
+      ElevatorHeight scoreHeight) {
     this.elevator = elevator;
     this.coralManipulator = coralManipulator;
     this.alignLocation = alignLocation;

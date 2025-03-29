@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.995876913265306,
-        "y": 7.04140625
+        "x": 7.571760303730867,
+        "y": 7.240004982461734
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.002813297193878,
-        "y": 6.983694395727039
+        "x": 6.735323162468112,
+        "y": 7.063791454081633
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6607613201530613,
-        "y": 5.494798509247448
+        "x": 3.847421974649235,
+        "y": 5.981291952327806
       },
       "prevControl": {
-        "x": 2.8719028464427776,
-        "y": 5.877318689661436
+        "x": 4.309836322223349,
+        "y": 6.272612810859202
       },
       "nextControl": {
-        "x": 2.1137928491709186,
-        "y": 4.50386848294005
+        "x": 2.951069435586735,
+        "y": 5.416590202487243
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 4.005203085140305
       },
       "prevControl": {
-        "x": 2.2307905173788267,
-        "y": 4.02884745695153
+        "x": 2.6664975286989794,
+        "y": 4.945836356026785
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,11 +64,11 @@
     {
       "fieldPosition": {
         "x": 4.5,
-        "y": 4.5
+        "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.25,
-      "maxWaypointRelativePos": 0.75,
+      "minWaypointRelativePos": 0.4509896685761036,
+      "maxWaypointRelativePos": 2.0,
       "name": "Point Towards Zone"
     }
   ],
