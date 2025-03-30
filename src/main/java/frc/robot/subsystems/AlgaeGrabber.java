@@ -31,11 +31,6 @@ public class AlgaeGrabber extends SubsystemBase {
     return grabberMotor.getEncoder().getVelocity();
   }
 
-  @AutoLogOutput(key = "Algae Manipulator/Grabber Current")
-  public double getGrabberCurrent() {
-    return grabberMotor.getOutputCurrent();
-  }
-
   public void setGrabberSpeed(double speed) {
     grabberMotor.set(speed);
   }

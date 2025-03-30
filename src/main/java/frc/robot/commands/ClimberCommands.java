@@ -9,7 +9,7 @@ public class ClimberCommands {
   public static Command extendClimber(Climber climber) {
     return Commands.sequence(
         Commands.deadline(
-            Commands.waitSeconds(0.1),
+            Commands.waitSeconds(0.5),
             Commands.runOnce(
                 () -> {
                   climber.releaseRatchet();
@@ -22,7 +22,7 @@ public class ClimberCommands {
   public static Command retractClimber(Climber climber) {
     return Commands.sequence(
         Commands.deadline(
-            Commands.waitSeconds(0.1), Commands.runOnce(() -> climber.releaseRatchet(), climber)),
+            Commands.waitSeconds(0.5), Commands.runOnce(() -> climber.releaseRatchet(), climber)),
         new RetractClimber(climber));
   }
 }

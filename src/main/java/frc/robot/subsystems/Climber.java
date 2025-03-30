@@ -114,6 +114,8 @@ public class Climber extends SubsystemBase {
           "Could not apply climber winch motor config, error code: " + winchMotorStatus.toString());
     }
 
+    winchMotor.optimizeBusUtilization();
+
     rotationMotor.setPosition(0);
     chuteServo.setPosition(0);
     ratchetServo.setPosition(ClimberConstants.RATCHET_SERVO_CLOSED);

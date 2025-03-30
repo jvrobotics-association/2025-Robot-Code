@@ -34,6 +34,7 @@ import frc.robot.commands.autoAlignCommands.AlignProcessorCommand;
 import frc.robot.commands.autoAlignCommands.AlignRightBranchCommand;
 import frc.robot.commands.autoAlignCommands.AlignSourceCommand;
 import frc.robot.commands.autos.OneCoralAuto;
+import frc.robot.commands.autos.ThreeCoralAuto;
 import frc.robot.commands.autos.TwoCoralAuto;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeArm;
@@ -78,28 +79,38 @@ public class RobotContainer {
   private final CommandJoystick operatorConsole = new CommandJoystick(1);
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<String> startPositionSelector =
-      new LoggedDashboardChooser<>("Starting Position");
   private final LoggedDashboardChooser<Integer> numberOfCoralSelector =
       new LoggedDashboardChooser<>("Number of Coral");
+  private final LoggedDashboardChooser<String> startPositionSelector =
+      new LoggedDashboardChooser<>("Starting Position");
   private final LoggedDashboardChooser<String> firstReefFaceSelector =
       new LoggedDashboardChooser<>("First Reef Face");
+  private final LoggedDashboardChooser<String> leftRightFirstFaceSelector =
+      new LoggedDashboardChooser<>("Left-Right to First Face");
   private final LoggedDashboardChooser<String> firstScoringPositionSelector =
       new LoggedDashboardChooser<>("First Scoring Position");
   private final LoggedDashboardChooser<String> firstScoringHeightSelector =
       new LoggedDashboardChooser<>("First Scoring Height");
   private final LoggedDashboardChooser<String> firstSourceSelector =
       new LoggedDashboardChooser<>("First Source");
+  private final LoggedDashboardChooser<String> leftRightFirstSourceSelector =
+      new LoggedDashboardChooser<>("Left-Right to First Source");
   private final LoggedDashboardChooser<String> secondReefFaceSelector =
       new LoggedDashboardChooser<>("Second Reef Face");
+  private final LoggedDashboardChooser<String> leftRightSecondFaceSelector =
+      new LoggedDashboardChooser<>("Left-Right to Second Face");
   private final LoggedDashboardChooser<String> secondScoringPositionSelector =
       new LoggedDashboardChooser<>("Second Scoring Position");
   private final LoggedDashboardChooser<String> secondScoringHeightSelector =
       new LoggedDashboardChooser<>("Second Scoring Height");
   private final LoggedDashboardChooser<String> secondSourceSelector =
       new LoggedDashboardChooser<>("Second Source");
+  private final LoggedDashboardChooser<String> leftRightSecondSourceSelector =
+      new LoggedDashboardChooser<>("Left-Right to Second Source");
   private final LoggedDashboardChooser<String> thirdReefFaceSelector =
       new LoggedDashboardChooser<>("Third Reef Face");
+  private final LoggedDashboardChooser<String> leftRightThirdFaceSelector =
+      new LoggedDashboardChooser<>("Left-Right to Third Face");
   private final LoggedDashboardChooser<String> thirdScoringPositionSelector =
       new LoggedDashboardChooser<>("Third Scoring Position");
   private final LoggedDashboardChooser<String> thirdScoringHeightSelector =
@@ -178,7 +189,9 @@ public class RobotContainer {
     algaeGrabber = new AlgaeGrabber();
     climber = new Climber();
 
-    startPositionSelector.addDefaultOption("Left/Middle", "LS");
+    startPositionSelector.addDefaultOption("None", "");
+    startPositionSelector.addOption("Left", "LS");
+    startPositionSelector.addOption("Middle", "MS");
     startPositionSelector.addOption("Right", "RS");
 
     numberOfCoralSelector.addDefaultOption("None", 0);
@@ -193,6 +206,10 @@ public class RobotContainer {
     firstReefFaceSelector.addOption("Four", "F4");
     firstReefFaceSelector.addOption("Five", "F5");
     firstReefFaceSelector.addOption("Six", "F6");
+
+    leftRightFirstFaceSelector.addDefaultOption("None", "");
+    leftRightFirstFaceSelector.addOption("Left", "LEFT");
+    leftRightFirstFaceSelector.addOption("Right", "RIGHT");
 
     firstScoringPositionSelector.addDefaultOption("None", "");
     firstScoringPositionSelector.addOption("Left", "LEFT");
@@ -209,6 +226,10 @@ public class RobotContainer {
     firstSourceSelector.addOption("Left Source", "LSOURCE");
     firstSourceSelector.addOption("Right Source", "RSOURCE");
 
+    leftRightFirstSourceSelector.addDefaultOption("None", "");
+    leftRightFirstSourceSelector.addOption("Left", "LEFT");
+    leftRightFirstSourceSelector.addOption("Right", "RIGHT");
+
     secondReefFaceSelector.addDefaultOption("None", "");
     secondReefFaceSelector.addOption("One", "F1");
     secondReefFaceSelector.addOption("Two", "F2");
@@ -216,6 +237,10 @@ public class RobotContainer {
     secondReefFaceSelector.addOption("Four", "F4");
     secondReefFaceSelector.addOption("Five", "F5");
     secondReefFaceSelector.addOption("Six", "F6");
+
+    leftRightSecondFaceSelector.addDefaultOption("None", "");
+    leftRightSecondFaceSelector.addOption("Left", "LEFT");
+    leftRightSecondFaceSelector.addOption("Right", "RIGHT");
 
     secondScoringPositionSelector.addDefaultOption("None", "");
     secondScoringPositionSelector.addOption("Left", "LEFT");
@@ -232,6 +257,10 @@ public class RobotContainer {
     secondSourceSelector.addOption("Left Source", "LSOURCE");
     secondSourceSelector.addOption("Right Source", "RSOURCE");
 
+    leftRightSecondSourceSelector.addDefaultOption("None", "");
+    leftRightSecondSourceSelector.addOption("Left", "LEFT");
+    leftRightSecondSourceSelector.addOption("Right", "RIGHT");
+
     thirdReefFaceSelector.addDefaultOption("None", "");
     thirdReefFaceSelector.addOption("One", "F1");
     thirdReefFaceSelector.addOption("Two", "F2");
@@ -239,6 +268,10 @@ public class RobotContainer {
     thirdReefFaceSelector.addOption("Four", "F4");
     thirdReefFaceSelector.addOption("Five", "F5");
     thirdReefFaceSelector.addOption("Six", "F6");
+
+    leftRightThirdFaceSelector.addDefaultOption("None", "");
+    leftRightThirdFaceSelector.addOption("Left", "LEFT");
+    leftRightThirdFaceSelector.addOption("Right", "RIGHT");
 
     thirdScoringPositionSelector.addDefaultOption("None", "");
     thirdScoringPositionSelector.addOption("Left", "LEFT");
@@ -436,7 +469,11 @@ public class RobotContainer {
           new OneCoralAuto(
               elevator,
               coralManipulator,
-              startPositionSelector.get() + "-" + firstReefFaceSelector.get(),
+              startPositionSelector.get()
+                  + "-"
+                  + firstReefFaceSelector.get()
+                  + "-"
+                  + leftRightFirstFaceSelector.get(),
               ReefAlignLocation.valueOf(firstScoringPositionSelector.get()),
               ElevatorHeight.valueOf(firstScoringHeightSelector.get()));
     } else if (numberOfCoralSelector.get() == 2) {
@@ -444,15 +481,61 @@ public class RobotContainer {
           new TwoCoralAuto(
               elevator,
               coralManipulator,
-              startPositionSelector.get() + "-" + firstReefFaceSelector.get(),
+              startPositionSelector.get()
+                  + "-"
+                  + firstReefFaceSelector.get()
+                  + "-"
+                  + leftRightFirstFaceSelector.get(),
               ReefAlignLocation.valueOf(firstScoringPositionSelector.get()),
               ElevatorHeight.valueOf(firstScoringHeightSelector.get()),
-              firstReefFaceSelector.get() + "-" + firstSourceSelector.get(),
-              firstSourceSelector.get() + "-" + secondReefFaceSelector.get(),
+              firstReefFaceSelector.get()
+                  + "-"
+                  + firstSourceSelector.get()
+                  + "-"
+                  + leftRightFirstSourceSelector.get(),
+              firstSourceSelector.get()
+                  + "-"
+                  + secondReefFaceSelector.get()
+                  + "-"
+                  + leftRightSecondFaceSelector.get(),
               ReefAlignLocation.valueOf(secondScoringPositionSelector.get()),
               ElevatorHeight.valueOf(secondScoringHeightSelector.get()));
     } else if (numberOfCoralSelector.get() == 3) {
-
+      autoCommand =
+          new ThreeCoralAuto(
+              elevator,
+              coralManipulator,
+              startPositionSelector.get()
+                  + "-"
+                  + firstReefFaceSelector.get()
+                  + "-"
+                  + leftRightFirstFaceSelector.get(),
+              ReefAlignLocation.valueOf(firstScoringPositionSelector.get()),
+              ElevatorHeight.valueOf(firstScoringHeightSelector.get()),
+              firstReefFaceSelector.get()
+                  + "-"
+                  + firstSourceSelector.get()
+                  + "-"
+                  + leftRightFirstSourceSelector.get(),
+              firstSourceSelector.get()
+                  + "-"
+                  + secondReefFaceSelector.get()
+                  + "-"
+                  + leftRightSecondFaceSelector.get(),
+              ReefAlignLocation.valueOf(secondScoringPositionSelector.get()),
+              ElevatorHeight.valueOf(secondScoringHeightSelector.get()),
+              secondReefFaceSelector.get()
+                  + "-"
+                  + secondSourceSelector.get()
+                  + "-"
+                  + leftRightSecondSourceSelector.get(),
+              secondSourceSelector.get()
+                  + "-"
+                  + thirdReefFaceSelector.get()
+                  + "-"
+                  + leftRightThirdFaceSelector.get(),
+              ReefAlignLocation.valueOf(thirdScoringPositionSelector.get()),
+              ElevatorHeight.valueOf(thirdScoringHeightSelector.get()));
     }
 
     return autoCommand;

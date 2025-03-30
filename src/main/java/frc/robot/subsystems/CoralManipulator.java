@@ -16,7 +16,6 @@ import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.UpdateModeValue;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CoralManipulatorConstants;
@@ -126,6 +125,9 @@ public class CoralManipulator extends SubsystemBase {
       System.out.println(
           "Could not apply right coral motor config, error code: " + rightMotorStatus.toString());
     }
+
+    // leftMotor.optimizeBusUtilization();
+    // rightMotor.optimizeBusUtilization();
   }
 
   @Override
@@ -144,16 +146,6 @@ public class CoralManipulator extends SubsystemBase {
   @AutoLogOutput(key = "Coral Manipulator/Detected")
   public boolean getCoralSensorDetected() {
     return coralSensor.getIsDetected(true).getValue();
-  }
-
-  @AutoLogOutput(key = "Coral Manipulator/Right Velocity")
-  public AngularVelocity getRightVelocity() {
-    return rightMotor.getVelocity(true).getValue();
-  }
-
-  @AutoLogOutput(key = "Coral Manipulator/Left Velocity")
-  public AngularVelocity getLeftVelocity() {
-    return leftMotor.getVelocity(true).getValue();
   }
 
   public void setSpeed(double speed) {

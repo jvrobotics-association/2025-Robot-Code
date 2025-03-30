@@ -14,7 +14,6 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
-import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -146,11 +145,6 @@ public class Elevator extends SubsystemBase {
   @AutoLogOutput(key = "Elevator/PID Position")
   public double getPidPosition() {
     return m_request.getPositionMeasure().magnitude();
-  }
-
-  @AutoLogOutput(key = "Elevator/Acceleration")
-  public AngularAcceleration getAcceleration() {
-    return motor.getAcceleration(true).getValue();
   }
 
   public void moveToPosition(double position) {

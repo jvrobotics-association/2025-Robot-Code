@@ -14,7 +14,7 @@ import frc.robot.commands.GamePieceCommands;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 
-public class TwoCoralAuto extends Command {
+public class ThreeCoralAuto extends Command {
   private final Elevator elevator;
   private final CoralManipulator coralManipulator;
   private final String firstFacePathName;
@@ -24,8 +24,12 @@ public class TwoCoralAuto extends Command {
   private final String secondFacePathName;
   private final ReefAlignLocation secondScoreLocation;
   private final ElevatorHeight secondScoreHeight;
+  private final String secondSourcePathName;
+  private final String thirdFacePathName;
+  private final ReefAlignLocation thirdScoreLocation;
+  private final ElevatorHeight thirdScoreHeight;
 
-  public TwoCoralAuto(
+  public ThreeCoralAuto(
       Elevator elevator,
       CoralManipulator coralManipulator,
       String firstFacePathName,
@@ -34,7 +38,11 @@ public class TwoCoralAuto extends Command {
       String firstSourcePathName,
       String secondFacePathName,
       ReefAlignLocation secondScoreLocation,
-      ElevatorHeight secondScoreHeight) {
+      ElevatorHeight secondScoreHeight,
+      String secondSourcePathName,
+      String thirdFacePathName,
+      ReefAlignLocation thirdScoreLocation,
+      ElevatorHeight thirdScoreHeight) {
     this.elevator = elevator;
     this.coralManipulator = coralManipulator;
     this.firstFacePathName = firstFacePathName;
@@ -44,6 +52,10 @@ public class TwoCoralAuto extends Command {
     this.secondFacePathName = secondFacePathName;
     this.secondScoreLocation = secondScoreLocation;
     this.secondScoreHeight = secondScoreHeight;
+    this.secondSourcePathName = secondSourcePathName;
+    this.thirdFacePathName = thirdFacePathName;
+    this.thirdScoreLocation = thirdScoreLocation;
+    this.thirdScoreHeight = thirdScoreHeight;
   }
 
   @Override
@@ -126,6 +138,55 @@ public class TwoCoralAuto extends Command {
                 }
               });
 
+      PathPlannerPath secondSourcePath = PathPlannerPath.fromPathFile(secondSourcePathName);
+
+      Command secondSourcePathCommand = AutoBuilder.followPath(secondSourcePath);
+
+      Pose2d secondSourcePathEndPoint =
+          secondSourcePath.getPathPoses().get(secondSourcePath.getPathPoses().size() - 1);
+
+      Pose2d secondSourceTarget = FieldConstants.getNearestSource(secondSourcePathEndPoint);
+
+      Command secondSourceAlignCommand =
+          AutoBuilder.followPath(
+              new PathPlannerPath(
+                  PathPlannerPath.waypointsFromPoses(secondSourcePathEndPoint, secondSourceTarget),
+                  AutoAlignConstants.PATH_CONSTRAINTS,
+                  null,
+                  new GoalEndState(0, secondSourceTarget.getRotation())) {
+                {
+                  preventFlipping = true;
+                }
+              });
+
+      PathPlannerPath thirdFacePath = PathPlannerPath.fromPathFile(thirdFacePathName);
+
+      Command thirdFacePathCommand = AutoBuilder.followPath(thirdFacePath);
+
+      Pose2d thirdFacePathEndPoint =
+          thirdFacePath.getPathPoses().get(thirdFacePath.getPathPoses().size() - 1);
+
+      Pose2d thirdScoreTarget;
+      if (thirdScoreLocation == ReefAlignLocation.LEFT) {
+        thirdScoreTarget = FieldConstants.getNearestLeftBranch(thirdFacePathEndPoint);
+      } else if (thirdScoreLocation == ReefAlignLocation.RIGHT) {
+        thirdScoreTarget = FieldConstants.getNearestRightBranch(thirdFacePathEndPoint);
+      } else {
+        thirdScoreTarget = FieldConstants.getNearestReefFace(thirdFacePathEndPoint);
+      }
+
+      Command thirdFaceAlignCommand =
+          AutoBuilder.followPath(
+              new PathPlannerPath(
+                  PathPlannerPath.waypointsFromPoses(thirdFacePathEndPoint, thirdScoreTarget),
+                  AutoAlignConstants.PATH_CONSTRAINTS,
+                  null,
+                  new GoalEndState(0, thirdScoreTarget.getRotation())) {
+                {
+                  preventFlipping = true;
+                }
+              });
+
       Commands.sequence(
               firstFacePathCommand,
               firstFaceAlignCommand,
@@ -135,7 +196,13 @@ public class TwoCoralAuto extends Command {
               Commands.waitSeconds(3),
               secondFacePathCommand,
               secondFaceAlignCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, secondScoreHeight))
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, secondScoreHeight),
+              secondSourcePathCommand,
+              secondSourceAlignCommand,
+              Commands.waitSeconds(3),
+              thirdFacePathCommand,
+              thirdFaceAlignCommand,
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, thirdScoreHeight))
           .schedule();
 
     } catch (Exception e) {

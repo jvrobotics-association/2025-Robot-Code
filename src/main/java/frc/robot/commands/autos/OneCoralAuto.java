@@ -17,57 +17,58 @@ import frc.robot.subsystems.Elevator;
 public class OneCoralAuto extends Command {
   private final Elevator elevator;
   private final CoralManipulator coralManipulator;
-  private final ReefAlignLocation alignLocation;
-  private final ElevatorHeight scoreHeight;
-  private final String startPathName;
+  private final String firstFacePathName;
+  private final ReefAlignLocation firstScoreLocation;
+  private final ElevatorHeight firstScoreHeight;
 
   public OneCoralAuto(
       Elevator elevator,
       CoralManipulator coralManipulator,
-      String startPathName,
-      ReefAlignLocation alignLocation,
-      ElevatorHeight scoreHeight) {
+      String firstFacePathName,
+      ReefAlignLocation firstScoreLocation,
+      ElevatorHeight firstScoreHeight) {
     this.elevator = elevator;
     this.coralManipulator = coralManipulator;
-    this.alignLocation = alignLocation;
-    this.scoreHeight = scoreHeight;
-    this.startPathName = startPathName;
+    this.firstFacePathName = firstFacePathName;
+    this.firstScoreLocation = firstScoreLocation;
+    this.firstScoreHeight = firstScoreHeight;
   }
 
   @Override
   public void initialize() {
     try {
-      PathPlannerPath startPath = PathPlannerPath.fromPathFile(startPathName);
-      Pose2d startPathEndPoint = startPath.getPathPoses().get(startPath.getPathPoses().size() - 1);
+      PathPlannerPath firstFacePath = PathPlannerPath.fromPathFile(firstFacePathName);
 
-      Pose2d targetPose;
-      if (alignLocation == ReefAlignLocation.LEFT) {
-        targetPose = FieldConstants.getNearestLeftBranch(startPathEndPoint);
-      } else if (alignLocation == ReefAlignLocation.RIGHT) {
-        targetPose = FieldConstants.getNearestRightBranch(startPathEndPoint);
+      Command firstFacePathCommand = AutoBuilder.followPath(firstFacePath);
+
+      Pose2d firstFacePathEndPoint =
+          firstFacePath.getPathPoses().get(firstFacePath.getPathPoses().size() - 1);
+
+      Pose2d firstScoreTarget;
+      if (firstScoreLocation == ReefAlignLocation.LEFT) {
+        firstScoreTarget = FieldConstants.getNearestLeftBranch(firstFacePathEndPoint);
+      } else if (firstScoreLocation == ReefAlignLocation.RIGHT) {
+        firstScoreTarget = FieldConstants.getNearestRightBranch(firstFacePathEndPoint);
       } else {
-        targetPose = FieldConstants.getNearestReefFace(startPathEndPoint);
+        firstScoreTarget = FieldConstants.getNearestReefFace(firstFacePathEndPoint);
       }
 
-      Command startToReefCommand = AutoBuilder.followPath(startPath);
-
-      Command alignPathCommand =
-          AutoBuilder.pathfindThenFollowPath(
+      Command firstFaceAlignCommand =
+          AutoBuilder.followPath(
               new PathPlannerPath(
-                  PathPlannerPath.waypointsFromPoses(startPathEndPoint, targetPose),
+                  PathPlannerPath.waypointsFromPoses(firstFacePathEndPoint, firstScoreTarget),
                   AutoAlignConstants.PATH_CONSTRAINTS,
                   null,
-                  new GoalEndState(0, targetPose.getRotation())) {
+                  new GoalEndState(0, firstScoreTarget.getRotation())) {
                 {
                   preventFlipping = true;
                 }
-              },
-              AutoAlignConstants.PATH_CONSTRAINTS);
+              });
 
       Commands.sequence(
-              startToReefCommand,
-              alignPathCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, scoreHeight))
+              firstFacePathCommand,
+              firstFaceAlignCommand,
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, firstScoreHeight))
           .schedule();
 
     } catch (Exception e) {

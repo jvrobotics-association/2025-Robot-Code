@@ -8,20 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.7708596739477045,
-        "y": 5.175879304846937
+        "x": 6.039108338647959,
+        "y": 5.591719447544643
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.4541199976084185,
-        "y": 5.352722417091837
+        "x": 2.852959283322704,
+        "y": 4.930306620695152
       },
       "prevControl": {
-        "x": 5.830786033163266,
-        "y": 5.26741380341199
+        "x": 3.8236696565041774,
+        "y": 6.731843548604075
+      },
+      "nextControl": {
+        "x": 2.1439778977997452,
+        "y": 3.6145113201530608
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.551937280771684,
+        "y": 2.6612164182079083
+      },
+      "prevControl": {
+        "x": 2.96485032684949,
+        "y": 2.989859195631377
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +48,8 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5011379909983569,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 1.7998798076923055,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 0.9,
         "maxAcceleration": 3.0,
@@ -44,7 +60,18 @@
       }
     }
   ],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.5,
+        "y": 4.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.35452894844517174,
+      "maxWaypointRelativePos": 2.0,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.292,
@@ -56,10 +83,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "Right Start",
+  "folder": "Middle Start",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
