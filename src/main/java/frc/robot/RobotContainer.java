@@ -34,6 +34,7 @@ import frc.robot.commands.autoAlignCommands.AlignProcessorCommand;
 import frc.robot.commands.autoAlignCommands.AlignRightBranchCommand;
 import frc.robot.commands.autoAlignCommands.AlignSourceCommand;
 import frc.robot.commands.autos.OneCoralAuto;
+import frc.robot.commands.autos.TestPathAuto;
 import frc.robot.commands.autos.ThreeCoralAuto;
 import frc.robot.commands.autos.TwoCoralAuto;
 import frc.robot.generated.TunerConstants;
@@ -53,6 +54,11 @@ import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -79,8 +85,8 @@ public class RobotContainer {
   private final CommandJoystick operatorConsole = new CommandJoystick(1);
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<Integer> numberOfCoralSelector =
-      new LoggedDashboardChooser<>("Number of Coral");
+  private final LoggedDashboardChooser<String> autoTypeSelector =
+      new LoggedDashboardChooser<>("Auto Type");
   private final LoggedDashboardChooser<String> startPositionSelector =
       new LoggedDashboardChooser<>("Starting Position");
   private final LoggedDashboardChooser<String> firstReefFaceSelector =
@@ -115,6 +121,9 @@ public class RobotContainer {
       new LoggedDashboardChooser<>("Third Scoring Position");
   private final LoggedDashboardChooser<String> thirdScoringHeightSelector =
       new LoggedDashboardChooser<>("Third Scoring Height");
+
+  private final LoggedDashboardChooser<String> testPathSelector =
+      new LoggedDashboardChooser<>("Path to Test");
 
   private boolean isRelativeDrive = false;
 
@@ -194,10 +203,12 @@ public class RobotContainer {
     startPositionSelector.addOption("Middle", "MS");
     startPositionSelector.addOption("Right", "RS");
 
-    numberOfCoralSelector.addDefaultOption("None", 0);
-    numberOfCoralSelector.addOption("One", 1);
-    numberOfCoralSelector.addOption("Two", 2);
-    numberOfCoralSelector.addOption("Three", 3);
+    autoTypeSelector.addDefaultOption("None", "");
+    autoTypeSelector.addOption("One Coral", "1C");
+    autoTypeSelector.addOption("Two Coral", "2C");
+    autoTypeSelector.addOption("Three Coral", "3C");
+    autoTypeSelector.addOption("Drive Forwards Only", "DRIVE");
+    autoTypeSelector.addOption("Test Path", "TESTPATH");
 
     firstReefFaceSelector.addDefaultOption("None", "");
     firstReefFaceSelector.addOption("One", "F1");
@@ -283,6 +294,19 @@ public class RobotContainer {
     thirdScoringHeightSelector.addOption("L2", "L2");
     thirdScoringHeightSelector.addOption("L3", "L3");
     thirdScoringHeightSelector.addOption("L4", "L4");
+
+    testPathSelector.addDefaultOption("None", "");
+    try {
+      List<String> pathFiles =
+          Files.walk(Paths.get("/home/lvuser/deploy"))
+              .filter(p -> p.toString().endsWith(".path"))
+              .map(p -> p.getFileName().toString().replace(".path", ""))
+              .collect(Collectors.toList());
+
+      pathFiles.forEach(path -> testPathSelector.addOption(path, path));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     // Set up SysId routines
     // autoChooser.addOption(
@@ -464,7 +488,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command autoCommand = Commands.none();
 
-    if (numberOfCoralSelector.get() == 1) {
+    if (autoTypeSelector.get().equals("1C")) {
       autoCommand =
           new OneCoralAuto(
               elevator,
@@ -476,7 +500,7 @@ public class RobotContainer {
                   + leftRightFirstFaceSelector.get(),
               ReefAlignLocation.valueOf(firstScoringPositionSelector.get()),
               ElevatorHeight.valueOf(firstScoringHeightSelector.get()));
-    } else if (numberOfCoralSelector.get() == 2) {
+    } else if (autoTypeSelector.get().equals("2C")) {
       autoCommand =
           new TwoCoralAuto(
               elevator,
@@ -500,7 +524,7 @@ public class RobotContainer {
                   + leftRightSecondFaceSelector.get(),
               ReefAlignLocation.valueOf(secondScoringPositionSelector.get()),
               ElevatorHeight.valueOf(secondScoringHeightSelector.get()));
-    } else if (numberOfCoralSelector.get() == 3) {
+    } else if (autoTypeSelector.get().equals("3C")) {
       autoCommand =
           new ThreeCoralAuto(
               elevator,
@@ -536,6 +560,10 @@ public class RobotContainer {
                   + leftRightThirdFaceSelector.get(),
               ReefAlignLocation.valueOf(thirdScoringPositionSelector.get()),
               ElevatorHeight.valueOf(thirdScoringHeightSelector.get()));
+    } else if (autoTypeSelector.get().equals("DRIVE")) {
+      autoCommand = DriveCommands.leaveAutoZome(drive);
+    } else if (autoTypeSelector.get().equals("TESTPATH")) {
+      autoCommand = new TestPathAuto(testPathSelector.get());
     }
 
     return autoCommand;
