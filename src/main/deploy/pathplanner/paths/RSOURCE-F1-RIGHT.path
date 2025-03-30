@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.838898577008929,
-        "y": 3.8586849290497445
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.787727399553572,
-        "y": 2.206132214604593
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 1.424853216677296,
         "y": 1.179420838647959
       },
-      "prevControl": {
+      "prevControl": null,
+      "nextControl": {
         "x": 2.3956365593112245,
         "y": 1.6614722177933674
       },
-      "nextControl": null,
       "isLocked": false,
       "linkedName": "Right Source"
+    },
+    {
+      "anchor": {
+        "x": 2.838898577008929,
+        "y": 3.8586849290497445
+      },
+      "prevControl": {
+        "x": 2.787727399553572,
+        "y": 2.206132214604593
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8754347381342065,
+      "minWaypointRelativePos": 0.9193177168576112,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.9,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "To Right Source",
+  "folder": "From Right Source",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }

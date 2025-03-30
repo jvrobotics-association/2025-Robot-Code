@@ -3,37 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.235759327168368,
-        "y": 5.382277881855867
+        "x": 1.4468536750637755,
+        "y": 6.822905672034438
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.38221849091199,
-        "y": 6.81388163663903
+        "x": 2.641873804209183,
+        "y": 6.5410619618941315
+      },
+      "isLocked": false,
+      "linkedName": "Left Source"
+    },
+    {
+      "anchor": {
+        "x": 2.76289381377551,
+        "y": 3.6286419802295917
+      },
+      "prevControl": {
+        "x": 2.726043404075024,
+        "y": 4.719328044836024
+      },
+      "nextControl": {
+        "x": 2.795842036033163,
+        "y": 2.6534515505420915
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4468536750637755,
-        "y": 6.822905672034438
+        "x": 5.173360570790817,
+        "y": 2.515677614795918
       },
       "prevControl": {
-        "x": 2.413684630102041,
-        "y": 6.5066796875
+        "x": 4.3308374521683675,
+        "y": 1.931423788265306
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Source"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8439098301963986,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 1.873414484451717,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 0.9,
         "maxAcceleration": 3.0,
@@ -52,7 +68,7 @@
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.6340911415711962,
+      "maxWaypointRelativePos": 1.653782221767596,
       "name": "Point Towards Zone"
     }
   ],
@@ -67,13 +83,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": "To Left Source",
+  "folder": "From Left Source",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -54.0
   },
   "useDefaultConstraints": true
 }

@@ -3,52 +3,52 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.1303979990433675,
-        "y": 4.066202766262754
+        "x": 7.25,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.157155313297194,
-        "y": 5.3263148716517845
+        "x": 6.02567721619898,
+        "y": 2.4377491230867347
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Middle Start"
     },
     {
       "anchor": {
-        "x": 4.560810447225766,
-        "y": 6.267927495216836
+        "x": 3.8021968670280613,
+        "y": 2.33897441007653
       },
       "prevControl": {
-        "x": 5.7328157884247455,
-        "y": 6.001368682238519
+        "x": 4.710435308846644,
+        "y": 1.7619491130770872
       },
       "nextControl": {
-        "x": 3.5122867903140174,
-        "y": 6.506401853260421
+        "x": 2.3775185347576526,
+        "y": 3.2441061463647953
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4468536750637755,
-        "y": 6.822905672034438
+        "x": 3.52871263153699,
+        "y": 5.390147680165816
       },
       "prevControl": {
-        "x": 2.125929827008928,
-        "y": 6.535115892059949
+        "x": 2.374615453603317,
+        "y": 4.494529655612244
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Source"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.7551529255319134,
+      "minWaypointRelativePos": 1.9394179623567942,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 0.9,
@@ -67,8 +67,8 @@
         "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 1.5300225040916546,
+      "minWaypointRelativePos": 0.12397708674304428,
+      "maxWaypointRelativePos": 2.0,
       "name": "Point Towards Zone"
     }
   ],
@@ -83,10 +83,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "To Left Source",
+  "folder": "Middle Start",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

@@ -3,53 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6237448182397958,
-        "y": 2.6147671197385205
+        "x": 1.424853216677296,
+        "y": 1.179420838647959
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6619155572385207,
-        "y": 2.9280200693558673
+        "x": 3.0508530037932395,
+        "y": 1.1794208386479588
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Right Source"
     },
     {
       "anchor": {
-        "x": 2.5077374641262757,
-        "y": 4.085754842952806
+        "x": 3.5349734933035717,
+        "y": 5.370875418526785
       },
       "prevControl": {
-        "x": 2.468983079559949,
-        "y": 3.435079918686224
-      },
-      "nextControl": {
-        "x": 2.553936662950589,
-        "y": 4.861426048484118
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.4468536750637755,
-        "y": 6.822905672034438
-      },
-      "prevControl": {
-        "x": 2.641873804209183,
-        "y": 6.5410619618941315
+        "x": 2.248379687765409,
+        "y": 5.370875418526785
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Source"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.8413333674304402,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.9049329991816669,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.9,
         "maxAcceleration": 3.0,
@@ -67,8 +51,8 @@
         "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 1.653782221767596,
+      "minWaypointRelativePos": 0.11556362520458287,
+      "maxWaypointRelativePos": 1.0,
       "name": "Point Towards Zone"
     }
   ],
@@ -83,13 +67,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "To Left Source",
+  "folder": "From Right Source",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }

@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4468536750637755,
-        "y": 6.822905672034438
+        "x": 1.424853216677296,
+        "y": 1.179420838647959
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3904949577487242,
-        "y": 6.156211336096939
+        "x": 3.4936308195153067,
+        "y": 1.21981913663903
       },
       "isLocked": false,
-      "linkedName": "Left Source"
+      "linkedName": "Right Source"
     },
     {
       "anchor": {
-        "x": 2.6652033840880103,
-        "y": 4.3390224410076526
+        "x": 6.132916334502552,
+        "y": 3.8862816884566325
       },
       "prevControl": {
-        "x": 2.705896577713763,
-        "y": 5.020489039035827
-      },
-      "nextControl": {
-        "x": 2.6109892179528065,
-        "y": 3.4311275310905605
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.68138671875,
-        "y": 2.5924868463010204
-      },
-      "prevControl": {
-        "x": 3.0382318239795922,
-        "y": 2.8929382573341833
+        "x": 6.1568405213647965,
+        "y": 2.079410973373724
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,8 +32,8 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.731242328150571,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.9256533858428823,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.9,
         "maxAcceleration": 3.0,
@@ -67,8 +51,8 @@
         "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.38586845335515596,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.0647568023731596,
+      "maxWaypointRelativePos": 1.0,
       "name": "Point Towards Zone"
     }
   ],
@@ -83,13 +67,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "From Left Source",
+  "folder": "From Right Source",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }

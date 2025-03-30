@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4468536750637755,
-        "y": 6.822905672034438
+        "x": 2.413684630102041,
+        "y": 6.5066796875
       },
       "isLocked": false,
       "linkedName": "Left Source"
     },
     {
       "anchor": {
-        "x": 2.8361703802614797,
-        "y": 4.082047293526785
+        "x": 5.1501708984375,
+        "y": 5.545060287786989
       },
       "prevControl": {
-        "x": 2.8361703802614797,
-        "y": 5.003630313231635
+        "x": 3.9876792689732143,
+        "y": 6.048692402742347
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8049879807692322,
+      "minWaypointRelativePos": 0.910699672667759,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.9,
@@ -51,7 +51,7 @@
         "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.32033807283142335,
+      "minWaypointRelativePos": 0.2178549509001637,
       "maxWaypointRelativePos": 1.0,
       "name": "Point Towards Zone"
     }
@@ -67,7 +67,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": "From Left Source",

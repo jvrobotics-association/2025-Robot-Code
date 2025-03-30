@@ -4,10 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "From Left Source",
-    "From Right Source",
     "Left Start",
-    "Right Start",
     "Middle Start",
+    "From Right Source",
+    "Right Start",
     "To Left Source",
     "To Right Source"
   ],

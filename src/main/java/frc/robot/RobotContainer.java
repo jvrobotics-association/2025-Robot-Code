@@ -469,7 +469,11 @@ public class RobotContainer {
           new OneCoralAuto(
               elevator,
               coralManipulator,
-              startPositionSelector.get()+ "-"+ firstReefFaceSelector.get()+ "-"+ leftRightFirstFaceSelector.get(),
+              startPositionSelector.get()
+                  + "-"
+                  + firstReefFaceSelector.get()
+                  + "-"
+                  + leftRightFirstFaceSelector.get(),
               ReefAlignLocation.valueOf(firstScoringPositionSelector.get()),
               ElevatorHeight.valueOf(firstScoringHeightSelector.get()));
     } else if (numberOfCoralSelector.get() == 2) {
