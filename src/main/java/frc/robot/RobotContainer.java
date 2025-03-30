@@ -28,6 +28,7 @@ import frc.robot.FieldConstants.ReefAlignLocation;
 import frc.robot.commands.ClimberCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GamePieceCommands;
+import frc.robot.commands.MoveElevator;
 import frc.robot.commands.autoAlignCommands.AlignCenterReefCommand;
 import frc.robot.commands.autoAlignCommands.AlignLeftBranchCommand;
 import frc.robot.commands.autoAlignCommands.AlignProcessorCommand;
@@ -408,7 +409,10 @@ public class RobotContainer {
     // Launch Algae
     operatorConsole
         .button(5)
-        .onTrue(GamePieceCommands.launchAlgae(elevator, algaeManipulator, algaeGrabber));
+        .onTrue(
+            Commands.sequence(
+                new MoveElevator(elevator, ElevatorHeight.L1),
+                Commands.runOnce(() -> elevator.stopElevator(), elevator)));
 
     // Place coral on L2
     operatorConsole

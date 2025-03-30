@@ -190,19 +190,22 @@ public class ThreeCoralAuto extends Command {
       Commands.sequence(
               firstFacePathCommand,
               firstFaceAlignCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, firstScoreHeight),
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, firstScoreHeight)
+                  .asProxy(),
               firstSourcePathCommand,
               firstSourceAlignCommand,
-              Commands.waitSeconds(3),
+              Commands.waitUntil(() -> coralManipulator.getCoralSensorDetected()),
               secondFacePathCommand,
               secondFaceAlignCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, secondScoreHeight),
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, secondScoreHeight)
+                  .asProxy(),
               secondSourcePathCommand,
               secondSourceAlignCommand,
-              Commands.waitSeconds(3),
+              Commands.waitUntil(() -> coralManipulator.getCoralSensorDetected()),
               thirdFacePathCommand,
               thirdFaceAlignCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, thirdScoreHeight))
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, thirdScoreHeight)
+                  .asProxy())
           .schedule();
 
     } catch (Exception e) {

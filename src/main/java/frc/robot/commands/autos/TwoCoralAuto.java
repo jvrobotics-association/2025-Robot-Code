@@ -7,10 +7,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.AutoAlignConstants;
+import frc.robot.Constants.CoralManipulatorConstants;
 import frc.robot.Constants.ElevatorConstants.ElevatorHeight;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.ReefAlignLocation;
 import frc.robot.commands.GamePieceCommands;
+import frc.robot.commands.MoveElevator;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
 
@@ -129,10 +131,18 @@ public class TwoCoralAuto extends Command {
       Commands.sequence(
               firstFacePathCommand,
               firstFaceAlignCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, firstScoreHeight),
-              firstSourcePathCommand,
+              new MoveElevator(elevator, firstScoreHeight),
+              Commands.deadline(
+                  Commands.waitSeconds(0.7),
+                  Commands.runEnd(
+                      () -> coralManipulator.setSpeed(CoralManipulatorConstants.OUTPUT_SPEED),
+                      () -> coralManipulator.stopMotors(),
+                      coralManipulator)),
+              Commands.parallel(
+                  new MoveElevator(elevator, ElevatorHeight.L1), firstSourcePathCommand),
+              Commands.runOnce(() -> elevator.stopElevator(), elevator),
               firstSourceAlignCommand,
-              Commands.waitSeconds(3),
+              Commands.waitUntil(() -> coralManipulator.getCoralSensorDetected()),
               secondFacePathCommand,
               secondFaceAlignCommand,
               GamePieceCommands.placeCoralCommand(elevator, coralManipulator, secondScoreHeight))

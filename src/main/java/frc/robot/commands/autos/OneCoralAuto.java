@@ -68,7 +68,8 @@ public class OneCoralAuto extends Command {
       Commands.sequence(
               firstFacePathCommand,
               firstFaceAlignCommand,
-              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, firstScoreHeight))
+              GamePieceCommands.placeCoralCommand(elevator, coralManipulator, firstScoreHeight)
+                  .asProxy())
           .schedule();
 
     } catch (Exception e) {

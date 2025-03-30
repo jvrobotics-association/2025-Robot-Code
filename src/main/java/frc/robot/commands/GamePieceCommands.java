@@ -18,7 +18,7 @@ public class GamePieceCommands {
     return Commands.sequence(
         new MoveElevator(elevator, elevatorHeight),
         Commands.deadline(
-            Commands.waitSeconds(1),
+            Commands.waitSeconds(0.7),
             Commands.runEnd(
                 () -> coralManipulator.setSpeed(CoralManipulatorConstants.OUTPUT_SPEED),
                 () -> coralManipulator.stopMotors(),
