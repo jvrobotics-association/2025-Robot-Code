@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.580609454719388,
-        "y": 5.058496890943877
+        "x": 7.25,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.7708596739477045,
-        "y": 5.175879304846937
+        "x": 6.842282465720664,
+        "y": 4.387115652901785
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Middle Start"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.380284199617347
       },
       "prevControl": {
-        "x": 5.811268933354592,
-        "y": 5.2949755859375
+        "x": 5.785980648118623,
+        "y": 5.238522899394131
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5011379909983569,
+      "minWaypointRelativePos": 0.7560032221767592,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.9,

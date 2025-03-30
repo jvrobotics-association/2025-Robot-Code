@@ -105,7 +105,7 @@
   "folder": "Left Start",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -160.8170807770046
+    "rotation": -150.0
   },
   "useDefaultConstraints": true
 }
