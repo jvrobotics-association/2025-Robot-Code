@@ -58,7 +58,7 @@ public final class Constants {
   public static class AutoAlignConstants {
     public static final PathConstraints PATH_CONSTRAINTS =
         new PathConstraints(
-            LinearVelocity.ofBaseUnits(0.9, MetersPerSecond),
+            LinearVelocity.ofBaseUnits(1.3, MetersPerSecond),
             LinearAcceleration.ofBaseUnits(1.5, MetersPerSecondPerSecond),
             AngularVelocity.ofBaseUnits(540, DegreesPerSecond),
             AngularAcceleration.ofBaseUnits(720, DegreesPerSecondPerSecond));
