@@ -29,7 +29,7 @@ class RetractClimber extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    m_climber.stopWinchMotor();
     m_climber.engageRatchet();
+    m_climber.stopWinchMotor();
   }
 }

@@ -384,7 +384,7 @@ public class RobotContainer {
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset chute servo to closed
-    controller.povRight().onTrue(Commands.run(() -> climber.engageChute(), climber));
+    controller.povDown().onTrue(Commands.run(() -> climber.engageChute(), climber));
 
     // Lock to 0° when A button is held
     // controller

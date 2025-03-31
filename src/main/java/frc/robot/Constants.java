@@ -132,7 +132,7 @@ public final class Constants {
     public static final int ROTATION_MOTOR = 9;
     public static final int WINCH_MOTOR = 10;
 
-    public static final double ROTATION_MIN = 0.15;
+    public static final double ROTATION_MIN = 0.1;
     public static final double ROTATION_MAX = 1.315;
 
     public static final double RETRACT_SPEED = 0.5;

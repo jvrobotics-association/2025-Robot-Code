@@ -100,7 +100,7 @@ public class Climber extends SubsystemBase {
     // Configure the motor to use coast mode so it can be moved by the winch
     winchMotorConfig
         .MotorOutput
-        .withNeutralMode(NeutralModeValue.Coast)
+        .withNeutralMode(NeutralModeValue.Brake)
         .withInverted(InvertedValue.Clockwise_Positive);
 
     // Retry config apply up to 5 times, report if failure
