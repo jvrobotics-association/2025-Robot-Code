@@ -176,7 +176,10 @@ public class RobotContainer {
                     drive::getPose));
 
         // Set simulator position to blue left side start
-        drive.setPose(new Pose2d(7.5, 7.0, Rotation2d.fromDegrees(180)));
+        drive.setPose(new Pose2d(7.5, 6.75, Rotation2d.fromDegrees(225)));
+
+        // Set simulator position to red left side start
+        // drive.setPose(new Pose2d(10, 1.25, Rotation2d.fromDegrees(0)));
         break;
 
       default:

@@ -3,7 +3,10 @@ package frc.robot.commands.autos;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FlippingUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.AutoAlignConstants;
@@ -43,6 +46,10 @@ public class OneCoralAuto extends Command {
 
       Pose2d firstFacePathEndPoint =
           firstFacePath.getPathPoses().get(firstFacePath.getPathPoses().size() - 1);
+
+      if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+        firstFacePathEndPoint = FlippingUtil.flipFieldPose(firstFacePathEndPoint);
+      }
 
       Pose2d firstScoreTarget;
       if (firstScoreLocation == ReefAlignLocation.LEFT) {
