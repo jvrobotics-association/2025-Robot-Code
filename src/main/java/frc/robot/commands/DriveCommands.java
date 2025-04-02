@@ -326,6 +326,21 @@ public class DriveCommands {
         Commands.runOnce(() -> drive.stop(), drive));
   }
 
+  public static Command bump(Drive drive) {
+    return Commands.sequence(
+        Commands.deadline(
+            Commands.waitSeconds(0.02),
+            DriveCommands.joystickDrive(
+                drive, () -> true, () -> 1, () -> 0.0, () -> 0.75, () -> 0)),
+        Commands.waitSeconds(1.5),
+        Commands.runOnce(() -> drive.stop(), drive),
+        Commands.deadline(
+            Commands.waitSeconds(0.02),
+            DriveCommands.joystickDrive(drive, () -> true, () -> 1, () -> 0.75, () -> 0, () -> 0)),
+        Commands.waitSeconds(0.5),
+        Commands.runOnce(() -> drive.stop(), drive));
+  }
+
   public static Command followPath(String pathName) {
     try {
       return AutoBuilder.followPath(PathPlannerPath.fromPathFile("LS-F1"));
