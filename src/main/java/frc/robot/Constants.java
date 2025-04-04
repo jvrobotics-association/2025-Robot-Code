@@ -108,7 +108,7 @@ public final class Constants {
       L1(ElevatorConstants.MIN_HEIGHT),
       L2(0.468),
       L3(1.915),
-      L4(4.25),
+      L4(4.22),
       L2_ALGAE(1.415),
       L3_ALGAE(2.835),
       ALGAE_SCORE(0.192),

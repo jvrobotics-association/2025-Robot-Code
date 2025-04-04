@@ -331,7 +331,7 @@ public class DriveCommands {
         Commands.deadline(
             Commands.waitSeconds(0.02),
             DriveCommands.joystickDrive(
-                drive, () -> true, () -> 1, () -> 0.0, () -> -0.75, () -> 0)),
+                drive, () -> true, () -> 1, () -> 0.0, () -> -2.00, () -> 0)),
         Commands.waitSeconds(1.5),
         Commands.runOnce(() -> drive.stop(), drive),
         Commands.deadline(

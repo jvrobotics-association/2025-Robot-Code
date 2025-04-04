@@ -93,13 +93,11 @@ public class TwoCoralAuto extends Command {
       Pose2d firstSourcePathEndPoint =
           firstSourcePath.getPathPoses().get(firstSourcePath.getPathPoses().size() - 1);
 
-          if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
-            firstSourcePathEndPoint = FlippingUtil.flipFieldPose(firstSourcePathEndPoint);
-          }
+      if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+        firstSourcePathEndPoint = FlippingUtil.flipFieldPose(firstSourcePathEndPoint);
+      }
 
       Pose2d firstSourceTarget = FieldConstants.getNearestSource(firstSourcePathEndPoint);
-
-      
 
       Command firstSourceAlignCommand =
           AutoBuilder.followPath(
@@ -120,9 +118,9 @@ public class TwoCoralAuto extends Command {
       Pose2d secondFacePathEndPoint =
           secondFacePath.getPathPoses().get(secondFacePath.getPathPoses().size() - 1);
 
-          if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
-            secondFacePathEndPoint = FlippingUtil.flipFieldPose(secondFacePathEndPoint);
-          }
+      if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+        secondFacePathEndPoint = FlippingUtil.flipFieldPose(secondFacePathEndPoint);
+      }
 
       Pose2d secondScoreTarget;
       if (secondScoreLocation == ReefAlignLocation.LEFT) {

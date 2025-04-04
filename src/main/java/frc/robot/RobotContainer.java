@@ -13,6 +13,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
@@ -35,7 +37,6 @@ import frc.robot.commands.autoAlignCommands.AlignProcessorCommand;
 import frc.robot.commands.autoAlignCommands.AlignRightBranchCommand;
 import frc.robot.commands.autoAlignCommands.AlignSourceCommand;
 import frc.robot.commands.autos.OneCoralAuto;
-import frc.robot.commands.autos.TestPathAuto;
 import frc.robot.commands.autos.ThreeCoralAuto;
 import frc.robot.commands.autos.TwoCoralAuto;
 import frc.robot.generated.TunerConstants;
@@ -55,11 +56,6 @@ import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -123,8 +119,8 @@ public class RobotContainer {
   private final LoggedDashboardChooser<String> thirdScoringHeightSelector =
       new LoggedDashboardChooser<>("Third Scoring Height");
 
-  private final LoggedDashboardChooser<String> testPathSelector =
-      new LoggedDashboardChooser<>("Path to Test");
+  // private final LoggedDashboardChooser<String> testPathSelector =
+  //     new LoggedDashboardChooser<>("Path to Test");
 
   private boolean isRelativeDrive = false;
 
@@ -300,18 +296,23 @@ public class RobotContainer {
     thirdScoringHeightSelector.addOption("L3", "L3");
     thirdScoringHeightSelector.addOption("L4", "L4");
 
-    testPathSelector.addDefaultOption("None", "");
-    try {
-      List<String> pathFiles =
-          Files.walk(Paths.get("/home/lvuser/deploy"))
-              .filter(p -> p.toString().endsWith(".path"))
-              .map(p -> p.getFileName().toString().replace(".path", ""))
-              .collect(Collectors.toList());
+    // testPathSelector.addDefaultOption("None", "");
+    // try {
+    //   List<String> pathFiles =
+    //       Files.walk(Paths.get("/home/lvuser/deploy"))
+    //           .filter(p -> p.toString().endsWith(".path"))
+    //           .map(p -> p.getFileName().toString().replace(".path", ""))
+    //           .collect(Collectors.toList());
 
-      pathFiles.forEach(path -> testPathSelector.addOption(path, path));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    //   pathFiles.forEach(path -> testPathSelector.addOption(path, path));
+    // } catch (IOException e) {
+    //   e.printStackTrace();
+    // }
+
+    // Warm up pathplanner and disable extra CTRE logging
+    FollowPathCommand.warmupCommand().schedule();
+    SignalLogger.enableAutoLogging(false);
+    SignalLogger.stop();
 
     // Set up SysId routines
     // autoChooser.addOption(
@@ -571,7 +572,7 @@ public class RobotContainer {
     } else if (autoTypeSelector.get().equals("DRIVE")) {
       autoCommand = DriveCommands.leaveAutoZome(drive);
     } else if (autoTypeSelector.get().equals("TESTPATH")) {
-      autoCommand = new TestPathAuto(testPathSelector.get());
+      // autoCommand = new TestPathAuto(testPathSelector.get());
     } else if (autoTypeSelector.get().equals("BUMP")) {
       autoCommand =
           Commands.sequence(

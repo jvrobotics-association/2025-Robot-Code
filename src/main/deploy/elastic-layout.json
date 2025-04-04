@@ -1,0 +1,393 @@
+{
+  "version": 1.0,
+  "grid_size": 64,
+  "tabs": [
+    {
+      "name": "Teleoperated",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "Match Time",
+            "x": 704.0,
+            "y": 512.0,
+            "width": 640.0,
+            "height": 192.0,
+            "type": "Match Time",
+            "properties": {
+              "topic": "/AdvantageKit/DriverStation/MatchTime",
+              "period": 0.06,
+              "data_type": "double",
+              "time_display_mode": "Minutes and Seconds",
+              "red_start_time": 15,
+              "yellow_start_time": 30
+            }
+          },
+          {
+            "title": "Back Camera",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 704.0,
+            "height": 704.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/photonvision_Port_1182_Output_MJPEG_Server",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Current",
+            "x": 704.0,
+            "y": 0.0,
+            "width": 640.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/AdvantageKit/SystemStats/BatteryCurrent",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 30.0,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Voltage",
+            "x": 704.0,
+            "y": 256.0,
+            "width": 640.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/AdvantageKit/SystemStats/BatteryVoltage",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 30.0,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Elevator Position",
+            "x": 1344.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 384.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/AdvantageKit/RealOutputs/Elevator/Position",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": 0.0,
+              "max_value": 4.33,
+              "divisions": 2,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "Alerts",
+            "x": 1344.0,
+            "y": 384.0,
+            "width": 576.0,
+            "height": 320.0,
+            "type": "Alerts",
+            "properties": {
+              "topic": "/SmartDashboard/Alerts",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "April Tag Detected - RIGHT",
+            "x": 1600.0,
+            "y": 192.0,
+            "width": 320.0,
+            "height": 192.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/photonvision/OV9281_RIGHT/hasTarget",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "April Tag Detected - LEFT",
+            "x": 1600.0,
+            "y": 0.0,
+            "width": 320.0,
+            "height": 192.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/photonvision/OV9281_LEFT/hasTarget",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Autonomous",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "First Reef Face",
+            "x": 512.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/First Reef Face",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "First Scoring Height",
+            "x": 512.0,
+            "y": 384.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/First Scoring Height",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "First Scoring Position",
+            "x": 512.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/First Scoring Position",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "First Source",
+            "x": 768.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/First Source",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Second Reef Face",
+            "x": 1024.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Second Reef Face",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Second Scoring Height",
+            "x": 1024.0,
+            "y": 384.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Second Scoring Height",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Second Scoring Position",
+            "x": 1024.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Second Scoring Position",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Second Source",
+            "x": 1280.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Second Source",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Starting Position",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Starting Position",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Third Reef Face",
+            "x": 1536.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Third Reef Face",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Third Scoring Position",
+            "x": 1536.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Third Scoring Position",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Third Scoring Height",
+            "x": 1536.0,
+            "y": 384.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Third Scoring Height",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Auto Type",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Auto Type",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Path to Test",
+            "x": 64.0,
+            "y": 192.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Path to Test",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Left-Right to First Face",
+            "x": 512.0,
+            "y": 128.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Left-Right to First Face",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Left-Right to First Source",
+            "x": 768.0,
+            "y": 128.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Left-Right to First Source",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Left-Right to Second Face",
+            "x": 1024.0,
+            "y": 128.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Left-Right to Second Face",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Left-Right to Second Source",
+            "x": 1280.0,
+            "y": 128.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Left-Right to Second Source",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Left-Right to Third Face",
+            "x": 1536.0,
+            "y": 128.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Left-Right to Third Face",
+              "period": 0.06,
+              "sort_options": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

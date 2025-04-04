@@ -39,25 +39,41 @@ public class FieldConstants {
               .getTagPose(1)
               .get()
               .toPose2d()
-              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+              .transformBy(
+                  new Transform2d(
+                      (faceOffset - Meters.convertFrom(0.5, Inches)),
+                      0,
+                      new Rotation2d(rotationOffset))));
       centerPositions.add(
           aprilTagLayout
               .getTagPose(2)
               .get()
               .toPose2d()
-              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+              .transformBy(
+                  new Transform2d(
+                      (faceOffset - Meters.convertFrom(0.5, Inches)),
+                      0,
+                      new Rotation2d(rotationOffset))));
       centerPositions.add(
           aprilTagLayout
               .getTagPose(12)
               .get()
               .toPose2d()
-              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+              .transformBy(
+                  new Transform2d(
+                      (faceOffset - Meters.convertFrom(0.5, Inches)),
+                      0,
+                      new Rotation2d(rotationOffset))));
       centerPositions.add(
           aprilTagLayout
               .getTagPose(13)
               .get()
               .toPose2d()
-              .transformBy(new Transform2d(faceOffset, 0, new Rotation2d(rotationOffset))));
+              .transformBy(
+                  new Transform2d(
+                      (faceOffset - Meters.convertFrom(0.5, Inches)),
+                      0,
+                      new Rotation2d(rotationOffset))));
     }
   }
 
