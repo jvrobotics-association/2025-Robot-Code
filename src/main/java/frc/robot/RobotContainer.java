@@ -209,6 +209,7 @@ public class RobotContainer {
     autoTypeSelector.addOption("Three Coral", "3C");
     autoTypeSelector.addOption("Drive Forwards Only", "DRIVE");
     autoTypeSelector.addOption("Bump", "BUMP");
+    autoTypeSelector.addOption("Default", "DEFAULT");
     autoTypeSelector.addOption("Test Path", "TESTPATH");
 
     firstReefFaceSelector.addDefaultOption("None", "");
@@ -579,6 +580,32 @@ public class RobotContainer {
               DriveCommands.bump(drive),
               new AlignRightBranchCommand(drive),
               GamePieceCommands.placeCoralCommand(elevator, coralManipulator, ElevatorHeight.L4));
+    } else if (autoTypeSelector.get().equals("DEFAULT")) {
+        if (startPositionSelector.get().equals("LS")) {
+      autoCommand = 
+      new TwoCoralAuto(
+        elevator,
+        coralManipulator,
+        "LS-F3-LEFT",
+        ReefAlignLocation.valueOf("RIGHT"),
+        ElevatorHeight.L4,
+        "F3-LSOURCE-LEFT",
+        "LSOURCE-F2-LEFT",
+        ReefAlignLocation.valueOf("RIGHT"),
+        ElevatorHeight.L4);
+        } else if (startPositionSelector.get().equals("RS")) {
+          autoCommand = 
+      new TwoCoralAuto(
+        elevator,
+        coralManipulator,
+        "RS-F5-RIGHT",
+        ReefAlignLocation.valueOf("LEFT"),
+        ElevatorHeight.L4,
+        "F5-RSOURCE-RIGHT",
+        "RSOURCE-F6-RIGHT",
+        ReefAlignLocation.valueOf("LEFT"),
+        ElevatorHeight.L4);
+        }
     }
 
     return autoCommand;
