@@ -346,7 +346,7 @@ public class RobotContainer {
         DriveCommands.joystickDrive(
             drive,
             () -> isRelativeDrive,
-            () -> elevator.getPosition() >= ElevatorHeight.L2.height ? 4 : 1,
+            () -> elevator.getPosition() >= ElevatorHeight.SLOW_DOWN.height ? 4 : 1,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));

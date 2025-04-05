@@ -107,6 +107,7 @@ public final class Constants {
     public enum ElevatorHeight {
       L1(ElevatorConstants.MIN_HEIGHT),
       L2(0.468),
+      SLOW_DOWN(1.25),
       L3(1.915),
       L4(4.22),
       L2_ALGAE(1.415),
