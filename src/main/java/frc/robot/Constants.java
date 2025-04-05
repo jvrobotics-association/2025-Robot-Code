@@ -139,8 +139,8 @@ public final class Constants {
     public static final double RETRACT_SPEED = 0.5;
     public static final double EXTEND_SPEED = -0.50;
 
-    public static final double CHUTE_SERVO_OPEN = 0.320;
-    public static final double CHUTE_SERVO_CLOSED = 0;
+    public static final double CHUTE_SERVO_OPEN = 0.820;
+    public static final double CHUTE_SERVO_CLOSED = 5;
     public static final double RATCHET_SERVO_OPEN = 0.045;
     public static final double RATCHET_SERVO_CLOSED = 0;
   }
